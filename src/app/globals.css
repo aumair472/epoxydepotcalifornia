@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #f6f4ee;
+  --color-cream-2: #efebe1;
+  --color-charcoal: #1a1a1d;
+  --color-charcoal-2: #262629;
+  --color-charcoal-3: #323236;
+  --color-ink: #18181b;
+  --color-muted: #52525b;
+  --color-subtle: #71717a;
+  --color-dim: #8a8f98;
+  --color-line: #e5e0d5;
+  --color-brand: #f97316;
+  --color-brand-dark: #ea580c;
+  --color-brand-deep: #c2410c;
+  --color-gold: #d9a441;
+  --color-success: #4ade80;
+  --color-danger: #dc2626;
+
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-fade-in: fade-in 180ms ease-out;
+  --animate-pop-in: pop-in 200ms ease-out;
+  --animate-slide-up: slide-up 260ms ease-out;
+  --animate-flash: flash 1.4s ease-out;
+  --animate-typing: typing 1s ease-in-out infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes flash {
+    0% {
+      box-shadow: 0 0 0 0 rgb(249 115 22 / 0.55);
+      background-color: rgb(249 115 22 / 0.08);
+    }
+    100% {
+      box-shadow: 0 0 0 10px rgb(249 115 22 / 0);
+      background-color: transparent;
+    }
+  }
+  @keyframes typing {
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: translateY(0);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-cream font-sans text-ink antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-ink;
+  }
+  ::selection {
+    @apply bg-brand/25 text-ink;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-[1296px] px-4 sm:px-6 lg:px-8;
+  }
+  .eyebrow {
+    @apply text-[11px] font-semibold tracking-[0.18em] text-brand uppercase;
+  }
+  .hazard-stripe {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--color-brand) 0 12px,
+      var(--color-charcoal) 12px 24px
+    );
+  }
+  .flake-texture {
+    background-image:
+      radial-gradient(circle at 20% 30%, rgb(255 255 255 / 0.18) 0 1.5px, transparent 2px),
+      radial-gradient(circle at 70% 60%, rgb(0 0 0 / 0.18) 0 1.5px, transparent 2px),
+      radial-gradient(circle at 40% 80%, rgb(255 255 255 / 0.12) 0 1px, transparent 1.5px);
+    background-size:
+      14px 14px,
+      18px 18px,
+      11px 11px;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -188,6 +188,8 @@ export interface Product {
   specs: Spec[];
   application?: ApplicationInfo;
   visual: ProductVisual;
+  /** Real product photo path (public/products/…) from the live catalog; falls back to the generated SVG render when absent. */
+  image?: string;
 }
 
 export type DocType = "TDS" | "SDS" | "Color Chart" | "Mix Guide" | "How-To";

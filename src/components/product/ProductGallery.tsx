@@ -22,19 +22,19 @@ function Stage({ view, product, category, thumb = false }: { view: ViewId; produ
     case "front":
       return (
         <div className={cn("absolute inset-0 bg-gradient-to-b from-cream-2/80 to-white", thumb ? "p-2" : "p-10 sm:p-16")}>
-          <ProductImage product={product} />
+          <ProductImage product={product} sizes={thumb ? "120px" : "(min-width: 1024px) 600px, 100vw"} priority={!thumb} />
         </div>
       );
     case "angle":
       return (
         <div className={cn("absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,#ffffff,#ebe6da)]", thumb ? "p-2" : "p-12 sm:p-20")}>
-          <ProductImage product={product} className="-rotate-6 drop-shadow-xl" />
+          <ProductImage product={product} className="-rotate-6 drop-shadow-xl" sizes={thumb ? "120px" : "(min-width: 1024px) 600px, 100vw"} />
         </div>
       );
     case "label":
       return (
         <div className="absolute inset-0 overflow-hidden bg-white">
-          <ProductImage product={product} className="origin-[50%_68%] scale-[2.1]" />
+          <ProductImage product={product} className="origin-[50%_68%] scale-[2.1]" sizes={thumb ? "120px" : "(min-width: 1024px) 600px, 100vw"} />
         </div>
       );
     case "in-use":

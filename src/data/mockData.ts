@@ -362,7 +362,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "pail" },
-    image: "/products/e4e-ur-a-fill-polyurea-crack-filler-2-gallon-kit.png",
+    image: "/products/e4e-ur-a-fill-polyurea-crack-filler-2-gallon-kit.jpg",
   },
   {
     id: "e4e-urethane-clear-three-component-urethane",
@@ -389,7 +389,7 @@ export const products: Product[] = [
       { label: "Options", value: "2" },
     ],
     visual: { kind: "pail" },
-    image: "/products/e4e-urethane-clear-three-component-urethane.png",
+    image: "/products/e4e-urethane-clear-three-component-urethane.jpg",
   },
   {
     id: "e4e-super-poly-polyaspartic-2-gal",
@@ -524,7 +524,7 @@ export const products: Product[] = [
       { label: "Options", value: "3" },
     ],
     visual: { kind: "hangtag" },
-    image: "/products/premera-t2-topcoat-gloss.webp",
+    image: "/products/premera-t2-topcoat-gloss.jpg",
   },
   {
     id: "e4e-100-epoxy-3-gal-kit",
@@ -686,7 +686,7 @@ export const products: Product[] = [
       { label: "Options", value: "2" },
     ],
     visual: { kind: "hangtag" },
-    image: "/products/white-out.png",
+    image: "/products/white-out.jpg",
   },
   {
     id: "full-flake-epoxy-flooring-system",
@@ -713,7 +713,7 @@ export const products: Product[] = [
       { label: "Options", value: "144" },
     ],
     visual: { kind: "box" },
-    image: "/products/full-flake-epoxy-flooring-system.png",
+    image: "/products/full-flake-epoxy-flooring-system.jpg",
   },
   {
     id: "8-oz-e4e-metallic-pigment-powder",
@@ -794,7 +794,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "pail" },
-    image: "/products/polyrez-6000-wb-urethane-gloss.png",
+    image: "/products/polyrez-6000-wb-urethane-gloss.jpg",
   },
   {
     id: "polyrez-6100-matte-water-based-urethane1-5-gal",
@@ -848,7 +848,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "hangtag" },
-    image: "/products/putty-knife-scraper-5-in-1-tool.png",
+    image: "/products/putty-knife-scraper-5-in-1-tool.jpg",
   },
   {
     id: "rcm-fuzion-relax",
@@ -902,7 +902,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "hangtag" },
-    image: "/products/smith-performance-2-gallon-acetone-compression-sprayer-190450.png",
+    image: "/products/smith-performance-2-gallon-acetone-compression-sprayer-190450.jpg",
   },
   {
     id: "smith-performance-t100act-48-oz-handheld-acetone-mister-model-190398",
@@ -956,7 +956,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "pail" },
-    image: "/products/smith-s103ex-stainless-concrete-sprayer-viton-extreme-3-5-gal.png",
+    image: "/products/smith-s103ex-stainless-concrete-sprayer-viton-extreme-3-5-gal.jpg",
   },
   {
     id: "majestic-deep-pour-2-casting-epoxy-3gal-kit",
@@ -1064,7 +1064,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "hangtag" },
-    image: "/products/garage-door-jacks-set-of-4.png",
+    image: "/products/garage-door-jacks-set-of-4.jpg",
   },
   {
     id: "isonem-liquid-glass",
@@ -1091,7 +1091,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "pail" },
-    image: "/products/isonem-liquid-glass.png",
+    image: "/products/isonem-liquid-glass.jpg",
   },
   {
     id: "dust-control-dc-tromb-400l",
@@ -1172,7 +1172,7 @@ export const products: Product[] = [
       { label: "Options", value: "2" },
     ],
     visual: { kind: "hangtag" },
-    image: "/products/e4e-acetone.png",
+    image: "/products/e4e-acetone.jpg",
   },
   {
     id: "e4e-gel-patch",
@@ -1226,7 +1226,7 @@ export const products: Product[] = [
       { label: "Options", value: "2" },
     ],
     visual: { kind: "pail" },
-    image: "/products/e4e-100-vapor-barrier-primer.png",
+    image: "/products/e4e-100-vapor-barrier-primer.jpg",
   },
   {
     id: "e4e-oil-stopping-epoxy",
@@ -1253,7 +1253,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "pail" },
-    image: "/products/e4e-oil-stopping-epoxy.png",
+    image: "/products/e4e-oil-stopping-epoxy.jpg",
   },
   {
     id: "epoxy-depot-4x3-8-shed-resistance-mini-roller-12-pack",
@@ -1280,7 +1280,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "hangtag" },
-    image: "/products/epoxy-depot-4x3-8-shed-resistance-mini-roller-12-pack.png",
+    image: "/products/epoxy-depot-4x3-8-shed-resistance-mini-roller-12-pack.jpg",
   },
   {
     id: "epoxy-depot-chip-brushes",
@@ -1307,7 +1307,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "hangtag" },
-    image: "/products/epoxy-depot-chip-brushes.png",
+    image: "/products/epoxy-depot-chip-brushes.jpg",
   },
   {
     id: "epoxy-depot-mixing-containers-eagle-craft",
@@ -1334,7 +1334,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "hangtag" },
-    image: "/products/epoxy-depot-mixing-containers-eagle-craft.png",
+    image: "/products/epoxy-depot-mixing-containers-eagle-craft.jpg",
   },
   {
     id: "epoxy-resinous-cleaner",
@@ -1361,7 +1361,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "pail" },
-    image: "/products/epoxy-resinous-cleaner.png",
+    image: "/products/epoxy-resinous-cleaner.jpg",
   },
   {
     id: "18-floor-scraper",
@@ -1442,7 +1442,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "hangtag" },
-    image: "/products/4-foam-mini-roller-10-pack.png",
+    image: "/products/4-foam-mini-roller-10-pack.jpg",
   },
   {
     id: "ameripolish-sr2",
@@ -1469,7 +1469,7 @@ export const products: Product[] = [
       { label: "Options", value: "2" },
     ],
     visual: { kind: "pail" },
-    image: "/products/ameripolish-sr2.png",
+    image: "/products/ameripolish-sr2.jpg",
   },
 ];
 

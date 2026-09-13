@@ -413,7 +413,18 @@ function Chart({ product, color }: { product: ImageProduct; color: string }) {
   );
 }
 
-export function ProductImage({ product, className }: { product: ImageProduct; className?: string }) {
+export function ProductImage({
+  product,
+  className,
+  sizes = "(min-width: 1024px) 25vw, 50vw",
+  priority = false,
+}: {
+  product: ImageProduct;
+  className?: string;
+  /** Pass a wider hint (e.g. gallery stages) — defaults to a card-grid-sized hint. */
+  sizes?: string;
+  priority?: boolean;
+}) {
   if (product.image) {
     return (
       <div className={cn("relative h-full w-full", className)}>
@@ -421,7 +432,8 @@ export function ProductImage({ product, className }: { product: ImageProduct; cl
           src={product.image}
           alt={`${product.labelName} — product photo`}
           fill
-          sizes="(min-width: 1024px) 480px, 100vw"
+          sizes={sizes}
+          priority={priority}
           className="object-contain"
         />
       </div>

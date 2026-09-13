@@ -5,8 +5,7 @@ Living context file. Update the **Current phase** and **Log** sections at the en
 ## What this is
 A front-end-only clone of the layout, design and UX of coatingwarehouse.com, rebranded as **Epoxy Depot California**.
 - No backend, no database, no real auth. All catalog and content data is hardcoded in `src/data/mockData.ts`.
-- "Add" on any product card calls `addItem(product)` from `CartContext`, which updates local state and slides the cart drawer open.
-- The cart persists to `localStorage` (`edc-cart-v1`).
+- **Orders are taken by phone.** There is no cart, checkout, sign-in or sign-up. Every buy action (product "Call" buttons, training seats, "Write a review", the header Call button) calls `useUI().requestCall(subject)`: touch devices (`pointer: coarse`) go straight to `siteConfig.phoneHref`; desktops open `CallToOrderModal` showing the number and what to mention (product · SKU · qty).
 
 ## Decisions (confirmed with client)
 | Topic | Decision |
@@ -17,6 +16,7 @@ A front-end-only clone of the layout, design and UX of coatingwarehouse.com, reb
 | Imagery | Unsplash for lifestyle/hero photos. Product cards use generated SVG renders (`ProductImage`). Nothing is copied from the reference site. |
 | Copy | Original copy that mirrors the reference's structure and tone. Testimonials are placeholders (`isPlaceholder: true`). |
 | Catalog | About 50 generic SKUs across 10 categories. No third-party manufacturer brand names. |
+| Ordering | Phone only (2026-09-13). No cart, checkout or accounts. "Contractor account" means the approved trade-pricing program, not a login. |
 
 ## Stack
 - Next.js **16.3** (App Router, Turbopack, React 19.2). `params`/`searchParams` are Promises; use the `PageProps<'/route'>` / `RouteContext` helpers.
@@ -29,14 +29,13 @@ A front-end-only clone of the layout, design and UX of coatingwarehouse.com, reb
 `cream #F6F4EE` · `charcoal #1A1A1D` · `charcoal-2 #262629` · `ink #18181B` · `muted #52525B` · `subtle #71717A` · `dim #8A8F98` · `line #E5E0D5` · `brand #F97316` · `brand-dark #EA580C` · `gold #D9A441` · `success #4ADE80`
 
 ## Component dependency map
-- `app/layout.tsx` → `Providers` (ToastProvider > UIProvider > CartProvider) → `AnnouncementBar`, `Navbar`, `{children}`, `Footer`, overlays (`CartDrawer`, `MobileMenu`, `SearchModal`, `SignInModal`, `EvaChatWidget`, `Toaster`)
-- `ProductCard` (server) → `ProductImage` (SVG), `ProductBadge`, `AddToCartButton` (client) → `useCart().addItem`. `addItem` also closes other overlays and opens the drawer.
+- `app/layout.tsx` → `Providers` (ToastProvider > UIProvider) → `AnnouncementBar`, `Navbar`, `{children}`, `Footer`, overlays (`CallToOrderModal`, `MobileMenu`, `SearchModal`, `CallFab`, `Toaster`)
+- `ProductCard` (server) → `ProductImage` (SVG), `ProductBadge`, `CallToOrderButton` (client) → `useUI().requestCall`. The call overlay replaces search / mobile menu (one overlay at a time).
 - `ShopView` (client, inside `<Suspense fallback={<ShopFallback/>}>`) → `useShopParams` (URL state via `window.history.replaceState`) → `FilterSidebar`, `ProductGrid`, bottom-sheet `Drawer`
 - `product/[id]` → `ProductGallery`, `ProductPurchasePanel`, `CoverageCalculator` (`lib/coverage`), `ProductTabs`
 - `docs/[docId]/route.ts` → `lib/documents.renderDocumentPdf` → `lib/pdf.buildPdf` (dependency-free PDF writer)
-- `SearchModal`, `EvaChatWidget` → `lib/catalog.searchCatalog / searchProducts`
+- `SearchModal` → `lib/catalog.searchCatalog / searchProducts`
 - `Modal` (unmounts when closed) / `Drawer` (always mounted, `inert` when closed) → `useBodyScrollLock`, `useDialogFocus` (topmost-dialog Escape, focus trap and return)
-- Persistence: `lib/localStore.createLocalStore` + `useSyncExternalStore` for the cart (`edc-cart-v1`) and mock user (`edc-user-v1`)
 
 ## Gotchas learned
 - The `react-hooks` v7 rules run as **errors** (`set-state-in-effect`, `refs`, `purity`). Keep setState in event handlers or external stores, and never call `Date.now()`/`Math.random()` in render.
@@ -45,7 +44,7 @@ A front-end-only clone of the layout, design and UX of coatingwarehouse.com, reb
 - The browser tool's synthetic Enter doesn't trigger native implicit form submission, so the chat input also handles Enter explicitly.
 
 ## Current phase
-All 5 phases complete. The build is green (190 static pages). Remaining before launch: replace the placeholders (contact details, testimonials/reviews, PDFs, photography).
+All 5 phases complete, plus the phone-ordering change (2026-09-13). Remaining before launch: replace the placeholders (contact details, testimonials/reviews, PDFs, photography).
 
 ## Log
 - 2026-09-12: Phase 1. Scaffolded Next 16.3.5 + Tailwind v4 + TS (git disabled). Installed lucide-react, clsx, tailwind-merge. Wrote the docs ecosystem, tokens, types, mock data (54 SKUs, 100 docs) and lib helpers.
@@ -56,3 +55,5 @@ All 5 phases complete. The build is green (190 static pages). Remaining before l
   - Fixed header overflow at 375px and 768px, and drawer focus/Escape (dialog stack).
   - Cart drawer now closes other overlays; success panels scroll into view; SVG label fitting.
   - Link crawl: 274 URLs, 0 broken. Lint and build clean.
+- 2026-09-13: Phone ordering. Removed cart (drawer, /cart, CartContext), checkout, SignInModal, mock user and BookingModal. Added `requestCall` in UIContext + `CallToOrderButton` / `CallToOrderModal` (components/call). Rewrote cart/checkout/sign-in copy.
+- 2026-09-13: Removed the Eva chat widget (component, `chatOpen` state, `evaConfig`/`evaSurfaces`/`evaKeywordAnswers` mock data, `Eva*` types) — it was scope for a real chatbot we're not building yet. Replaced its floating launcher with `CallFab` (components/call), a plain "Call us" pill that opens the same `requestCall()` flow as every other buy button. Scrollbars were also restyled to the CTA brand-orange thumb on a flat 8px track (`globals.css`).

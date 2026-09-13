@@ -70,7 +70,7 @@ export function ContractorForm() {
         </p>
         <p className="mt-4 inline-block rounded-md bg-cream px-3 py-1.5 font-mono text-xs tracking-wider text-muted">Ref {submitted.reference}</p>
         <ol className="mx-auto mt-8 max-w-sm space-y-3 text-left text-sm text-muted">
-          {["We verify your contractor license.", "Your account is flagged for contractor pricing.", "15% off applies automatically at checkout."].map((s, i) => (
+          {["We verify your contractor license.", "Your account is flagged for contractor pricing.", "15% off applies to every phone order."].map((s, i) => (
             <li key={s} className="flex gap-3">
               <span className="grid size-6 shrink-0 place-items-center rounded-full bg-charcoal text-[11px] font-bold text-gold">{i + 1}</span>
               {s}

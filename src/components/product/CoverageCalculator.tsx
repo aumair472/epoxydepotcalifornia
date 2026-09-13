@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Calculator } from "lucide-react";
-import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { CallToOrderButton } from "@/components/call/CallToOrderButton";
 import { calculateCoverage } from "@/lib/coverage";
 import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format";
@@ -96,7 +96,7 @@ export function CoverageCalculator({ product, application }: { product: Product;
             </p>
           </div>
           {result.units > 0 && (
-            <AddToCartButton productId={product.id} quantity={result.units} label={`Add ${result.units}`} size="sm" icon="cart" />
+            <CallToOrderButton productId={product.id} quantity={result.units} label={`Call for ${result.units}`} size="sm" />
           )}
         </div>
         <p className="text-[11px] leading-relaxed text-subtle">

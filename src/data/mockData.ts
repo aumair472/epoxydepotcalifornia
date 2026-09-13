@@ -10,8 +10,6 @@ import type {
   Category,
   CategoryFeature,
   CategorySlug,
-  EvaKeywordAnswer,
-  EvaSurfaceSystem,
   FlakeBlend,
   FooterColumn,
   InfoPage,
@@ -103,7 +101,6 @@ export const siteConfig = {
   ],
   freeShippingThreshold: 500,
   contractorDiscount: 0.15,
-  cartStorageKey: "edc-cart-v1",
   contractorCount: "2,500+",
 } as const;
 
@@ -258,7 +255,7 @@ export const categories: Category[] = [
     tileLabel: "Surface Prep",
     description: "Grinders, diamonds, dust control and testing.",
     longDescription:
-      "No coating outperforms its prep. Planetary grinders, PCD and metal-bond diamonds, HEPA extraction, moisture testing and crack repair — all in one cart.",
+      "No coating outperforms its prep. Planetary grinders, PCD and metal-bond diamonds, HEPA extraction, moisture testing and crack repair — all on one phone order.",
     icon: "gauge",
     image: images.grinder,
     tint: "#3F3F46",
@@ -696,7 +693,7 @@ export const products: Product[] = [
     features: [
       "Covers ~250 sq ft (1-car garage)",
       "Includes base, flake and polyaspartic topcoat",
-      "Choose any flake blend at checkout",
+      "Choose any flake blend when you order",
       "Step-by-step install card included",
     ],
     specs: [
@@ -2365,7 +2362,7 @@ export const reviewPool: Record<CategorySlug, Review[]> = {
 export const heroContent = {
   badge: "Pro-grade floor coatings",
   title: "Epoxy Flooring Supplies & Professional Floor Coating Systems",
-  body: "Contractor-grade epoxy, polyaspartic, urethane, decorative flake, pigments and concrete prep — all under one California roof. Same-day will-call, and contractor pricing applied at checkout.",
+  body: "Contractor-grade epoxy, polyaspartic, urethane, decorative flake, pigments and concrete prep — all under one California roof. Same-day will-call, and contractor pricing applied to every phone order.",
   primaryCta: { label: "Shop the warehouse", href: "/shop" },
   secondaryCta: { label: "Contractor pricing", href: "/contractors" },
   trust: [
@@ -2386,7 +2383,7 @@ export const valueProps: ValueProp[] = [
 export const workPathsIntro = {
   eyebrow: "Three ways to work with us",
   title: "Roll it yourself, or have our crew lay it down?",
-  body: "We sell the same pro-grade product our installers use, run our own install crews, and teach hands-on classes. Pick the path that fits your project — Eva can help with any of them.",
+  body: "We sell the same pro-grade product our installers use, run our own install crews, and teach hands-on classes. Pick the path that fits your project — call and we’ll help you choose.",
 };
 
 export const workPaths: WorkPath[] = [
@@ -2487,7 +2484,7 @@ export const categoryFeatures: CategoryFeature[] = [
     id: "contractor",
     eyebrow: "Contractor epoxy supply",
     title: "Contractor-grade supply with bulk pricing.",
-    body: "Verified contractors get 15% off every product, cart and quote — plus pallet shipping, net-30 terms after qualifying orders and a dedicated tech rep for commercial specs. Same-day will-call at our California locations.",
+    body: "Verified contractors get 15% off every product, order and quote — plus pallet shipping, net-30 terms after qualifying orders and a dedicated tech rep for commercial specs. Same-day will-call at our California locations.",
     bullets: ["Automatic 15% off", "Net-30 terms", "Pallet shipping & will-call"],
     ctas: [{ label: "Apply for contractor account", href: "/contractors", variant: "primary" }],
     icon: "handshake",
@@ -2919,7 +2916,7 @@ export const contractorProgram = {
   title: "Apply for a contractor account.",
   body: "Verified contractors get an automatic 15% discount on every product, net-30 terms after the first three orders, same-day will-call and a dedicated tech rep.",
   perks: [
-    { icon: "badge-percent", text: "Automatic 15% off products, carts and quotes" },
+    { icon: "badge-percent", text: "Automatic 15% off products, orders and quotes" },
     { icon: "store", text: "Same-day will-call at our California locations" },
     { icon: "clipboard", text: "Net-30 terms after qualifying orders" },
     { icon: "headset", text: "A direct line to a tech rep — no chatbots" },
@@ -2992,9 +2989,9 @@ export const infoPages: InfoPage[] = [
     title: "Order status",
     intro: "Track an order or check on a will-call pickup.",
     sections: [
-      { heading: "Online orders", paragraphs: ["Most orders ship from our California warehouse within 24–48 hours. You'll receive tracking by email as soon as the label is created."] },
+      { heading: "Shipped orders", paragraphs: ["Most orders ship from our California warehouse within 24–48 hours. You'll receive tracking by email as soon as the label is created."] },
       { heading: "Will-call", paragraphs: ["We'll text you when a will-call order is staged and ready. Bring your order number and a photo ID."] },
-      { heading: "Need help?", paragraphs: ["Online order lookup isn't available in this demo storefront — call or email our team with your order number and we'll check on it."] },
+      { heading: "Need help?", paragraphs: ["Call or email our team with your order number and we'll check on it right away."] },
     ],
   },
   {
@@ -3016,7 +3013,7 @@ export const infoPages: InfoPage[] = [
     sections: [
       { heading: "Free shipping", paragraphs: [`Orders over $${siteConfig.freeShippingThreshold} ship free via ground to the contiguous US, excluding freight-only items like grinders and pallets.`] },
       { heading: "Processing times", paragraphs: ["Most orders ship within 24–48 hours. Hazmat items ship ground only. Pallet orders ship LTL freight with liftgate available."] },
-      { heading: "Will-call", paragraphs: ["Choose will-call at checkout to pick up at any of our California warehouses — usually the same day."] },
+      { heading: "Will-call", paragraphs: ["Ask for will-call when you order to pick up at any of our California warehouses — usually the same day."] },
     ],
   },
   {
@@ -3035,88 +3032,10 @@ export const infoPages: InfoPage[] = [
     title: "Privacy policy",
     intro: "Placeholder privacy policy for the demo storefront.",
     sections: [
-      { heading: "What we store", paragraphs: ["Your cart is saved in your browser's local storage so it survives a refresh. Forms on this site display a confirmation only — nothing is sent to a server."] },
+      { heading: "What we store", paragraphs: ["We don't store any personal data in your browser. Orders are taken by phone, and forms on this site display a confirmation only — nothing is sent to a server."] },
       { heading: "Cookies", paragraphs: ["This demo does not set tracking or advertising cookies."] },
     ],
   },
-];
-
-/* ------------------------------------------------------------------ */
-/* Eva chat assistant                                                  */
-/* ------------------------------------------------------------------ */
-
-export const evaConfig = {
-  name: "Eva",
-  status: "Online · 24/7",
-  teaser: "Hi! Need help picking a system?",
-  greeting: `Hi, I'm Eva — welcome to ${siteConfig.name}.`,
-  intro:
-    "Quick question so I can point you the right way: are you coating a floor yourself, or do you want our crew to install one for you? (We also run hands-on training classes if you're curious.)",
-  personas: [
-    { id: "diy", label: "DIYer" },
-    { id: "install", label: "Have us install" },
-    { id: "contractor", label: "Contractor" },
-  ],
-  starterReplies: [
-    { id: "diy", label: "I'll do it myself" },
-    { id: "install", label: "Have you install it" },
-    { id: "training", label: "Training classes" },
-  ],
-  diyPrompt: "Love it. What are you coating? I'll put together the system our crews would use.",
-  installPrompt:
-    "Happy to help! Roughly how many square feet is the space, and what's the zip code? (e.g. \"450 sq ft, 92501\")",
-  installThanks:
-    "Thanks — that's enough for a ballpark. An estimator will follow up within one business day. You can also send photos and details through our estimate form.",
-  contractorReply:
-    "Welcome! Verified contractors get 15% off automatically, net-30 terms after qualifying orders and a dedicated tech rep. Applying takes about two minutes.",
-  trainingReply: "Here are the next classes with open seats:",
-  fallback:
-    "I don't have a verified answer for that one. Our tech reps can help — call us or send a note and we'll get right back to you.",
-  disclaimer: "Eva is a demo assistant — confirm specs on the product TDS before you spec a job.",
-} as const;
-
-export const evaSurfaces: EvaSurfaceSystem[] = [
-  {
-    id: "garage",
-    label: "Garage floor",
-    reply: "For most 1–3 car garages: grind to CSP 2–3, a 100% solids base, full-broadcast flake and a UV-stable polyaspartic topcoat. Here's that system:",
-    productIds: ["2-car-garage-floor-kit", "quartz-flake-blend", "polyaspartic-topcoat-clear"],
-  },
-  {
-    id: "basement",
-    label: "Basement",
-    reply: "Basements are often damp, so test moisture first. If it's high, start with an MVB epoxy, then a build coat and a satin topcoat:",
-    productIds: ["moisture-test-kit", "moisture-vapor-barrier-epoxy", "polyaspartic-topcoat-satin"],
-  },
-  {
-    id: "commercial",
-    label: "Commercial / warehouse",
-    reply: "For commercial floors we usually spec a novolac or urethane cement base with a high-solids urethane wear coat:",
-    productIds: ["chemical-resistant-novolac", "urethane-cement-overlay", "urethane-topcoat-clear"],
-  },
-  {
-    id: "table-top",
-    label: "Table top / bar top",
-    reply: "For river tables and bar tops: deep-pour resin for thick fills, a flood coat to finish, and pigment for effects:",
-    productIds: ["deep-pour-table-top-resin", "clear-bar-top-epoxy", "metallic-pigment-pack"],
-  },
-];
-
-export const evaKeywordAnswers: EvaKeywordAnswer[] = [
-  { keywords: ["flake", "chip", "broadcast"], reply: "Our flake blends come in 40 lb boxes — about 300 sq ft each at full broadcast. Here are our most popular blends:", productQuery: "flake blend" },
-  { keywords: ["polyaspartic", "one day", "one-day", "same day", "fast cure"], reply: "Polyaspartic topcoats are walkable in about 4 hours and won't yellow in sunlight. Top picks:", productQuery: "polyaspartic" },
-  { keywords: ["metallic", "pearl", "marble", "designer"], reply: "Metallic floors start with a clear metallic basecoat plus one pigment pack per 3 gal kit:", productQuery: "metallic" },
-  { keywords: ["moisture", "mvb", "vapor", "damp", "blister"], reply: "Test first (ASTM F1869 or F2170). If the slab reads high, lay down an MVB epoxy before your build coat:", productQuery: "moisture" },
-  { keywords: ["primer", "prime", "porous"], reply: "For porous or dusty slabs, a water-based epoxy primer improves bond and cuts build-coat consumption:", productQuery: "primer" },
-  { keywords: ["urethane", "matte", "abrasion", "forklift"], reply: "High-solids aliphatic urethanes are the toughest wear layer per dollar. Options:", productQuery: "urethane" },
-  { keywords: ["table", "resin", "river", "bar top", "bartop", "counter"], reply: "For table tops we stock deep-pour and flood-coat resins:", productQuery: "table top resin" },
-  { keywords: ["grind", "grinder", "prep", "etch", "diamond"], reply: "Mechanical grinding to CSP 2–3 is the best prep for solids systems. Prep gear:", productQuery: "grind" },
-  { keywords: ["price", "cost", "discount", "contractor", "bulk", "pallet"], reply: "Verified contractors get 15% off automatically, plus pallet pricing and net-30 terms.", link: { label: "Apply for a contractor account", href: "/contractors" } },
-  { keywords: ["ship", "shipping", "delivery", "will-call", "pickup", "freight"], reply: `Most orders ship in 24–48 hours, and orders over $${siteConfig.freeShippingThreshold} ship free. Will-call is usually same-day.`, link: { label: "Shipping policy", href: "/info/shipping" } },
-  { keywords: ["coverage", "sq ft", "square feet", "how much", "how many"], reply: "Every product page has a coverage calculator — enter your square footage and coats and it'll tell you how many kits to add.", link: { label: "Browse products", href: "/shop" } },
-  { keywords: ["sds", "tds", "data sheet", "spec sheet", "safety"], reply: "Every system has a downloadable TDS and SDS in our document library.", link: { label: "Open data sheets", href: "/resources#library" } },
-  { keywords: ["class", "training", "learn", "course", "certification"], reply: "We run hands-on classes in Ontario, Sacramento and San Diego, plus free webinars.", link: { label: "See training schedule", href: "/training" } },
-  { keywords: ["color", "colour", "chart", "sample"], reply: "Browse solid, metallic and flake colors online, or order physical sample boards.", link: { label: "View color charts", href: "/color-charts" } },
 ];
 
 export const popularSearches = ["100% solids", "polyaspartic", "flake", "metallic", "primer", "grinder", "SDS"];

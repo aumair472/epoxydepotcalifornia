@@ -13,8 +13,8 @@ Rules for anyone (human or AI) writing code in this repo.
 ## File organization
 ```
 src/app/            routes only: thin pages that compose components
-src/components/<domain>/   layout · home · product · shop · cart · search · chat · auth · training · contractors · resources · ui
-src/context/        React context providers (CartContext, UIContext, ToastContext, Providers)
+src/components/<domain>/   layout · home · product · shop · call · search · chat · training · contractors · resources · ui
+src/context/        React context providers (UIContext, ToastContext, Providers)
 src/hooks/          reusable client hooks
 src/lib/            pure helpers (no React): catalog queries, formatting, coverage math, PDF writer
 src/data/mockData.ts  the ONLY source of catalog/content data
@@ -33,8 +33,9 @@ src/types/index.ts    shared types
 
 ## Server vs client
 - Default to Server Components. Add `'use client'` only for state, effects, event handlers or context.
-- Keep client islands small. For example, `ProductCard` stays a server component and embeds the client `AddToCartButton`.
-- Never read `localStorage` / `window` during render. Browser-persisted state goes through `createLocalStore` + `useSyncExternalStore` (see `CartContext`). Use `useHydrated()` for UI that must wait for the client.
+- Keep client islands small. For example, `ProductCard` stays a server component and embeds the client `CallToOrderButton`.
+- Never read `localStorage` / `window` during render. Touch `window` only in event handlers or effects (e.g. `requestCall`'s `matchMedia` check).
+- No cart, checkout or accounts: every buy action goes through `useUI().requestCall(subject)`.
 - A `"use client"` file should export only components and hooks. Constants that server components also need live in `mockData.ts` or `lib/`.
 - The `react-hooks` v7 lint rules are errors: no synchronous `setState` inside `useEffect`, no reading `ref.current` during render, no `Math.random()` / `Date.now()` in render.
 

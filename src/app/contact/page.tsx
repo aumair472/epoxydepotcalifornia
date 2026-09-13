@@ -56,7 +56,7 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
             <span>
               <span className="block text-[10.5px] font-semibold tracking-[0.16em] text-subtle uppercase">Hours</span>
               <span className="mt-1 block text-sm text-ink">{siteConfig.hours}</span>
-              <span className="block text-xs text-subtle">Eva (chat) is available 24/7</span>
+              <span className="block text-xs text-subtle">Call us — the button in the corner of any page dials us directly</span>
             </span>
           </div>
           <div className="rounded-lg border border-line bg-white p-5">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Download, Phone } from "lucide-react";
-import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { CallToOrderButton } from "@/components/call/CallToOrderButton";
 import { Chips } from "@/components/product/ProductImage";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { flakeBlends, metallicColors, siteConfig, solidColors } from "@/data/mockData";
@@ -91,7 +91,7 @@ export default function ColorChartsPage() {
                   </div>
                   <div className="mt-3">
                     {b.productId ? (
-                      <AddToCartButton productId={b.productId} size="xs" label="Add 40 lb box" />
+                      <CallToOrderButton productId={b.productId} size="xs" label="Call · 40 lb box" />
                     ) : (
                       <a href={siteConfig.phoneHref} className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-[0.12em] text-brand uppercase">
                         <Phone aria-hidden className="size-3.5" /> Custom blend — call
@@ -113,8 +113,8 @@ export default function ColorChartsPage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <AddToCartButton productId="flake-sample-board-set" label="Flake sample set · $99" size="md" />
-            <AddToCartButton productId="metallic-color-chart" label="Metallic chart · $19" size="md" variant="outline-light" />
+            <CallToOrderButton productId="flake-sample-board-set" label="Flake sample set · $99" size="md" />
+            <CallToOrderButton productId="metallic-color-chart" label="Metallic chart · $19" size="md" variant="outline-light" />
           </div>
         </section>
       </div>

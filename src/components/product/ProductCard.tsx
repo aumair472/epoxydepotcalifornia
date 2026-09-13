@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { CallToOrderButton } from "@/components/call/CallToOrderButton";
 import { ProductBadge } from "@/components/product/ProductBadge";
 import { ProductImage } from "@/components/product/ProductImage";
 import { getCategoryName } from "@/lib/catalog";
@@ -33,7 +33,7 @@ export function ProductCard({ product, compact = false, className }: { product: 
             <p className="font-display text-lg leading-none font-bold text-ink">{formatPrice(product.price)}</p>
             <p className="mt-1 text-[11px] text-subtle">{product.packSize}</p>
           </div>
-          <AddToCartButton productId={product.id} />
+          <CallToOrderButton productId={product.id} />
         </div>
       </div>
     </article>

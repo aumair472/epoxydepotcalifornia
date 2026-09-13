@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
-import { SignInModal } from "@/components/auth/SignInModal";
-import { CartDrawer } from "@/components/cart/CartDrawer";
-import { EvaChatWidget } from "@/components/chat/EvaChatWidget";
+import { CallFab } from "@/components/call/CallFab";
+import { CallToOrderModal } from "@/components/call/CallToOrderModal";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Footer } from "@/components/layout/Footer";
 import { MobileMenu } from "@/components/layout/MobileMenu";
@@ -47,11 +46,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <Footer />
-          <CartDrawer />
           <MobileMenu />
           <SearchModal />
-          <SignInModal />
-          <EvaChatWidget />
+          <CallToOrderModal />
+          <CallFab />
           <Toaster />
         </Providers>
       </body>

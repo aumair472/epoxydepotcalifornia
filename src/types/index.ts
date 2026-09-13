@@ -315,25 +315,8 @@ export interface InfoPage {
   sections: { heading: string; paragraphs: string[] }[];
 }
 
-export type EvaPersona = "diy" | "install" | "contractor";
-export type EvaSurface = "garage" | "basement" | "commercial" | "table-top";
-
-export interface EvaSurfaceSystem {
-  id: EvaSurface;
-  label: string;
-  reply: string;
-  productIds: string[];
-}
-
-export interface EvaKeywordAnswer {
-  keywords: string[];
-  reply: string;
-  /** Run through searchCatalog to attach product suggestions. */
-  productQuery?: string;
-  link?: NavLink;
-}
-
-export interface CartLine {
-  productId: string;
-  quantity: number;
+/** What a "Call to order" request is about, shown in the call dialog so the caller knows what to mention. */
+export interface CallSubject {
+  title: string;
+  detail?: string;
 }

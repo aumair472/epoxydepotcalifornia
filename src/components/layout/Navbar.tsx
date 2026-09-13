@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Mail, Menu, Phone, Search, ShoppingCart, User } from "lucide-react";
+import { Mail, Menu, Phone, Search } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
-import { useCart } from "@/context/CartContext";
 import { useUI } from "@/context/UIContext";
 import { categories, primaryNav, siteConfig, utilityNav } from "@/data/mockData";
 import { useHotkey } from "@/hooks/useHotkey";
@@ -17,8 +16,7 @@ function isActive(pathname: string, href: string) {
 
 export function Navbar() {
   const pathname = usePathname();
-  const { itemCount, openCart } = useCart();
-  const { openSearch, openSignIn, openMobileMenu, user } = useUI();
+  const { openSearch, requestCall, openMobileMenu } = useUI();
 
   useHotkey("k", (e) => {
     e.preventDefault();
@@ -93,21 +91,13 @@ export function Navbar() {
             </button>
             <button
               type="button"
-              onClick={openSignIn}
-              className="hidden h-11 items-center gap-2 rounded-md border border-line px-4 text-sm font-medium text-ink transition hover:border-ink sm:inline-flex"
-            >
-              <User aria-hidden className="size-4" />
-              {user ? `Hi, ${user.name.split(" ")[0]}` : "Sign in"}
-            </button>
-            <button
-              type="button"
-              onClick={openCart}
-              aria-label={`Open cart, ${itemCount} ${itemCount === 1 ? "item" : "items"}`}
+              onClick={() => requestCall()}
+              aria-label={`Call to order: ${siteConfig.phone}`}
               className="inline-flex h-10 items-center gap-2 rounded-md bg-brand px-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark md:h-11 md:px-4"
             >
-              <ShoppingCart aria-hidden className="size-4" />
-              <span className="hidden sm:inline">Cart</span>
-              <span className="grid h-6 min-w-6 place-items-center rounded bg-black/20 px-1.5 text-[11px] font-bold tabular-nums">{itemCount}</span>
+              <Phone aria-hidden className="size-4" />
+              <span className="sm:hidden">Call</span>
+              <span className="hidden tabular-nums sm:inline">{siteConfig.phone}</span>
             </button>
           </div>
         </div>

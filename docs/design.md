@@ -52,6 +52,7 @@ Font wiring: `next/font/google` exposes `--font-inter`, `--font-space-grotesk` a
 - Dark path cards and icon tiles: `rounded-xl` / `rounded-2xl`, `bg-charcoal`, with a soft `shadow-xl` on the icon tiles.
 - Buttons: `rounded-md` (6px). Pills and chips: `rounded-full`.
 - Hazard stripe: `.hazard-stripe` = `repeating-linear-gradient(-45deg, #F97316 0 12px, #1A1A1D 12px 24px)`, 10px tall. It sits above the dark value-props bar.
+- Scrollbars (global, `globals.css` base layer): thin flat style everywhere — 8px, `cream-2` track, `brand`-orange thumb (same as the CTA buttons) with a 4px radius, `brand-dark` on hover. Firefox falls back to `scrollbar-color`. Hide one with `.scrollbar-none`.
 
 ## Components (visual spec)
 - **Button variants**
@@ -71,13 +72,10 @@ Font wiring: `next/font/google` exposes `--font-inter`, `--font-space-grotesk` a
 - **Header**
   - Announcement 30px, utility 32px, main 80px, primary nav 40px, category nav 40px.
   - Everything except the announcement bar is sticky (`top-0`).
-  - Mobile: announcement becomes a marquee; the header row has hamburger, logo, search icon and cart.
+  - Mobile: announcement becomes a marquee; the header row has hamburger, logo, search icon and Call button.
 - **Drawer:** 420px right panel with a `bg-black/40` overlay, slides in 300ms `ease-out`.
 - **Modal:** centered, max-w 480–640px, `rounded-xl`, over the same `bg-black/40` overlay.
-- **Eva:**
-  - Launcher: orange pill "Chat with Eva" in the bottom-right, with a pulsing white dot.
-  - Panel: 380×600 on desktop, a full-height sheet on mobile.
-  - Header: charcoal, with an orange avatar.
+- **Call FAB:** orange pill "Call us" (`CallFab`) fixed bottom-right on every page, same styling family as the CTA buttons. Opens `CallToOrderModal` (or dials directly on touch devices). Replaced the old Eva chat launcher.
 
 ## Imagery
 - **Lifestyle photos:** Unsplash, loaded through `next/image` (`images.unsplash.com` in `remotePatterns`). Always add a category tint so the palette stays consistent.

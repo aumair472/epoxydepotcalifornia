@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Icon } from "@/components/ui/Icon";
 import { siteConfig } from "@/data/mockData";
 import { cn } from "@/lib/cn";
@@ -29,7 +30,7 @@ const DISPLAY = { fontFamily: "var(--font-space-grotesk), ui-sans-serif, sans-se
 const MONO = { fontFamily: "var(--font-jetbrains-mono), ui-monospace, monospace" };
 const BRAND = siteConfig.shortName.toUpperCase();
 
-type ImageProduct = Pick<Product, "id" | "labelName" | "sku" | "category" | "visual" | "packSize">;
+type ImageProduct = Pick<Product, "id" | "labelName" | "sku" | "category" | "visual" | "packSize" | "image">;
 
 function hash(str: string) {
   let h = 1779033703 ^ str.length;
@@ -413,6 +414,19 @@ function Chart({ product, color }: { product: ImageProduct; color: string }) {
 }
 
 export function ProductImage({ product, className }: { product: ImageProduct; className?: string }) {
+  if (product.image) {
+    return (
+      <div className={cn("relative h-full w-full", className)}>
+        <Image
+          src={product.image}
+          alt={`${product.labelName} — product photo`}
+          fill
+          sizes="(min-width: 1024px) 480px, 100vw"
+          className="object-contain"
+        />
+      </div>
+    );
+  }
   const color = labelColors[product.category];
   let body: React.ReactNode;
   switch (product.visual.kind) {

@@ -1,19 +1,20 @@
+import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/data/mockData";
 import { cn } from "@/lib/cn";
 
-/** "ED" block monogram with a safety-orange slash, plus the two-line wordmark. */
+/** Client's real brand logo (downloaded from the live storefront), light-tone variant inverts via CSS filter. */
 export function LogoMark({ tone = "dark", className }: { tone?: "dark" | "light"; className?: string }) {
-  const fill = tone === "dark" ? "#18181B" : "#FFFFFF";
   return (
-    <svg viewBox="0 0 48 40" className={cn("h-9 w-auto", className)} aria-hidden>
-      {/* E */}
-      <path d="M1 4h15v7H8.5v5.5H15v7H8.5V29H16v7H1z" fill={fill} />
-      {/* slash */}
-      <path d="M22.5 36h-5.2L25 4h5.2z" fill="#F97316" />
-      {/* D */}
-      <path fillRule="evenodd" d="M29.5 4h6.2C43 4 47 10.6 47 20s-4 16-11.3 16h-6.2zm7 7h-.5v18h.5c3 0 3.9-4.2 3.9-9s-.9-9-3.9-9z" fill={fill} />
-    </svg>
+    <span className={cn("relative block h-9 w-9", className)}>
+      <Image
+        src="/logo.png"
+        alt=""
+        fill
+        sizes="36px"
+        className={cn("object-contain", tone === "light" && "brightness-0 invert")}
+      />
+    </span>
   );
 }
 

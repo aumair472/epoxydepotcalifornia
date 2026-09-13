@@ -113,6 +113,40 @@
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-brand;
   }
+
+  /* Scrollbars: thin flat style (width, flat track, 4px-radius thumb), in the
+     site's own cream/charcoal/brand palette instead of gray. Chrome/Edge/Safari
+     use the ::-webkit-scrollbar rules. Setting the standard scrollbar-* properties
+     would make Chrome ignore those, so the standard properties only apply in
+     Firefox, which doesn't support ::-webkit-scrollbar. Rules target body as well
+     as html because Chrome reads the page scrollbar's style from body. */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track,
+  html::-webkit-scrollbar-track,
+  body::-webkit-scrollbar-track {
+    background: var(--color-cream-2);
+  }
+  ::-webkit-scrollbar-thumb,
+  html::-webkit-scrollbar-thumb,
+  body::-webkit-scrollbar-thumb {
+    background: var(--color-brand);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover,
+  html::-webkit-scrollbar-thumb:hover,
+  body::-webkit-scrollbar-thumb:hover {
+    background: var(--color-brand-dark);
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-brand) var(--color-cream-2);
+    }
+  }
 }
 
 @layer components {

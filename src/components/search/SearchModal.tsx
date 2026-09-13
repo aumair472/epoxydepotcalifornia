@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { ArrowRight, FileText, Search, X } from "lucide-react";
-import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { CallToOrderButton } from "@/components/call/CallToOrderButton";
 import { ProductImage } from "@/components/product/ProductImage";
 import { Icon } from "@/components/ui/Icon";
 import { Modal } from "@/components/ui/Modal";
@@ -163,7 +163,7 @@ function SearchPanel({ seed, onClose }: { seed: string; onClose: () => void }) {
                             </span>
                           </span>
                         </Link>
-                        <AddToCartButton productId={p.id} size="xs" />
+                        <CallToOrderButton productId={p.id} size="xs" />
                       </li>
                     );
                   })}

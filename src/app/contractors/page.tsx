@@ -35,7 +35,7 @@ export default function ContractorsPage() {
           <p className="mt-5 flex items-start gap-2.5 rounded-lg border border-brand/25 bg-brand/10 px-4 py-3 text-sm text-ink">
             <Lightbulb aria-hidden className="mt-0.5 size-4 shrink-0 text-brand-deep" />
             <span>
-              Tip: create a customer account first — once approved, your discount turns on automatically when you sign in.
+              Tip: once you’re approved, just mention your company name when you call — your discount is applied to every phone order.
             </span>
           </p>
 

@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { useState } from "react";
 import { ChevronDown, Clock, MapPin, MonitorPlay, Users } from "lucide-react";
-import { BookingModal } from "@/components/training/BookingModal";
 import { Button } from "@/components/ui/Button";
+import { useUI } from "@/context/UIContext";
 import { trainingClasses } from "@/data/mockData";
 import { cn } from "@/lib/cn";
-import { formatPrice } from "@/lib/format";
+import { formatDate, formatPrice } from "@/lib/format";
 import type { ClassLevel, TrainingClass } from "@/types";
 
 type FormatFilter = "All" | TrainingClass["format"];
@@ -23,7 +23,7 @@ const month = new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC"
 
 export function TrainingSchedule() {
   const [format, setFormat] = useState<FormatFilter>("All");
-  const [booking, setBooking] = useState<TrainingClass | "private" | null>(null);
+  const { requestCall } = useUI();
   const classes = [...trainingClasses]
     .sort((a, b) => a.startDate.localeCompare(b.startDate))
     .filter((c) => format === "All" || c.format === format);
@@ -50,7 +50,7 @@ export function TrainingSchedule() {
       <ul className="mt-6 space-y-4">
         {classes.map((c) => (
           <li key={c.id}>
-            <ClassCard trainingClass={c} onBook={() => setBooking(c)} />
+            <ClassCard trainingClass={c} onBook={() => requestCall({ title: c.title, detail: `${formatDate(c.startDate)} · ${c.format} · ${c.seatsLeft === 0 ? "Waitlist" : "Reserve a seat"}` })} />
           </li>
         ))}
       </ul>
@@ -63,16 +63,10 @@ export function TrainingSchedule() {
             Private sessions at our training bay or on your job site — built around the systems you install.
           </p>
         </div>
-        <Button onClick={() => setBooking("private")} className="shrink-0">
+        <Button onClick={() => requestCall({ title: "Private & crew training", detail: "Tell us your crew size and the systems you install" })} className="shrink-0">
           Request private training
         </Button>
       </div>
-
-      <BookingModal
-        open={booking !== null}
-        onClose={() => setBooking(null)}
-        trainingClass={booking && booking !== "private" ? booking : undefined}
-      />
     </>
   );
 }

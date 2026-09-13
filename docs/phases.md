@@ -40,3 +40,6 @@ Phases run in order. Each ends with `npm run lint && npm run build` passing and 
 - A11y pass: dialog semantics, focus return, labels, keyboard use of search and chat.
 - Scripted internal-link crawl (no 404s). Console clean (no hydration warnings).
 - Final `npm run lint && npm run build`. Update `memory.md`.
+
+## Phase 6: Phone ordering (post-launch change, 2026-09-13)
+- The client takes orders by phone for now. Cart, checkout and sign-in were removed; every buy action calls the store (see `docs/task.md`, Phase 6). Earlier phase notes that mention the cart or sign-in are historical.

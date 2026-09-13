@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import { Check, Download, FileText, PenLine } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { StarRating } from "@/components/ui/StarRating";
-import { useToast } from "@/context/ToastContext";
 import { useUI } from "@/context/UIContext";
 import { getDocHref } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
@@ -171,8 +170,7 @@ function Panel({ id, active, children }: { id: TabId; active: TabId; children: R
 }
 
 function ReviewsPanel({ product, reviews }: { product: Product; reviews: Review[] }) {
-  const { user, openSignIn } = useUI();
-  const { toast } = useToast();
+  const { requestCall } = useUI();
   return (
     <div className="grid gap-10 lg:grid-cols-[280px_1fr]">
       <div className="rounded-lg border border-line bg-white p-6">
@@ -184,11 +182,7 @@ function ReviewsPanel({ product, reviews }: { product: Product; reviews: Review[
           size="sm"
           block
           className="mt-6"
-          onClick={() =>
-            user
-              ? toast({ title: "Thanks for sharing!", description: "Review submission is simulated in this demo.", tone: "info" })
-              : openSignIn()
-          }
+          onClick={() => requestCall({ title: `Review: ${product.name}`, detail: `SKU ${product.sku}` })}
         >
           <PenLine aria-hidden className="size-3.5" /> Write a review
         </Button>

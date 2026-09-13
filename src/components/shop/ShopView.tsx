@@ -127,7 +127,7 @@ export function ShopView({ category }: { category?: CategorySlug }) {
 
           {cat && results.length > 0 && (
             <p className="mt-10 text-center text-sm text-muted">
-              Need help choosing? <Link href="/resources#library" className="font-semibold text-brand-deep hover:underline">Browse data sheets</Link> or chat with Eva.
+              Need help choosing? <Link href="/resources#library" className="font-semibold text-brand-deep hover:underline">Browse data sheets</Link> or call us.
             </p>
           )}
         </div>

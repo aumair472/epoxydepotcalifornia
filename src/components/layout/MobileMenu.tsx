@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronRight, Mail, MessageCircle, Phone, Search, User, X } from "lucide-react";
+import { ChevronRight, Mail, Phone, Search, X } from "lucide-react";
 import { LogoMark } from "@/components/layout/Logo";
 import { Drawer } from "@/components/ui/Drawer";
 import { Icon } from "@/components/ui/Icon";
@@ -9,7 +9,7 @@ import { useUI } from "@/context/UIContext";
 import { categories, primaryNav, siteConfig, utilityNav } from "@/data/mockData";
 
 export function MobileMenu() {
-  const { mobileMenuOpen, closeOverlay, openSearch, openSignIn, openChat, user } = useUI();
+  const { mobileMenuOpen, closeOverlay, openSearch, requestCall } = useUI();
 
   return (
     <Drawer open={mobileMenuOpen} onClose={closeOverlay} label="Menu" side="left">
@@ -85,20 +85,13 @@ export function MobileMenu() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 border-t border-line p-4">
+      <div className="border-t border-line p-4">
         <button
           type="button"
-          onClick={openSignIn}
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-line text-sm font-medium"
+          onClick={() => requestCall()}
+          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand text-sm font-semibold text-white"
         >
-          <User aria-hidden className="size-4" /> {user ? user.name.split(" ")[0] : "Sign in"}
-        </button>
-        <button
-          type="button"
-          onClick={openChat}
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-charcoal text-sm font-medium text-white"
-        >
-          <MessageCircle aria-hidden className="size-4" /> Ask Eva
+          <Phone aria-hidden className="size-4" /> Call to order
         </button>
       </div>
     </Drawer>

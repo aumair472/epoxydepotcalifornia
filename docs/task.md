@@ -61,3 +61,13 @@ Legend: `[ ]` todo · `[x]` done
 - [x] Cart flows from every Add entry point (home, shop, product, calculator, search, Eva, color charts, empty drawer)
 - [x] `npm run lint && npm run build` clean (190 static pages)
 - [x] memory.md final update
+
+## Phase 6: Phone ordering (2026-09-13)
+- [x] `requestCall` in UIContext (touch → `tel:`, desktop → CallToOrderModal)
+- [x] CallToOrderButton replaces AddToCartButton on every surface (cards, product, calculator, search, Eva, color charts)
+- [x] Training seats / private training and "Write a review" call instead of opening forms or sign-in
+- [x] Removed cart drawer, /cart, CartContext, SignInModal, mock user, BookingModal, localStore, useHydrated
+- [x] Navbar + mobile menu: Call button instead of Sign in / Cart
+- [x] Copy: no cart / checkout / sign-in wording left
+- [x] Removed EvaChatWidget entirely (component, chat overlay state, evaConfig/evaSurfaces/evaKeywordAnswers, Eva* types) — added `CallFab`, a plain floating "Call us" button, in its place
+- [x] Scrollbar restyled to the CTA brand-orange thumb on a flat track (`globals.css`)

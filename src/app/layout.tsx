@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { CallFab } from "@/components/call/CallFab";
+import { PrintImageLoader } from "@/components/layout/PrintImageLoader";
 import { CallToOrderModal } from "@/components/call/CallToOrderModal";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Footer } from "@/components/layout/Footer";
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <CallToOrderModal />
           <CallFab />
           <Toaster />
+          <PrintImageLoader />
         </Providers>
       </body>
     </html>

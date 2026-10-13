@@ -12,7 +12,7 @@ import { useUI } from "@/context/UIContext";
 import { categories, popularSearches } from "@/data/mockData";
 import { getCategoryName, getDocHref, searchCatalog } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
-import { formatPrice } from "@/lib/format";
+import { formatProductPrice } from "@/lib/format";
 
 export function SearchModal() {
   const { searchOpen, closeOverlay, searchSeed } = useUI();
@@ -159,7 +159,7 @@ function SearchPanel({ seed, onClose }: { seed: string; onClose: () => void }) {
                           <span className="min-w-0">
                             <span className="block truncate text-sm font-semibold text-ink">{p.name}</span>
                             <span className="block truncate text-xs text-subtle">
-                              {getCategoryName(p.category)} · {p.packSize} · {formatPrice(p.price)}
+                              {getCategoryName(p.category)} · {p.packSize} · {formatProductPrice(p)}
                             </span>
                           </span>
                         </Link>

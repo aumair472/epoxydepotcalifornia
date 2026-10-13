@@ -229,6 +229,7 @@ export function isSortKey(value: string): value is SortKey {
 function matches(p: Product, f: ProductFilters, skip?: "category" | "packs") {
   if (skip !== "category" && f.category && p.category !== f.category) return false;
   if (f.tag && !p.tags.includes(f.tag)) return false;
+  if ((f.min !== undefined || f.max !== undefined) && p.callForPrice) return false;
   if (f.min !== undefined && p.price < f.min) return false;
   if (f.max !== undefined && p.price > f.max) return false;
   if (skip !== "packs" && f.packs?.length && !f.packs.includes(p.packGroup)) return false;
@@ -244,9 +245,9 @@ export function sortProducts(list: Product[], sort: SortKey) {
   const sorted = [...list];
   switch (sort) {
     case "price-asc":
-      return sorted.sort((a, b) => a.price - b.price);
+      return sorted.sort((a, b) => Number(!!a.callForPrice) - Number(!!b.callForPrice) || a.price - b.price);
     case "price-desc":
-      return sorted.sort((a, b) => b.price - a.price);
+      return sorted.sort((a, b) => Number(!!a.callForPrice) - Number(!!b.callForPrice) || b.price - a.price);
     case "name-asc":
       return sorted.sort((a, b) => a.name.localeCompare(b.name));
     case "rating":

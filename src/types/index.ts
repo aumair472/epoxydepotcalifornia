@@ -173,6 +173,8 @@ export interface Product {
   labelName: string;
   category: CategorySlug;
   price: number;
+  /** No confirmed price yet: shown as "Call for price" and left out of price filters. */
+  callForPrice?: boolean;
   packSize: string;
   packGroup: PackGroupId;
   tags: ProductTag[];

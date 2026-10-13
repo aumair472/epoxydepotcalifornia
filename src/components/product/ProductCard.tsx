@@ -4,7 +4,7 @@ import { ProductBadge } from "@/components/product/ProductBadge";
 import { ProductImage } from "@/components/product/ProductImage";
 import { getCategoryName } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
-import { formatPrice } from "@/lib/format";
+import { formatProductPrice } from "@/lib/format";
 import type { Product } from "@/types";
 
 export function ProductCard({ product, compact = false, className }: { product: Product; compact?: boolean; className?: string }) {
@@ -30,7 +30,7 @@ export function ProductCard({ product, compact = false, className }: { product: 
         {!compact && <p className="mt-1.5 line-clamp-2 text-[13px] leading-snug text-muted">{product.shortDescription}</p>}
         <div className="mt-auto flex flex-wrap items-end justify-between gap-2 pt-4">
           <div>
-            <p className="font-display text-lg leading-none font-bold text-ink">{formatPrice(product.price)}</p>
+            <p className="font-display text-lg leading-none font-bold text-ink">{formatProductPrice(product)}</p>
             <p className="mt-1 text-[11px] text-subtle">{product.packSize}</p>
           </div>
           <CallToOrderButton productId={product.id} />

@@ -21,7 +21,7 @@ import {
   getRelatedProducts,
 } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
-import { formatPrice } from "@/lib/format";
+import { formatProductPrice } from "@/lib/format";
 
 export const dynamicParams = false;
 
@@ -66,7 +66,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[id]">
           </a>
 
           <div className="mt-5 flex items-baseline gap-2">
-            <p className="font-display text-4xl font-bold text-ink">{formatPrice(product.price)}</p>
+            <p className="font-display text-4xl font-bold text-ink">{formatProductPrice(product)}</p>
             <p className="text-sm text-subtle">/ {product.packSize}</p>
           </div>
           <p className="mt-1 font-mono text-[11px] tracking-[0.14em] text-subtle uppercase">SKU {product.sku}</p>

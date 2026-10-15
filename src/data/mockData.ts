@@ -219,7 +219,7 @@ export const categories: Category[] = [
     tileLabel: "Flakes",
     description: "Decorative vinyl flake blends in 40 lb boxes.",
     longDescription:
-      "Designer and bulk vinyl flake blends for full- and partial-broadcast floors. Available in 1/4\", 1/8\" and 1/16\" sizes — order sample boards before you commit.",
+      "Designer and bulk vinyl flake blends for full- and partial-broadcast floors. 18 blends in 1/4\" chip, four also in 1/8\" — order sample boards before you commit.",
     icon: "grid",
     image: images.stones,
     tint: "#57534E",
@@ -386,6 +386,63 @@ const fuzionSprayGunColors: ProductColor[] = [
   { name: "Tyler Turquoise", hex: "#3FA7B0" },
 ];
 
+// Client's flake chart (2026-10-15), in the client's order. Photos are the client's own swatches
+// (public/flakes/, from flakechart/); chips are sampled from them.
+// Each blend is also sold as its own Flake product (see flakeProduct below).
+export const flakeBlends: FlakeBlend[] = [
+  { id: "neptune", name: "Neptune", description: "Charcoal and black with steel-blue and teal chips.", chips: ["#2E2D30", "#4A4A50", "#3F6A8F", "#5FA3B5"], size: "1/4\"", image: "/flakes/neptune.webp", productId: "flake-neptune" },
+  { id: "basalt", name: "Basalt", description: "Blue-grey slate tones with pale grey highlights.", chips: ["#70717B", "#5A5B65", "#9999A2", "#C9CAD0"], size: "1/4\"", image: "/flakes/basalt.webp", productId: "flake-basalt" },
+  { id: "raven", name: "Raven", description: "Black and charcoal with crisp grey and white flecks.", chips: ["#363636", "#2A2A2A", "#A7A7A7", "#E8E8E8"], size: "1/4\"", image: "/flakes/raven.webp", productId: "flake-raven" },
+  { id: "nightfall", name: "Nightfall", description: "Mid and dark greys with black accents.", chips: ["#6A6966", "#3D3C3A", "#8E8D88", "#1F1F1F"], size: "1/4\"", image: "/flakes/nightfall.webp", productId: "flake-nightfall" },
+  { id: "garnet", name: "Garnet", description: "Warm cocoa and taupe browns with dark accents.", chips: ["#665952", "#4F433E", "#857770", "#2A2523"], size: "1/4\"", image: "/flakes/garnet.webp", productId: "flake-garnet" },
+  { id: "pumice", name: "Pumice", description: "Rosy taupe and mauve-grey with soft grey chips.", chips: ["#9D9390", "#817875", "#B5ACA8", "#7D8590"], size: "1/4\"", image: "/flakes/pumice.webp", productId: "flake-pumice" },
+  { id: "feather-grey", name: "Feather Grey", description: "Light greys and white with bold black chips.", chips: ["#C3C2BF", "#DCDCD9", "#8C8B88", "#1A1A1A"], size: "1/4\"", image: "/flakes/feather-grey.webp", productId: "flake-feather-grey" },
+  { id: "coyote", name: "Coyote", description: "Light grey and white with brown and black accents.", chips: ["#BEBCB8", "#D9D8D5", "#7A5E4C", "#2A2A2A"], size: "1/4\"", image: "/flakes/coyote.webp", productId: "flake-coyote" },
+  { id: "orbit", name: "Orbit", description: "White, royal blue, black and grey.", chips: ["#D3D3DB", "#2F5BA0", "#202431", "#8E97A9"], size: "1/4\"", image: "/flakes/orbit.webp", productId: "flake-orbit" },
+  { id: "outback", name: "Outback", description: "Tan, earth brown, cream and black.", chips: ["#C9B497", "#9B826C", "#4C423D", "#ECE7D8", "#1F1B18"], size: "1/4\"", image: "/flakes/outback.webp", productId: "flake-outback" },
+  { id: "gravel", name: "Gravel", description: "Light and mid greys with charcoal.", chips: ["#B7B8B9", "#64676B", "#D4D4D6", "#3F4246"], size: "1/4\"", image: "/flakes/gravel.webp", productId: "flake-gravel" },
+  { id: "tidal-wave", name: "Tidal Wave", description: "Light greys with blue-grey and slate chips.", chips: ["#C1C0BD", "#D3D2D0", "#7F8790", "#5E7389"], size: "1/4\"", image: "/flakes/tidal-wave.webp", productId: "flake-tidal-wave" },
+  { id: "domino", name: "Domino", description: "Bold black and white with mid-grey.", chips: ["#D9D8D7", "#292727", "#9A9897", "#B3B1AF"], size: "1/4\"", image: "/flakes/domino.webp", productId: "flake-domino" },
+  { id: "suave", name: "Suave", description: "Bright white and light grey with black and grey chips.", chips: ["#E5E5E5", "#CECDCE", "#7E7E81", "#1C1C1C"], size: "1/4\"", image: "/flakes/suave.webp", productId: "flake-suave" },
+  { id: "shoreline", name: "Shoreline", description: "Sand, cream and khaki with black accents.", chips: ["#C2B6A0", "#D8D2C1", "#887B66", "#1F1C1A"], size: "1/4\"", image: "/flakes/shoreline.webp", productId: "flake-shoreline" },
+  { id: "carbon", name: "Carbon", description: "Tone-on-tone black and charcoal.", chips: ["#262427", "#201E21", "#3B393C", "#4A484B"], size: "1/4\"", image: "/flakes/carbon.webp", productId: "flake-carbon" },
+  { id: "creek-bed", name: "Creek Bed", description: "Greige, light grey and brown with dark accents.", chips: ["#AAA192", "#D5D4CD", "#877A69", "#5C4A38"], size: "1/4\"", image: "/flakes/creek-bed.webp", productId: "flake-creek-bed" },
+  { id: "cabin-fever", name: "Cabin Fever", description: "Light grey, beige-tan and white with black accents.", chips: ["#B7B1A5", "#D3D3D2", "#A5A6A1", "#1B1B1B"], size: "1/4\"", image: "/flakes/cabin-fever.webp", productId: "flake-cabin-fever" },
+  { id: "coyote-1-8", name: "Coyote", description: "The Coyote blend in a finer 1/8\" chip for a tighter, more uniform look.", chips: ["#BEBCB8", "#D9D8D5", "#7A5E4C", "#2A2A2A"], size: "1/8\"", image: "/flakes/coyote-1-8.webp", productId: "flake-coyote-1-8" },
+  { id: "garnet-1-8", name: "Garnet", description: "The Garnet blend in a finer 1/8\" chip for a tighter, more uniform look.", chips: ["#665952", "#4F433E", "#857770", "#2A2523"], size: "1/8\"", image: "/flakes/garnet-1-8.webp", productId: "flake-garnet-1-8" },
+  { id: "shoreline-1-8", name: "Shoreline", description: "The Shoreline blend in a finer 1/8\" chip for a tighter, more uniform look.", chips: ["#C2B6A0", "#D8D2C1", "#887B66", "#1F1C1A"], size: "1/8\"", image: "/flakes/shoreline-1-8.webp", productId: "flake-shoreline-1-8" },
+  { id: "outback-1-8", name: "Outback", description: "The Outback blend in a finer 1/8\" chip for a tighter, more uniform look.", chips: ["#C9B497", "#9B826C", "#4C423D", "#ECE7D8", "#1F1B18"], size: "1/8\"", image: "/flakes/outback-1-8.webp", productId: "flake-outback-1-8" },
+];
+
+/** A flake blend as a catalog product. Box price isn't confirmed yet, so it's call-for-price. */
+function flakeProduct(b: FlakeBlend): Product {
+  const name = `${b.name} ${b.size ?? ""} Flake`.replace(/\s+/g, " ").trim();
+  return {
+    id: `flake-${b.id}`,
+    sku: `FLAKE-${b.id.toUpperCase()}`,
+    name,
+    labelName: name,
+    category: "flake",
+    price: 0,
+    callForPrice: true,
+    packSize: `${b.size ?? ""} chip`.trim(),
+    packGroup: "box-bag",
+    tags: [],
+    stock: 25,
+    rating: 4.7,
+    reviewCount: 0,
+    shortDescription: `${b.description} Call for box sizes and pricing.`,
+    description: `${b.name} is a decorative vinyl flake blend for broadcast epoxy and polyaspartic floors. ${b.description} Call to confirm box sizes, pricing and stock for your project.`,
+    features: ["Broadcast into a wet epoxy or polyaspartic base coat", `${b.size ?? ""} chip`.trim(), "Call for a physical sample before you commit"],
+    specs: [
+      { label: "Chip size", value: b.size ?? "—" },
+      { label: "Blend", value: b.name },
+    ],
+    visual: { kind: "box", chips: b.chips },
+    image: b.image,
+  };
+}
+
 export const products: Product[] = [
   /* Imported from the client's live Shopify catalog (epoxydepotcalifornia.com), 2026-09-13. */
   {
@@ -393,7 +450,7 @@ export const products: Product[] = [
     sku: "E4E-UR-A-FILL-PO",
     name: "E4E-UR-A-FILL (Polyurea Crack Filler) 2 Gallon Kit",
     labelName: "E4E-UR-A-FILL (Polyurea C...",
-    category: "epoxy",
+    category: "surface-prep",
     price: 174.99,
     packSize: "Standard unit",
     packGroup: "2-gal",
@@ -555,7 +612,7 @@ export const products: Product[] = [
     sku: "PREMERA-T2-TOPCO",
     name: "Premera T2 Topcoat Gloss",
     labelName: "Premera T2 Topcoat Gloss",
-    category: "sundries",
+    category: "stains-sealers",
     price: 165.0,
     packSize: "1 Gal",
     packGroup: "unit",
@@ -664,7 +721,7 @@ export const products: Product[] = [
     name: "20\" Non-Woven Polyester pad",
     labelName: "20\" Non-Woven Polyester pad",
     category: "surface-prep",
-    price: 18.65,
+    price: 8.65,
     packSize: "20\" Red Buffing Pad",
     packGroup: "unit",
     tags: [],
@@ -672,7 +729,7 @@ export const products: Product[] = [
     rating: 4.7,
     reviewCount: 0,
     shortDescription: "20\" Non-Woven Polyester pad for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "20\" Non-Woven Polyester pad is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $18.65. Call to confirm current pricing, lead time and quantity for your project.",
+    description: "20\" Non-Woven Polyester pad is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $8.65. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "2 options available \u2014 call to confirm the right pick for your project",
@@ -717,7 +774,7 @@ export const products: Product[] = [
     sku: "WHITE-OUT",
     name: "White Out",
     labelName: "White Out",
-    category: "sundries",
+    category: "stains-sealers",
     price: 26.99,
     packSize: "5 Gal",
     packGroup: "unit",
@@ -738,33 +795,6 @@ export const products: Product[] = [
     ],
     visual: { kind: "hangtag" },
     image: "/products/white-out.jpg",
-  },
-  {
-    id: "full-flake-epoxy-flooring-system",
-    sku: "FULL-FLAKE-EPOXY",
-    name: "Full Flake Epoxy Flooring System",
-    labelName: "Full Flake Epoxy Flooring...",
-    category: "flake",
-    price: 879.99,
-    packSize: "Raven / Light Grey / 0-400 SQFT",
-    packGroup: "system",
-    tags: [],
-    stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "Full Flake Epoxy Flooring System for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "Full Flake Epoxy Flooring System is part of Epoxy Depot California's professional coating lineup. Available in 144 options starting at $879.99. Call to confirm current pricing, lead time and quantity for your project.",
-    features: [
-      "Professional-grade formulation used on real jobsites",
-      "144 options available \u2014 call to confirm the right pick for your project",
-      "Ships fast; call for lead times on large orders",
-    ],
-    specs: [
-      { label: "Pack Size", value: "Raven / Light Grey / 0-400 SQFT" },
-      { label: "Options", value: "144" },
-    ],
-    visual: { kind: "box" },
-    image: "/products/full-flake-epoxy-flooring-system.jpg",
   },
   {
     id: "8-oz-e4e-metallic-pigment-powder",
@@ -825,7 +855,7 @@ export const products: Product[] = [
     sku: "POLYREZ-6000-WB-",
     name: "POLYREZ 6000 WB URETHANE GLOSS",
     labelName: "POLYREZ 6000 WB URETHANE ...",
-    category: "polyaspartic",
+    category: "urethane",
     price: 136.99,
     packSize: "Standard unit",
     packGroup: "unit",
@@ -852,7 +882,7 @@ export const products: Product[] = [
     sku: "POLYREZ-6100-MAT",
     name: "POLYREZ 6100 Matte Water-Based Urethane1.5 Gal.",
     labelName: "POLYREZ 6100 Matte Water-...",
-    category: "polyaspartic",
+    category: "urethane",
     price: 179.99,
     packSize: "Standard unit",
     packGroup: "unit",
@@ -906,7 +936,7 @@ export const products: Product[] = [
     sku: "RCM-FUZION-RELAX",
     name: "RCM Fuzion Relax",
     labelName: "RCM Fuzion Relax",
-    category: "sundries",
+    category: "stains-sealers",
     price: 22.0,
     packSize: "Spray Gun Style",
     packGroup: "unit",
@@ -987,7 +1017,7 @@ export const products: Product[] = [
     sku: "SMITH-S103EX-STA",
     name: "Smith S103EX Stainless Concrete Sprayer Viton Extreme- 3.5 Gal",
     labelName: "Smith S103EX Stainless Co...",
-    category: "stains-sealers",
+    category: "tools",
     price: 279.99,
     packSize: "Standard unit",
     packGroup: "unit",
@@ -1203,7 +1233,7 @@ export const products: Product[] = [
     sku: "E4E-ACETONE",
     name: "E4E Acetone",
     labelName: "E4E Acetone",
-    category: "sundries",
+    category: "surface-prep",
     price: 26.99,
     packSize: "1 Gal",
     packGroup: "unit",
@@ -1230,7 +1260,7 @@ export const products: Product[] = [
     sku: "E4E-GEL-PATCH",
     name: "E4E- Gel Patch",
     labelName: "E4E- Gel Patch",
-    category: "epoxy",
+    category: "surface-prep",
     price: 185.99,
     packSize: "Standard unit",
     packGroup: "unit",
@@ -1392,7 +1422,7 @@ export const products: Product[] = [
     sku: "EPOXY-RESINOUS-C",
     name: "Epoxy Resinous Cleaner",
     labelName: "Epoxy Resinous Cleaner",
-    category: "epoxy",
+    category: "surface-prep",
     price: 89.99,
     packSize: "1 Gallon Concentrate",
     packGroup: "unit",
@@ -1496,9 +1526,9 @@ export const products: Product[] = [
     image: "/products/4-foam-mini-roller-10-pack.jpg",
   },
   {
-    id: "microfiber-roller-frame",
+    id: "microfiber-frame",
     sku: "MICROFIBER-FRAME",
-    name: "Microfiber Roller Frame",
+    name: "Microfiber Frame",
     labelName: "Microfiber Frame",
     category: "tools",
     price: 0,
@@ -1509,8 +1539,8 @@ export const products: Product[] = [
     stock: 25,
     rating: 4.7,
     reviewCount: 0,
-    shortDescription: "Microfiber roller frame in 18\", 24\" and 36\" widths for even, lint-free coat application — call for pricing.",
-    description: "Microfiber Roller Frame is part of Epoxy Depot California's professional coating lineup. Available in 18\", 24\" and 36\" widths. Call for current pricing, lead time and the right width for your project.",
+    shortDescription: "Microfiber frame in 18\", 24\" and 36\" widths for even, lint-free coat application — call for pricing.",
+    description: "Microfiber Frame is part of Epoxy Depot California's professional coating lineup. Available in 18\", 24\" and 36\" widths. Call for current pricing, lead time and the right width for your project.",
     features: [
       "Sized for professional floor coating work",
       "3 widths available — 18\", 24\" and 36\"",
@@ -1629,6 +1659,7 @@ export const products: Product[] = [
     visual: { kind: "pail" },
     image: "/products/ameripolish-sr2.jpg",
   },
+  ...flakeBlends.map(flakeProduct),
 ];
 
 /* ------------------------------------------------------------------ */
@@ -1785,8 +1816,8 @@ export const categoryFeatures: CategoryFeature[] = [
     id: "decorative",
     eyebrow: "Flakes, pigments & decorative systems",
     title: "Epoxy flakes, pigments and decorative concrete supplies.",
-    body: "Decorative vinyl flake in 1/4\", 1/8\" and 1/16\" for full- and partial-broadcast floors. Solid pigments, micas and reflective packs for custom mixes, plus stains and sealers for decorative concrete.",
-    bullets: ["1/4\", 1/8\", 1/16\" flake", "Metallic & solid pigments", "Stains & penetrating sealers"],
+    body: "Decorative vinyl flake in 1/4\" and 1/8\" chip for full- and partial-broadcast floors. Solid pigments, micas and reflective packs for custom mixes, plus stains and sealers for decorative concrete.",
+    bullets: ["1/4\" & 1/8\" flake", "Metallic & solid pigments", "Stains & penetrating sealers"],
     ctas: [
       { label: "Shop flake systems", href: "/shop/flake", variant: "primary" },
       { label: "Shop pigments", href: "/shop/pigments", variant: "outline" },
@@ -1902,7 +1933,7 @@ export const newsletterContent = {
 /* Color charts                                                        */
 /* ------------------------------------------------------------------ */
 
-// Solid base colors offered on the live store (Full Flake system "Base Color" option).
+// Solid base colors (the live store's flake system "Base Color" option).
 export const solidColors: SolidColor[] = [
   { name: "Black", hex: "#1C1C1E" },
   { name: "Khaki", hex: "#BDAE8A" },
@@ -1973,34 +2004,6 @@ export const metallicColors: MetallicColor[] = [
   { name: "Phantom Silver", hex: "#8E9298", gradient: ["#4E5054", "#C6C8CC", "#8E9298"], isNew: true },
   { name: "Dragon Gold", hex: "#C8901E", gradient: ["#6E4F10", "#E4C88E", "#C8901E"], isNew: true },
   { name: "Heavenly Gold", hex: "#E4C77A", gradient: ["#7D6D43", "#F2E3BC", "#E4C77A"], isNew: true },
-];
-
-// Client's flake chart (2026-10-15), in the client's order. Photos are the client's own swatches
-// (public/flakes/, from flakechart/); chips are sampled from them.
-const flakeSystem = "full-flake-epoxy-flooring-system";
-export const flakeBlends: FlakeBlend[] = [
-  { id: "neptune", name: "Neptune", description: "Charcoal and black with steel-blue and teal chips.", chips: ["#2E2D30", "#4A4A50", "#3F6A8F", "#5FA3B5"], size: "1/4\"", image: "/flakes/neptune.webp", productId: flakeSystem },
-  { id: "basalt", name: "Basalt", description: "Blue-grey slate tones with pale grey highlights.", chips: ["#70717B", "#5A5B65", "#9999A2", "#C9CAD0"], size: "1/4\"", image: "/flakes/basalt.webp", productId: flakeSystem },
-  { id: "raven", name: "Raven", description: "Black and charcoal with crisp grey and white flecks.", chips: ["#363636", "#2A2A2A", "#A7A7A7", "#E8E8E8"], size: "1/4\"", image: "/flakes/raven.webp", productId: flakeSystem },
-  { id: "nightfall", name: "Nightfall", description: "Mid and dark greys with black accents.", chips: ["#6A6966", "#3D3C3A", "#8E8D88", "#1F1F1F"], size: "1/4\"", image: "/flakes/nightfall.webp", productId: flakeSystem },
-  { id: "garnet", name: "Garnet", description: "Warm cocoa and taupe browns with dark accents.", chips: ["#665952", "#4F433E", "#857770", "#2A2523"], size: "1/4\"", image: "/flakes/garnet.webp", productId: flakeSystem },
-  { id: "pumice", name: "Pumice", description: "Rosy taupe and mauve-grey with soft grey chips.", chips: ["#9D9390", "#817875", "#B5ACA8", "#7D8590"], size: "1/4\"", image: "/flakes/pumice.webp", productId: flakeSystem },
-  { id: "feather-grey", name: "Feather Grey", description: "Light greys and white with bold black chips.", chips: ["#C3C2BF", "#DCDCD9", "#8C8B88", "#1A1A1A"], size: "1/4\"", image: "/flakes/feather-grey.webp", productId: flakeSystem },
-  { id: "coyote", name: "Coyote", description: "Light grey and white with brown and black accents.", chips: ["#BEBCB8", "#D9D8D5", "#7A5E4C", "#2A2A2A"], size: "1/4\"", image: "/flakes/coyote.webp", productId: flakeSystem },
-  { id: "orbit", name: "Orbit", description: "White, royal blue, black and grey.", chips: ["#D3D3DB", "#2F5BA0", "#202431", "#8E97A9"], size: "1/4\"", image: "/flakes/orbit.webp", productId: flakeSystem },
-  { id: "outback", name: "Outback", description: "Tan, earth brown, cream and black.", chips: ["#C9B497", "#9B826C", "#4C423D", "#ECE7D8", "#1F1B18"], size: "1/4\"", image: "/flakes/outback.webp", productId: flakeSystem },
-  { id: "gravel", name: "Gravel", description: "Light and mid greys with charcoal.", chips: ["#B7B8B9", "#64676B", "#D4D4D6", "#3F4246"], size: "1/4\"", image: "/flakes/gravel.webp", productId: flakeSystem },
-  { id: "tidal-wave", name: "Tidal Wave", description: "Light greys with blue-grey and slate chips.", chips: ["#C1C0BD", "#D3D2D0", "#7F8790", "#5E7389"], size: "1/4\"", image: "/flakes/tidal-wave.webp", productId: flakeSystem },
-  { id: "domino", name: "Domino", description: "Bold black and white with mid-grey.", chips: ["#D9D8D7", "#292727", "#9A9897", "#B3B1AF"], size: "1/4\"", image: "/flakes/domino.webp", productId: flakeSystem },
-  { id: "suave", name: "Suave", description: "Bright white and light grey with black and grey chips.", chips: ["#E5E5E5", "#CECDCE", "#7E7E81", "#1C1C1C"], size: "1/4\"", image: "/flakes/suave.webp", productId: flakeSystem },
-  { id: "shoreline", name: "Shoreline", description: "Sand, cream and khaki with black accents.", chips: ["#C2B6A0", "#D8D2C1", "#887B66", "#1F1C1A"], size: "1/4\"", image: "/flakes/shoreline.webp", productId: flakeSystem },
-  { id: "carbon", name: "Carbon", description: "Tone-on-tone black and charcoal.", chips: ["#262427", "#201E21", "#3B393C", "#4A484B"], size: "1/4\"", image: "/flakes/carbon.webp", productId: flakeSystem },
-  { id: "creek-bed", name: "Creek Bed", description: "Greige, light grey and brown with dark accents.", chips: ["#AAA192", "#D5D4CD", "#877A69", "#5C4A38"], size: "1/4\"", image: "/flakes/creek-bed.webp", productId: flakeSystem },
-  { id: "cabin-fever", name: "Cabin Fever", description: "Light grey, beige-tan and white with black accents.", chips: ["#B7B1A5", "#D3D3D2", "#A5A6A1", "#1B1B1B"], size: "1/4\"", image: "/flakes/cabin-fever.webp", productId: flakeSystem },
-  { id: "coyote-1-8", name: "Coyote", description: "The Coyote blend in a finer 1/8\" chip for a tighter, more uniform look.", chips: ["#BEBCB8", "#D9D8D5", "#7A5E4C", "#2A2A2A"], size: "1/8\"", image: "/flakes/coyote-1-8.webp", productId: flakeSystem },
-  { id: "garnet-1-8", name: "Garnet", description: "The Garnet blend in a finer 1/8\" chip for a tighter, more uniform look.", chips: ["#665952", "#4F433E", "#857770", "#2A2523"], size: "1/8\"", image: "/flakes/garnet-1-8.webp", productId: flakeSystem },
-  { id: "shoreline-1-8", name: "Shoreline", description: "The Shoreline blend in a finer 1/8\" chip for a tighter, more uniform look.", chips: ["#C2B6A0", "#D8D2C1", "#887B66", "#1F1C1A"], size: "1/8\"", image: "/flakes/shoreline-1-8.webp", productId: flakeSystem },
-  { id: "outback-1-8", name: "Outback", description: "The Outback blend in a finer 1/8\" chip for a tighter, more uniform look.", chips: ["#C9B497", "#9B826C", "#4C423D", "#ECE7D8", "#1F1B18"], size: "1/8\"", image: "/flakes/outback-1-8.webp", productId: flakeSystem },
 ];
 
 /* ------------------------------------------------------------------ */

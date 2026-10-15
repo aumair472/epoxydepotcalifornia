@@ -102,7 +102,7 @@ export default function ColorChartsPage() {
                   </div>
                   <div className="mt-3">
                     {b.productId ? (
-                      <CallToOrderButton productId={b.productId} size="xs" label="Call · 40 lb box" />
+                      <CallToOrderButton productId={b.productId} size="xs" label="Call to order" />
                     ) : (
                       <a href={siteConfig.phoneHref} className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-[0.12em] text-brand uppercase">
                         <Phone aria-hidden className="size-3.5" /> Custom blend — call

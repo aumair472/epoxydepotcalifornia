@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Download, Phone } from "lucide-react";
 import { CallToOrderButton } from "@/components/call/CallToOrderButton";
@@ -35,7 +36,7 @@ export default function ColorChartsPage() {
       <div className="container-page space-y-16 py-12 md:py-16">
         <section aria-labelledby="solid-colors">
           <SectionTitle title="Solid Colors" docId="chart-solid-colors" />
-          <ul id="solid-colors" className="grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-9">
+          <ul id="solid-colors" className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-7">
             {solidColors.map((c) => (
               <li key={c.name} className="overflow-hidden rounded-lg border border-line bg-white">
                 <div className="aspect-[4/3]" style={{ backgroundColor: c.hex }} />
@@ -50,23 +51,26 @@ export default function ColorChartsPage() {
 
         <section aria-labelledby="metallic-colors">
           <SectionTitle title="Metallic Pigments" docId="chart-metallic" />
-          <ul id="metallic-colors" className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          <ul id="metallic-colors" className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
             {metallicColors.map((c) => (
-              <li key={c.name} className="overflow-hidden rounded-lg border border-line bg-white">
+              <li key={c.name} className="relative overflow-hidden rounded-lg border border-line bg-white">
                 <div
                   className="aspect-square"
                   style={{ backgroundImage: `linear-gradient(135deg, ${c.gradient[0]} 0%, ${c.gradient[1]} 45%, ${c.gradient[2]} 70%, ${c.gradient[0]} 100%)` }}
                 />
+                {c.isNew && (
+                  <span className="absolute top-2 left-2 rounded-sm bg-brand px-1.5 py-0.5 text-[10px] font-bold tracking-[0.12em] text-white uppercase">New</span>
+                )}
                 <div className="px-3 py-2.5">
-                  <p className="text-[13px] font-semibold text-ink">{c.name}</p>
+                  <p className="text-[13px] leading-tight font-semibold text-ink">{c.name}</p>
                   <p className="font-mono text-[10px] tracking-wider text-subtle">{c.hex}</p>
                 </div>
               </li>
             ))}
           </ul>
           <p className="mt-4 text-sm text-muted">
-            Metallic pigment packs are sized for one 3 gal kit.{" "}
-            <Link href="/product/metallic-pigment-pack" className="font-semibold text-brand-deep hover:underline">
+            Every color comes in an 8 oz. jar of E4E metallic pigment powder.{" "}
+            <Link href="/product/8-oz-e4e-metallic-pigment-powder" className="font-semibold text-brand-deep hover:underline">
               Shop metallic pigments →
             </Link>
           </p>
@@ -77,12 +81,19 @@ export default function ColorChartsPage() {
           <ul id="flake-blends" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {flakeBlends.map((b) => (
               <li key={b.id} className="flex overflow-hidden rounded-lg border border-line bg-white">
-                <svg viewBox="0 0 100 100" className="size-32 shrink-0 sm:size-36" role="img" aria-label={`${b.name} flake blend swatch`}>
-                  <rect width={100} height={100} fill={b.chips[0]} />
-                  <Chips x={0} y={0} w={100} h={100} colors={b.chips} count={150} seed={`chart-${b.id}`} size={7} />
-                </svg>
+                {b.image ? (
+                  <Image src={b.image} alt={`${b.name} flake blend swatch`} width={144} height={144} className="size-32 shrink-0 object-cover sm:size-36" />
+                ) : (
+                  <svg viewBox="0 0 100 100" className="size-32 shrink-0 sm:size-36" role="img" aria-label={`${b.name} flake blend swatch`}>
+                    <rect width={100} height={100} fill={b.chips[0]} />
+                    <Chips x={0} y={0} w={100} h={100} colors={b.chips} count={150} seed={`chart-${b.id}`} size={7} />
+                  </svg>
+                )}
                 <div className="flex min-w-0 flex-1 flex-col p-4">
-                  <p className="font-display text-lg font-semibold text-ink">{b.name}</p>
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                    <p className="font-display text-lg font-semibold text-ink">{b.name}</p>
+                    {b.size && <p className="font-mono text-[10px] tracking-wider text-subtle">{b.size} chip</p>}
+                  </div>
                   <p className="mt-1 text-[13px] leading-snug text-muted">{b.description}</p>
                   <div className="mt-auto flex items-center gap-1.5 pt-3">
                     {b.chips.map((chip) => (

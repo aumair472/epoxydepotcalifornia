@@ -8,6 +8,8 @@ import { getProduct } from "@/lib/catalog";
 interface CallToOrderButtonProps {
   productId: string;
   quantity?: number;
+  /** Chosen option, e.g. a color, named in the call request. */
+  option?: string;
   label?: string;
   size?: ButtonSize;
   variant?: ButtonVariant;
@@ -22,6 +24,7 @@ interface CallToOrderButtonProps {
 export function CallToOrderButton({
   productId,
   quantity = 1,
+  option,
   label = "Call",
   size = "sm",
   variant = "primary",
@@ -30,7 +33,7 @@ export function CallToOrderButton({
 }: CallToOrderButtonProps) {
   const { requestCall } = useUI();
   const product = getProduct(productId);
-  const name = product?.name ?? "this item";
+  const name = `${product?.name ?? "this item"}${option ? ` — ${option}` : ""}`;
 
   const handleClick = () => {
     requestCall({

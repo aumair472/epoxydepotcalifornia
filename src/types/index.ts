@@ -129,6 +129,11 @@ export interface ProductVisual {
   icon?: IconKey;
 }
 
+export interface ProductColor {
+  name: string;
+  hex: string;
+}
+
 export interface Spec {
   label: string;
   value: string;
@@ -192,6 +197,8 @@ export interface Product {
   visual: ProductVisual;
   /** Real product photo path (public/products/…) from the live catalog; falls back to the generated SVG render when absent. */
   image?: string;
+  /** Color options the customer picks from; shown as swatches and named in the call request. */
+  colors?: ProductColor[];
 }
 
 export type DocType = "TDS" | "SDS" | "Color Chart" | "Mix Guide" | "How-To";
@@ -266,6 +273,7 @@ export interface MetallicColor {
   name: string;
   hex: string;
   gradient: [string, string, string];
+  isNew?: boolean;
 }
 
 export interface FlakeBlend {
@@ -273,6 +281,10 @@ export interface FlakeBlend {
   name: string;
   description: string;
   chips: string[];
+  /** Chip size, e.g. 1/4" or 1/8". */
+  size?: string;
+  /** Swatch photo (public/flakes/…); falls back to the generated chip render when absent. */
+  image?: string;
   productId?: string;
 }
 

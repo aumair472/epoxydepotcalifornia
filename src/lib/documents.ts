@@ -97,7 +97,7 @@ function chartBlocks(doc: ResourceDoc): PdfBlock[] {
     return [
       { type: "paragraph", text: doc.description },
       { type: "heading", text: "Metallic pigments" },
-      { type: "rows", rows: metallicColors.map((c) => [c.name, c.hex]) },
+      { type: "rows", rows: metallicColors.map((c) => [c.isNew ? `${c.name} (NEW)` : c.name, c.hex]) },
       { type: "note", text: "Screen and print colors are approximations. Order a physical metallic chart for accurate matching." },
     ];
   }
@@ -105,7 +105,7 @@ function chartBlocks(doc: ResourceDoc): PdfBlock[] {
     return [
       { type: "paragraph", text: doc.description },
       { type: "heading", text: "Flake blends" },
-      { type: "rows", rows: flakeBlends.map((b) => [b.name, `${b.description} Chips: ${b.chips.join(", ")}`]) },
+      { type: "rows", rows: flakeBlends.map((b) => [b.size ? `${b.name} (${b.size})` : b.name, `${b.description} Chips: ${b.chips.join(", ")}`]) },
       { type: "note", text: "Order a flake sample board set for accurate color matching." },
     ];
   }

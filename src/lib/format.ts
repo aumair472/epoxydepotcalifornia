@@ -4,9 +4,10 @@ export function formatPrice(value: number) {
   return usd.format(value);
 }
 
-/** Product price, or "Call for price" for SKUs without a confirmed price. */
-export function formatProductPrice(product: { price: number; callForPrice?: boolean }) {
-  return product.callForPrice ? "Call for price" : usd.format(product.price);
+/** Product price, "From $x" for SKUs with sized prices, or "Call for price" when unconfirmed. */
+export function formatProductPrice(product: { price: number; callForPrice?: boolean; priceOptions?: { price: number }[] }) {
+  if (product.callForPrice) return "Call for price";
+  return product.priceOptions && product.priceOptions.length > 1 ? `From ${usd.format(product.price)}` : usd.format(product.price);
 }
 
 const dateFmt = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });

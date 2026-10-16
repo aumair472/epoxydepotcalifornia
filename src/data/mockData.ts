@@ -338,9 +338,23 @@ export const tagLabels: Record<ProductTag, string> = {
 
 // Fuzion mica spray colors, in the client's order (2026-10-15). Hexes are sampled from the RCM
 // Fuzion product photos; Classic White and Classic Black have no photo and are estimates.
-// "Fusc Green" (hand spray) and "Apple Green" (gun) are both RCM's Apple Green Pearl.
+// "Fusc Green" (hand spray) and "Apple Green" (gun) are different colors (client, 2026-10-16).
+// Apple Green is RCM's Apple Green Pearl; Fusc Green has no photo yet, so its hex is an estimate.
+// RCM's own color photos from the client's "Metallic Color Pictures" doc (2026-10-16). Iron Gray,
+// Fusc Green, Classic White and Classic Black have no photo yet.
+const fuzionPhotos: Record<string, string> = {
+  "Apple Green": "apple-green-pearl", "Brass Bell": "brass-bell", "Burnished Copper Pearl": "burnished-copper-pearl",
+  "Cade Red": "cade-red", "Cambridge Blue": "cambridge-blue", "Chestnut Brown": "chestnut-brown", "Crown Gold": "crown-gold",
+  Ice: "ice", Jace: "jace", "Majestic Blue": "majestic-blue", "Mink Gray": "mink-gray", "Mink Grey": "mink-gray",
+  "Paxtyn Pink": "paxtyn-pink", "Raven Black": "raven-black", "Red Dusk Pearl": "red-dusk-pearl",
+  "Regal Violet": "regal-violet-pearl", "Regal Violet Pearl": "regal-violet-pearl", "Ruby Ice": "ruby-ice",
+  "Smoke White": "smoke-white", "Tyler Turquoise": "tyler-turquoise",
+};
+const withFuzionPhoto = (c: ProductColor): ProductColor =>
+  fuzionPhotos[c.name] ? { ...c, image: `/fuzion/${fuzionPhotos[c.name]}.webp` } : c;
+
 const fuzionHandSprayColors: ProductColor[] = [
-  { name: "Fusc Green", hex: "#9DB067" },
+  { name: "Fusc Green", hex: "#5F6E3F" },
   { name: "Brass Bell", hex: "#7E6F57" },
   { name: "Burnished Copper Pearl", hex: "#D9622A" },
   { name: "Cade Red", hex: "#D9141E" },
@@ -360,7 +374,7 @@ const fuzionHandSprayColors: ProductColor[] = [
   { name: "Ruby Ice", hex: "#7A4E57" },
   { name: "Smoke White", hex: "#E3E4DA" },
   { name: "Tyler Turquoise", hex: "#3FA7B0" },
-];
+].map(withFuzionPhoto);
 
 const fuzionSprayGunColors: ProductColor[] = [
   { name: "Apple Green", hex: "#9DB067" },
@@ -384,7 +398,20 @@ const fuzionSprayGunColors: ProductColor[] = [
   { name: "Regal Violet", hex: "#A55BBF" },
   { name: "Ruby Ice", hex: "#7A4E57" },
   { name: "Tyler Turquoise", hex: "#3FA7B0" },
-];
+].map(withFuzionPhoto);
+
+/** Every Fuzion color for the color chart, with where it's sold. */
+export const fuzionColors = [...fuzionHandSprayColors, ...fuzionSprayGunColors]
+  .reduce<(ProductColor & { handSpray: boolean; gun: boolean })[]>((list, c) => {
+    const inHand = fuzionHandSprayColors.includes(c);
+    // Same color can be spelled differently across the two lists ("Mink Grey"/"Mink Gray", "Regal Violet Pearl"/"Regal Violet").
+    const key = (name: string) => name.replace("Grey", "Gray").replace(/ Pearl$/, "");
+    const found = list.find((x) => key(x.name) === key(c.name));
+    if (found) found[inHand ? "handSpray" : "gun"] = true;
+    else list.push({ ...c, handSpray: inHand, gun: !inHand });
+    return list;
+  }, [])
+  .sort((a, b) => a.name.localeCompare(b.name));
 
 // Client's flake chart (2026-10-15), in the client's order. Photos are the client's own swatches
 // (public/flakes/, from flakechart/); chips are sampled from them.
@@ -414,7 +441,7 @@ export const flakeBlends: FlakeBlend[] = [
   { id: "outback-1-8", name: "Outback", description: "The Outback blend in a finer 1/8\" chip for a tighter, more uniform look.", chips: ["#C9B497", "#9B826C", "#4C423D", "#ECE7D8", "#1F1B18"], size: "1/8\"", image: "/flakes/outback-1-8.webp", productId: "flake-outback-1-8" },
 ];
 
-/** A flake blend as a catalog product. Box price isn't confirmed yet, so it's call-for-price. */
+/** A flake blend as a catalog product: 40 lb box, call for price (client's call, 2026-10-16). */
 function flakeProduct(b: FlakeBlend): Product {
   const name = `${b.name} ${b.size ?? ""} Flake`.replace(/\s+/g, " ").trim();
   return {
@@ -425,16 +452,17 @@ function flakeProduct(b: FlakeBlend): Product {
     category: "flake",
     price: 0,
     callForPrice: true,
-    packSize: `${b.size ?? ""} chip`.trim(),
+    packSize: "40 lb box",
     packGroup: "box-bag",
     tags: [],
     stock: 25,
     rating: 4.7,
     reviewCount: 0,
-    shortDescription: `${b.description} Call for box sizes and pricing.`,
-    description: `${b.name} is a decorative vinyl flake blend for broadcast epoxy and polyaspartic floors. ${b.description} Call to confirm box sizes, pricing and stock for your project.`,
+    shortDescription: `${b.description} 40 lb box — call for pricing.`,
+    description: `${b.name} is a decorative vinyl flake blend for broadcast epoxy and polyaspartic floors. ${b.description} Sold in 40 lb boxes; call for pricing and stock.`,
     features: ["Broadcast into a wet epoxy or polyaspartic base coat", `${b.size ?? ""} chip`.trim(), "Call for a physical sample before you commit"],
     specs: [
+      { label: "Pack Size", value: "40 lb box" },
       { label: "Chip size", value: b.size ?? "—" },
       { label: "Blend", value: b.name },
     ],
@@ -1531,26 +1559,63 @@ export const products: Product[] = [
     name: "Microfiber Frame",
     labelName: "Microfiber Frame",
     category: "tools",
-    price: 0,
-    callForPrice: true,
+    price: 12.99,
+    priceOptions: [
+      { label: "18\" Frame", price: 12.99 },
+      { label: "24\" Frame", price: 15.99 },
+      { label: "36\" Frame", price: 21.99 },
+    ],
     packSize: "18\" / 24\" / 36\"",
     packGroup: "unit",
     tags: [],
     stock: 25,
     rating: 4.7,
     reviewCount: 0,
-    shortDescription: "Microfiber frame in 18\", 24\" and 36\" widths for even, lint-free coat application — call for pricing.",
-    description: "Microfiber Frame is part of Epoxy Depot California's professional coating lineup. Available in 18\", 24\" and 36\" widths. Call for current pricing, lead time and the right width for your project.",
+    shortDescription: "Microfiber frame in 18\", 24\" and 36\" widths for even, lint-free coat application.",
+    description: "Microfiber Frame is part of Epoxy Depot California's professional coating lineup. Available in 18\", 24\" and 36\" widths, and takes the matching Microfiber Pad. Call to confirm stock and the right width for your project.",
     features: [
       "Sized for professional floor coating work",
-      "3 widths available — 18\", 24\" and 36\"",
-      "Call to confirm pricing and stock before your job",
+      "3 widths: 18\" ($12.99), 24\" ($15.99), 36\" ($21.99)",
+      "Pairs with the matching Microfiber Pad",
     ],
     specs: [
       { label: "Widths", value: "18\" / 24\" / 36\"" },
       { label: "Options", value: "3" },
     ],
     visual: { kind: "hangtag", icon: "paintbrush" },
+    image: "/products/microfiber-frame.webp",
+  },
+  {
+    id: "microfiber-pad",
+    sku: "MICROFIBER-PAD",
+    name: "Microfiber Pad",
+    labelName: "Microfiber Pad",
+    category: "tools",
+    price: 5.25,
+    priceOptions: [
+      { label: "18\" Pad", price: 5.25 },
+      { label: "24\" Pad", price: 7.25 },
+      { label: "36\" Pad", price: 8.25 },
+    ],
+    packSize: "18\" / 24\" / 36\"",
+    packGroup: "unit",
+    tags: [],
+    stock: 25,
+    rating: 4.7,
+    reviewCount: 0,
+    shortDescription: "Replacement microfiber pad for the Microfiber Frame, in 18\", 24\" and 36\" widths.",
+    description: "Microfiber Pad fits the Microfiber Frame for smooth, lint-free coat application. Available in 18\", 24\" and 36\" widths. Call to confirm stock for your project.",
+    features: [
+      "Fits the matching Microfiber Frame",
+      "3 widths: 18\" ($5.25), 24\" ($7.25), 36\" ($8.25)",
+      "Keep spares on hand for multi-coat jobs",
+    ],
+    specs: [
+      { label: "Widths", value: "18\" / 24\" / 36\"" },
+      { label: "Options", value: "3" },
+    ],
+    visual: { kind: "hangtag", icon: "paintbrush" },
+    image: "/products/microfiber-pad.webp",
   },
   {
     id: "fuzion-spray-gun",
@@ -1577,6 +1642,7 @@ export const products: Product[] = [
       { label: "Options", value: "1" },
     ],
     visual: { kind: "hangtag", icon: "wrench" },
+    image: "/products/fuzion-spray-gun.webp",
   },
   {
     id: "fuzion-spray-gun-colors",
@@ -1604,6 +1670,34 @@ export const products: Product[] = [
     ],
     visual: { kind: "hangtag", icon: "sparkles" },
     colors: fuzionSprayGunColors,
+  },
+  {
+    id: "fuzion-gun-cleaner",
+    sku: "FUZION-GUN-CLEANER",
+    name: "Fuzion Gun Cleaner",
+    labelName: "Fuzion Gun Cleaner",
+    category: "tools",
+    price: 0,
+    callForPrice: true,
+    packSize: "Spray can",
+    packGroup: "unit",
+    tags: [],
+    stock: 25,
+    rating: 4.7,
+    reviewCount: 0,
+    shortDescription: "Cleaner for flushing the Fuzion Spray Gun between colors and after each job.",
+    description: "Fuzion Gun Cleaner flushes leftover mica color out of the Fuzion Spray Gun so it's ready for the next color. Call for current pricing and stock.",
+    features: [
+      "Made for the Fuzion Spray Gun",
+      "Use between color changes and at the end of the day",
+      "Call to confirm pricing and stock",
+    ],
+    specs: [
+      { label: "Pack Size", value: "Spray can" },
+      { label: "Options", value: "1" },
+    ],
+    visual: { kind: "hangtag", icon: "wrench" },
+    image: "/products/fuzion-gun-cleaner.webp",
   },
   {
     id: "fuzion-hand-spray",
@@ -1933,73 +2027,75 @@ export const newsletterContent = {
 /* Color charts                                                        */
 /* ------------------------------------------------------------------ */
 
-// Solid base colors (the live store's flake system "Base Color" option).
+// Solid base colors (the live store's flake system "Base Color" option). Tub photos are from the
+// client's doc (2026-10-16); White has no photo yet.
 export const solidColors: SolidColor[] = [
-  { name: "Black", hex: "#1C1C1E" },
-  { name: "Khaki", hex: "#BDAE8A" },
+  { name: "Black", hex: "#1C1C1E", image: "/solids/black.webp" },
+  { name: "Khaki", hex: "#BDAE8A", image: "/solids/khaki.webp" },
   { name: "White", hex: "#F4F4F1" },
-  { name: "Light Gray", hex: "#BDBFBE" },
-  { name: "Medium Gray", hex: "#8C8E8D" },
-  { name: "Dark Gray", hex: "#5A5C5C" },
-  { name: "Charcoal Gray", hex: "#36383A" },
+  { name: "Light Gray", hex: "#BDBFBE", image: "/solids/light-gray.webp" },
+  { name: "Medium Gray", hex: "#8C8E8D", image: "/solids/medium-gray.webp" },
+  { name: "Dark Gray", hex: "#5A5C5C", image: "/solids/dark-gray.webp" },
+  { name: "Charcoal Gray", hex: "#36383A", image: "/solids/charcoal-gray.webp" },
 ];
 
-// Client's metallic chart (2026-10-15). Hexes for the 44 colors stocked on the live store are
-// sampled from its per-color jar photos; Bright White, Bronze, Cobalt Blue, Deep Brown, Light Grey,
-// Satin White Grey, Silver Black, Ultra Sparkle White and the four NEW colors are estimates by name.
+// Client's metallic chart (2026-10-15). Jar photos (public/metallics/) are from the client's
+// "Metallic Color Pictures" doc (2026-10-16); 44 of 56 colors have one. Hexes come from the live
+// store's brighter jar photos where it stocks the color, else from the client's photos. Cobalt Blue,
+// the four NEW colors and Ultra Sparkle White have no photo yet, so their hexes are estimates by name.
 export const metallicColors: MetallicColor[] = [
-  { name: "Aztec Gold", hex: "#BE8542", gradient: ["#694924", "#DEC2A0", "#BE8542"] },
-  { name: "Black Pearl", hex: "#2B2A2E", gradient: ["#181719", "#959496", "#2B2A2E"] },
-  { name: "Blue Green", hex: "#2688A7", gradient: ["#154B5C", "#92C4D3", "#2688A7"] },
-  { name: "Bright Gold", hex: "#D4AF6A", gradient: ["#75603A", "#EAD7B4", "#D4AF6A"] },
-  { name: "Bright Red", hex: "#E0604F", gradient: ["#7B352B", "#F0B0A7", "#E0604F"] },
-  { name: "Bright White", hex: "#F2F1EC", gradient: ["#858582", "#F8F8F6", "#F2F1EC"] },
-  { name: "Bronze", hex: "#9C6B3C", gradient: ["#563B21", "#CEB59E", "#9C6B3C"] },
-  { name: "Bronze Brown", hex: "#5A4A3A", gradient: ["#322920", "#ACA49C", "#5A4A3A"] },
-  { name: "Cambridge Blue", hex: "#5E7FA0", gradient: ["#344658", "#AEBFD0", "#5E7FA0"] },
-  { name: "Chestnut Brown", hex: "#5C3A2C", gradient: ["#332018", "#AE9C96", "#5C3A2C"] },
+  { name: "Aztec Gold", hex: "#BE8542", gradient: ["#694924", "#DEC2A0", "#BE8542"], image: "/metallics/aztec-gold.webp" },
+  { name: "Black Pearl", hex: "#2B2A2E", gradient: ["#181719", "#959496", "#2B2A2E"], image: "/metallics/black-pearl.webp" },
+  { name: "Blue Green", hex: "#2688A7", gradient: ["#154B5C", "#92C4D3", "#2688A7"], image: "/metallics/blue-green.webp" },
+  { name: "Bright Gold", hex: "#D4AF6A", gradient: ["#75603A", "#EAD7B4", "#D4AF6A"], image: "/metallics/bright-gold.webp" },
+  { name: "Bright Red", hex: "#E0604F", gradient: ["#7B352B", "#F0B0A7", "#E0604F"], image: "/metallics/bright-red.webp" },
+  { name: "Bright White", hex: "#F2F1EC", gradient: ["#858582", "#F8F8F6", "#F2F1EC"], image: "/metallics/bright-white.webp" },
+  { name: "Bronze", hex: "#D2A48A", gradient: ["#745A4C", "#E8D2C4", "#D2A48A"], image: "/metallics/bronze.webp" },
+  { name: "Bronze Brown", hex: "#5A4A3A", gradient: ["#322920", "#ACA49C", "#5A4A3A"], image: "/metallics/bronze-brown.webp" },
+  { name: "Cambridge Blue", hex: "#5E7FA0", gradient: ["#344658", "#AEBFD0", "#5E7FA0"], image: "/metallics/cambridge-blue.webp" },
+  { name: "Chestnut Brown", hex: "#5C3A2C", gradient: ["#332018", "#AE9C96", "#5C3A2C"], image: "/metallics/chestnut-brown.webp" },
   { name: "Cobalt Blue", hex: "#1F4FA3", gradient: ["#112B5A", "#8FA7D1", "#1F4FA3"] },
-  { name: "Coffee", hex: "#7D6951", gradient: ["#453A2D", "#BEB4A8", "#7D6951"] },
-  { name: "Copper Brown", hex: "#7A4B33", gradient: ["#43291C", "#BCA599", "#7A4B33"] },
-  { name: "Dark Yellow", hex: "#E8CC1A", gradient: ["#80700E", "#F4E68C", "#E8CC1A"] },
-  { name: "Deep Brown", hex: "#3E2A20", gradient: ["#221712", "#9E9490", "#3E2A20"] },
-  { name: "Flash Gold", hex: "#E6D7A8", gradient: ["#7F765C", "#F2EBD4", "#E6D7A8"] },
-  { name: "Fresh Green", hex: "#86B552", gradient: ["#4A642D", "#C2DAA8", "#86B552"] },
-  { name: "Flash Jade", hex: "#52A36B", gradient: ["#2D5A3B", "#A8D1B5", "#52A36B"] },
-  { name: "Flash Scarlet", hex: "#E2533A", gradient: ["#7C2E20", "#F0A99C", "#E2533A"] },
-  { name: "Flash Silver", hex: "#C9CBCD", gradient: ["#6F7071", "#E4E5E6", "#C9CBCD"] },
-  { name: "Flash White", hex: "#EDECE8", gradient: ["#828280", "#F6F6F4", "#EDECE8"] },
-  { name: "Glitter White", hex: "#E9E8E4", gradient: ["#80807D", "#F4F4F2", "#E9E8E4"] },
+  { name: "Coffee", hex: "#7D6951", gradient: ["#453A2D", "#BEB4A8", "#7D6951"], image: "/metallics/coffee.webp" },
+  { name: "Copper Brown", hex: "#7A4B33", gradient: ["#43291C", "#BCA599", "#7A4B33"], image: "/metallics/copper-brown.webp" },
+  { name: "Dark Yellow", hex: "#E8CC1A", gradient: ["#80700E", "#F4E68C", "#E8CC1A"], image: "/metallics/dark-yellow.webp" },
+  { name: "Deep Brown", hex: "#4A3B32", gradient: ["#29201C", "#A49D98", "#4A3B32"], image: "/metallics/deep-brown.webp" },
+  { name: "Flash Gold", hex: "#E6D7A8", gradient: ["#7F765C", "#F2EBD4", "#E6D7A8"], image: "/metallics/flash-gold.webp" },
+  { name: "Fresh Green", hex: "#86B552", gradient: ["#4A642D", "#C2DAA8", "#86B552"], image: "/metallics/fresh-green.webp" },
+  { name: "Flash Jade", hex: "#52A36B", gradient: ["#2D5A3B", "#A8D1B5", "#52A36B"], image: "/metallics/flash-jade.webp" },
+  { name: "Flash Scarlet", hex: "#E2533A", gradient: ["#7C2E20", "#F0A99C", "#E2533A"], image: "/metallics/flash-scarlet.webp" },
+  { name: "Flash Silver", hex: "#C9CBCD", gradient: ["#6F7071", "#E4E5E6", "#C9CBCD"], image: "/metallics/flash-silver.webp" },
+  { name: "Flash White", hex: "#EDECE8", gradient: ["#828280", "#F6F6F4", "#EDECE8"], image: "/metallics/flash-white.webp" },
+  { name: "Glitter White", hex: "#E9E8E4", gradient: ["#80807D", "#F4F4F2", "#E9E8E4"], image: "/metallics/glitter-white.webp" },
   { name: "Gold Green", hex: "#3FA58A", gradient: ["#235B4C", "#9FD2C4", "#3FA58A"] },
   { name: "Gold Yellow", hex: "#ECBC28", gradient: ["#826716", "#F6DE94", "#ECBC28"] },
-  { name: "Iridescent Violet", hex: "#5E4F8A", gradient: ["#342B4C", "#AEA7C4", "#5E4F8A"] },
-  { name: "Jungle Green", hex: "#2F5A44", gradient: ["#1A3225", "#97ACA2", "#2F5A44"] },
-  { name: "Light Grey", hex: "#B5B6B3", gradient: ["#646462", "#DADAD9", "#B5B6B3"] },
-  { name: "Luster Violet", hex: "#9A88B8", gradient: ["#554B65", "#CCC4DC", "#9A88B8"] },
-  { name: "Magic Blue", hex: "#3D63B0", gradient: ["#223661", "#9EB1D8", "#3D63B0"] },
-  { name: "Magic Violet", hex: "#7A5A9A", gradient: ["#433255", "#BCACCC", "#7A5A9A"] },
-  { name: "Ocean Blue", hex: "#3E76A8", gradient: ["#22415C", "#9EBAD4", "#3E76A8"] },
-  { name: "Orange Red", hex: "#E07A3E", gradient: ["#7B4322", "#F0BC9E", "#E07A3E"] },
-  { name: "Peacock Green", hex: "#2E86A3", gradient: ["#194A5A", "#96C2D1", "#2E86A3"] },
-  { name: "Peachblow", hex: "#C24E6E", gradient: ["#6B2B3D", "#E0A6B6", "#C24E6E"] },
+  { name: "Iridescent Violet", hex: "#5E4F8A", gradient: ["#342B4C", "#AEA7C4", "#5E4F8A"], image: "/metallics/iridescent-violet.webp" },
+  { name: "Jungle Green", hex: "#2F5A44", gradient: ["#1A3225", "#97ACA2", "#2F5A44"], image: "/metallics/jungle-green.webp" },
+  { name: "Light Grey", hex: "#5A5C5E", gradient: ["#323334", "#ACAEAE", "#5A5C5E"], image: "/metallics/light-grey.webp" },
+  { name: "Luster Violet", hex: "#9A88B8", gradient: ["#554B65", "#CCC4DC", "#9A88B8"], image: "/metallics/luster-violet.webp" },
+  { name: "Magic Blue", hex: "#3D63B0", gradient: ["#223661", "#9EB1D8", "#3D63B0"], image: "/metallics/magic-blue.webp" },
+  { name: "Magic Violet", hex: "#7A5A9A", gradient: ["#433255", "#BCACCC", "#7A5A9A"], image: "/metallics/magic-violet.webp" },
+  { name: "Ocean Blue", hex: "#3E76A8", gradient: ["#22415C", "#9EBAD4", "#3E76A8"], image: "/metallics/ocean-blue.webp" },
+  { name: "Orange Red", hex: "#E07A3E", gradient: ["#7B4322", "#F0BC9E", "#E07A3E"], image: "/metallics/orange-red.webp" },
+  { name: "Peacock Green", hex: "#2E86A3", gradient: ["#194A5A", "#96C2D1", "#2E86A3"], image: "/metallics/peacock-green.webp" },
+  { name: "Peachblow", hex: "#C24E6E", gradient: ["#6B2B3D", "#E0A6B6", "#C24E6E"], image: "/metallics/peachblow.webp" },
   { name: "Rainbow Blue", hex: "#2F6CC9", gradient: ["#1A3B6F", "#97B6E4", "#2F6CC9"] },
-  { name: "Red Brown", hex: "#98654A", gradient: ["#543829", "#CCB2A4", "#98654A"] },
-  { name: "Red Pearl", hex: "#A0585A", gradient: ["#583032", "#D0ACAC", "#A0585A"] },
-  { name: "Red Violet", hex: "#B0457E", gradient: ["#612645", "#D8A2BE", "#B0457E"] },
-  { name: "Saffron", hex: "#E0622E", gradient: ["#7B3619", "#F0B096", "#E0622E"] },
-  { name: "Satin Bronze", hex: "#8A6E55", gradient: ["#4C3D2F", "#C4B6AA", "#8A6E55"] },
-  { name: "Satin Grey", hex: "#4A4A4C", gradient: ["#29292A", "#A4A4A6", "#4A4A4C"] },
+  { name: "Red Brown", hex: "#98654A", gradient: ["#543829", "#CCB2A4", "#98654A"], image: "/metallics/red-brown.webp" },
+  { name: "Red Pearl", hex: "#A0585A", gradient: ["#583032", "#D0ACAC", "#A0585A"], image: "/metallics/red-pearl.webp" },
+  { name: "Red Violet", hex: "#B0457E", gradient: ["#612645", "#D8A2BE", "#B0457E"], image: "/metallics/red-violet.webp" },
+  { name: "Saffron", hex: "#E0622E", gradient: ["#7B3619", "#F0B096", "#E0622E"], image: "/metallics/saffron.webp" },
+  { name: "Satin Bronze", hex: "#8A6E55", gradient: ["#4C3D2F", "#C4B6AA", "#8A6E55"], image: "/metallics/satin-bronze.webp" },
+  { name: "Satin Grey", hex: "#4A4A4C", gradient: ["#29292A", "#A4A4A6", "#4A4A4C"], image: "/metallics/satin-grey.webp" },
   { name: "Satin Red Brown", hex: "#9A6650", gradient: ["#55382C", "#CCB2A8", "#9A6650"] },
-  { name: "Satin White Grey", hex: "#D4D3CF", gradient: ["#757472", "#EAE9E7", "#D4D3CF"] },
-  { name: "Shimmer Pearl", hex: "#E8E3D8", gradient: ["#807D77", "#F4F1EC", "#E8E3D8"] },
-  { name: "Silver Black", hex: "#3A3B3E", gradient: ["#202022", "#9C9D9E", "#3A3B3E"] },
+  { name: "Satin White Grey", hex: "#4E4C50", gradient: ["#2B2A2C", "#A6A6A8", "#4E4C50"], image: "/metallics/satin-white-grey.webp" },
+  { name: "Shimmer Pearl", hex: "#E8E3D8", gradient: ["#807D77", "#F4F1EC", "#E8E3D8"], image: "/metallics/shimmer-pearl.webp" },
+  { name: "Silver Black", hex: "#3A3B3E", gradient: ["#202022", "#9C9D9E", "#3A3B3E"], image: "/metallics/silver-black.webp" },
   { name: "Silver Grey", hex: "#6E6E6C", gradient: ["#3D3D3B", "#B6B6B6", "#6E6E6C"] },
   { name: "Silver Pearl", hex: "#DCDAD4", gradient: ["#797875", "#EEECEA", "#DCDAD4"] },
-  { name: "Sparkle Brown Red", hex: "#8F5640", gradient: ["#4F2F23", "#C7AAA0", "#8F5640"] },
-  { name: "Tan", hex: "#D8B48A", gradient: ["#77634C", "#ECDAC4", "#D8B48A"] },
-  { name: "True Red", hex: "#C9393A", gradient: ["#6F1F20", "#E49C9C", "#C9393A"] },
+  { name: "Sparkle Brown Red", hex: "#8F5640", gradient: ["#4F2F23", "#C7AAA0", "#8F5640"], image: "/metallics/sparkle-brown-red.webp" },
+  { name: "Tan", hex: "#D8B48A", gradient: ["#77634C", "#ECDAC4", "#D8B48A"], image: "/metallics/tan.webp" },
+  { name: "True Red", hex: "#C9393A", gradient: ["#6F1F20", "#E49C9C", "#C9393A"], image: "/metallics/true-red.webp" },
   { name: "Ultra Sparkle White", hex: "#F7F7F4", gradient: ["#888886", "#FBFBFA", "#F7F7F4"] },
-  { name: "Violet", hex: "#7D63B5", gradient: ["#453664", "#BEB1DA", "#7D63B5"] },
+  { name: "Violet", hex: "#7D63B5", gradient: ["#453664", "#BEB1DA", "#7D63B5"], image: "/metallics/violet.webp" },
   { name: "Molten Copper", hex: "#B5582A", gradient: ["#643017", "#DAAC94", "#B5582A"], isNew: true },
   { name: "Phantom Silver", hex: "#8E9298", gradient: ["#4E5054", "#C6C8CC", "#8E9298"], isNew: true },
   { name: "Dragon Gold", hex: "#C8901E", gradient: ["#6E4F10", "#E4C88E", "#C8901E"], isNew: true },

@@ -129,9 +129,16 @@ export interface ProductVisual {
   icon?: IconKey;
 }
 
+export interface PriceOption {
+  label: string;
+  price: number;
+}
+
 export interface ProductColor {
   name: string;
   hex: string;
+  /** Color photo, shown when the color is picked. */
+  image?: string;
 }
 
 export interface Spec {
@@ -180,6 +187,8 @@ export interface Product {
   price: number;
   /** No confirmed price yet: shown as "Call for price" and left out of price filters. */
   callForPrice?: boolean;
+  /** Sizes priced separately (e.g. 18"/24"/36"); `price` holds the lowest and shows as "From …". */
+  priceOptions?: PriceOption[];
   packSize: string;
   packGroup: PackGroupId;
   tags: ProductTag[];
@@ -267,6 +276,8 @@ export interface ResourceCard {
 export interface SolidColor {
   name: string;
   hex: string;
+  /** Tub photo (public/solids/…). */
+  image?: string;
 }
 
 export interface MetallicColor {
@@ -274,6 +285,8 @@ export interface MetallicColor {
   hex: string;
   gradient: [string, string, string];
   isNew?: boolean;
+  /** Jar photo (public/metallics/…); falls back to the gradient swatch when absent. */
+  image?: string;
 }
 
 export interface FlakeBlend {

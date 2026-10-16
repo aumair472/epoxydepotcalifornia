@@ -5,10 +5,10 @@ import { Download, Phone } from "lucide-react";
 import { CallToOrderButton } from "@/components/call/CallToOrderButton";
 import { Chips } from "@/components/product/ProductImage";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { flakeBlends, metallicColors, siteConfig, solidColors } from "@/data/mockData";
+import { flakeBlends, fuzionColors, metallicColors, siteConfig, solidColors } from "@/data/mockData";
 
 export const metadata: Metadata = {
-  title: "Color Charts — Solid, Metallic & Flake",
+  title: "Color Charts — Solid, Metallic, Fuzion & Flake",
   description: "Reference palettes for solid color epoxy and polyaspartic, metallic pigments and decorative flake blends.",
 };
 
@@ -39,7 +39,12 @@ export default function ColorChartsPage() {
           <ul id="solid-colors" className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-7">
             {solidColors.map((c) => (
               <li key={c.name} className="overflow-hidden rounded-lg border border-line bg-white">
-                <div className="aspect-[4/3]" style={{ backgroundColor: c.hex }} />
+                {c.image ? (
+                  <Image src={c.image} alt={`${c.name} base color tub`} width={200} height={150} className="aspect-[4/3] w-full bg-black object-cover" />
+                ) : (
+                  <div className="aspect-[4/3]" style={{ backgroundColor: c.hex }} />
+                )}
+                <div className="h-2" style={{ backgroundColor: c.hex }} />
                 <div className="px-3 py-2.5">
                   <p className="text-[13px] font-semibold text-ink">{c.name}</p>
                   <p className="font-mono text-[10px] tracking-wider text-subtle">{c.hex}</p>
@@ -54,10 +59,14 @@ export default function ColorChartsPage() {
           <ul id="metallic-colors" className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
             {metallicColors.map((c) => (
               <li key={c.name} className="relative overflow-hidden rounded-lg border border-line bg-white">
-                <div
-                  className="aspect-square"
-                  style={{ backgroundImage: `linear-gradient(135deg, ${c.gradient[0]} 0%, ${c.gradient[1]} 45%, ${c.gradient[2]} 70%, ${c.gradient[0]} 100%)` }}
-                />
+                {c.image ? (
+                  <Image src={c.image} alt={`${c.name} metallic pigment jar`} width={160} height={160} className="aspect-square w-full bg-black object-cover" />
+                ) : (
+                  <div
+                    className="aspect-square"
+                    style={{ backgroundImage: `linear-gradient(135deg, ${c.gradient[0]} 0%, ${c.gradient[1]} 45%, ${c.gradient[2]} 70%, ${c.gradient[0]} 100%)` }}
+                  />
+                )}
                 {c.isNew && (
                   <span className="absolute top-2 left-2 rounded-sm bg-brand px-1.5 py-0.5 text-[10px] font-bold tracking-[0.12em] text-white uppercase">New</span>
                 )}
@@ -73,6 +82,30 @@ export default function ColorChartsPage() {
             <Link href="/product/8-oz-e4e-metallic-pigment-powder" className="font-semibold text-brand-deep hover:underline">
               Shop metallic pigments →
             </Link>
+          </p>
+        </section>
+
+        <section aria-labelledby="fuzion-colors">
+          <h2 className="mb-5 font-display text-2xl font-semibold text-ink">Fuzion Mica Sprays</h2>
+          <ul id="fuzion-colors" className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
+            {fuzionColors.map((c) => (
+              <li key={c.name} className="overflow-hidden rounded-lg border border-line bg-white">
+                {c.image ? (
+                  <Image src={c.image} alt={`${c.name} Fuzion color sample`} width={160} height={160} className="aspect-square w-full object-cover" />
+                ) : (
+                  <div className="aspect-square" style={{ backgroundColor: c.hex }} />
+                )}
+                <div className="px-3 py-2.5">
+                  <p className="text-[13px] leading-tight font-semibold text-ink">{c.name}</p>
+                  <p className="mt-0.5 font-mono text-[10px] tracking-wider text-subtle">{[c.handSpray && "Hand spray", c.gun && "Gun"].filter(Boolean).join(" · ")}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-sm text-muted">
+            <Link href="/product/fuzion-hand-spray" className="font-semibold text-brand-deep hover:underline">Hand spray · $33 →</Link>
+            <span className="mx-3 text-line">|</span>
+            <Link href="/product/fuzion-spray-gun-colors" className="font-semibold text-brand-deep hover:underline">Spray gun colors · $35 →</Link>
           </p>
         </section>
 
@@ -102,7 +135,7 @@ export default function ColorChartsPage() {
                   </div>
                   <div className="mt-3">
                     {b.productId ? (
-                      <CallToOrderButton productId={b.productId} size="xs" label="Call to order" />
+                      <CallToOrderButton productId={b.productId} size="xs" label="Call · 40 lb box" />
                     ) : (
                       <a href={siteConfig.phoneHref} className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-[0.12em] text-brand uppercase">
                         <Phone aria-hidden className="size-3.5" /> Custom blend — call

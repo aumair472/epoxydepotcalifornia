@@ -3,8 +3,11 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ShopFallback } from "@/components/shop/ShopFallback";
 import { ShopView } from "@/components/shop/ShopView";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { categories } from "@/data/mockData";
-import { getCategory } from "@/lib/catalog";
+import { getCategory, getProductsByCategory } from "@/lib/catalog";
+import { seoDescription, seoTitle } from "@/lib/seo";
+import { collectionSchema } from "@/lib/schema";
 
 export const dynamicParams = false;
 
@@ -15,7 +18,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/shop/[category]">): Promise<Metadata> {
   const { category } = await params;
   const cat = getCategory(category);
-  return cat ? { title: `${cat.name} Supplies`, description: cat.longDescription } : {};
+  return cat ? { title: seoTitle(`${cat.name} Supplies`), description: seoDescription(cat.longDescription) } : {};
 }
 
 export default async function CategoryPage({ params }: PageProps<"/shop/[category]">) {
@@ -24,8 +27,11 @@ export default async function CategoryPage({ params }: PageProps<"/shop/[categor
   if (!cat) notFound();
 
   return (
-    <Suspense fallback={<ShopFallback category={cat.slug} />}>
-      <ShopView category={cat.slug} />
-    </Suspense>
+    <>
+      <JsonLd data={collectionSchema(`${cat.name} Supplies`, cat.longDescription, `/shop/${cat.slug}`, getProductsByCategory(cat.slug))} />
+      <Suspense fallback={<ShopFallback category={cat.slug} />}>
+        <ShopView category={cat.slug} />
+      </Suspense>
+    </>
   );
 }

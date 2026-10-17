@@ -8,7 +8,7 @@ export function generateStaticParams() {
   return resourceDocs.map((d) => ({ docId: d.id }));
 }
 
-/** Placeholder TDS / SDS / chart / guide PDFs, generated from the mock catalog at build time. */
+/** Printable color chart PDFs, generated from the color data at build time. */
 export async function GET(_request: Request, { params }: RouteContext<"/docs/[docId]">) {
   const { docId } = await params;
   const doc = getDoc(docId);

@@ -9,7 +9,7 @@ import { useShopParams } from "@/components/shop/useShopParams";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Drawer } from "@/components/ui/Drawer";
-import { Select } from "@/components/ui/Field";
+import { Select } from "@/components/ui/Select";
 import { packGroups } from "@/data/mockData";
 import { filterProducts, getCategory, getFacetCounts, getTagLabel, isSortKey, sortOptions, sortProducts } from "@/lib/catalog";
 import { formatPrice, pluralize } from "@/lib/format";
@@ -50,7 +50,7 @@ export function ShopView({ category }: { category?: CategorySlug }) {
 
   return (
     <div className="container-page pt-6 pb-16 lg:pt-8 lg:pb-24">
-      <Breadcrumbs items={cat ? [{ label: "Home", href: "/" }, { label: "Shop", href: "/shop" }, { label: cat.name }] : [{ label: "Home", href: "/" }, { label: "Shop" }]} />
+      <Breadcrumbs items={cat ? [{ label: "Shop", href: "/shop" }, { label: cat.name }] : [{ label: "Shop" }]} />
 
       <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div className="max-w-2xl">
@@ -127,7 +127,7 @@ export function ShopView({ category }: { category?: CategorySlug }) {
 
           {cat && results.length > 0 && (
             <p className="mt-10 text-center text-sm text-muted">
-              Need help choosing? <Link href="/resources#library" className="font-semibold text-brand-deep hover:underline">Browse data sheets</Link> or call us.
+              Need help choosing? Call us or <Link href="/resources#library" className="font-semibold text-brand-deep hover:underline">request a data sheet</Link>.
             </p>
           )}
         </div>

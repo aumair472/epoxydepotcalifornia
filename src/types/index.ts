@@ -166,17 +166,6 @@ export interface ApplicationInfo {
   steps: string[];
 }
 
-export interface Review {
-  id: string;
-  author: string;
-  role: string;
-  rating: number;
-  title: string;
-  body: string;
-  date: string;
-  verified: boolean;
-}
-
 export interface Product {
   id: string;
   sku: string;
@@ -194,8 +183,6 @@ export interface Product {
   tags: ProductTag[];
   badge?: Badge;
   stock: number;
-  rating: number;
-  reviewCount: number;
   /** Position in the home bestsellers row (lower = first). */
   bestsellerRank?: number;
   shortDescription: string;
@@ -210,7 +197,7 @@ export interface Product {
   colors?: ProductColor[];
 }
 
-export type DocType = "TDS" | "SDS" | "Color Chart" | "Mix Guide" | "How-To";
+export type DocType = "Color Chart";
 
 export interface ResourceDoc {
   id: string;
@@ -222,17 +209,6 @@ export interface ResourceDoc {
   pages: number;
   sizeKb: number;
   updated: string;
-}
-
-export interface Testimonial {
-  id: string;
-  quote: string;
-  name: string;
-  role: string;
-  location: string;
-  rating: number;
-  /** Placeholder copy — replace with real customer quotes before launch. */
-  isPlaceholder: true;
 }
 
 export interface WorkPath {
@@ -315,25 +291,11 @@ export interface Article {
 
 export type ClassLevel = "Beginner" | "Intermediate" | "Advanced" | "All levels";
 
-export interface TrainingClass {
+export interface TrainingTopic {
   id: string;
   title: string;
   level: ClassLevel;
-  format: "In-person" | "Virtual";
-  startDate: string;
-  endDate?: string;
-  schedule: string;
-  city: string;
-  venue: string;
-  duration: string;
-  price: number;
-  seatsTotal: number;
-  seatsLeft: number;
   summary: string;
-  description: string;
-  agenda: string[];
-  audience: string;
-  image: string;
 }
 
 export interface InfoPage {

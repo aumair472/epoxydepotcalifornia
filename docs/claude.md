@@ -21,7 +21,7 @@ src/data/mockData.ts  the ONLY source of catalog/content data
 src/types/index.ts    shared types
 ```
 - Pages stay thin: fetch from `lib/catalog`, pass props down, no big JSX blobs.
-- Put a component in `components/ui/` only if it's domain-agnostic (Button, Modal, Drawer, Field…).
+- Put a component in `components/ui/` only if it's domain-agnostic (Button, Modal, Drawer, Select…).
 - One component per file. The file name matches the default/named export.
 
 ## Naming

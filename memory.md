@@ -5,18 +5,20 @@ Living context file. Update the **Current phase** and **Log** sections at the en
 ## What this is
 A front-end-only clone of the layout, design and UX of coatingwarehouse.com, rebranded as **Epoxy Depot California**.
 - No backend, no database, no real auth. All catalog and content data is hardcoded in `src/data/mockData.ts`.
-- **Orders are taken by phone.** There is no cart, checkout, sign-in or sign-up. Every buy action (product "Call" buttons, training seats, "Write a review", the header Call button) calls `useUI().requestCall(subject)`: touch devices (`pointer: coarse`) go straight to `siteConfig.phoneHref`; desktops open `CallToOrderModal` showing the number and what to mention (product · SKU · qty).
+- **Orders are taken by phone.** There is no cart, checkout, sign-in or sign-up. Every buy action (product "Call" buttons, the header Call button, the floating "Call us" pill) calls `useUI().requestCall(subject)`: touch devices (`pointer: coarse`) go straight to `siteConfig.phoneHref`; desktops open `CallToOrderModal` showing the number and what to mention (product · SKU · qty).
 
 ## Decisions (confirmed with client)
 | Topic | Decision |
 |---|---|
 | Brand | Epoxy Depot California. Every brand string comes from `siteConfig` in `mockData.ts`. |
-| Contact details | Placeholders (phone `1-800-555-0142`, `orders@epoxydepotca.example`). Swap before launch. |
+| Contact details | Real (2026-10-18): (661) 516-7201 · luisc@epoxydepotusa.com · 1113 West Columbus Street, Bakersfield, CA 93301 (`siteConfig.address` / `addressLine` / `mapsHref`). |
 | Palette | Match the live reference exactly (warm charcoal + cream + safety orange + gold). See `docs/design.md`. |
 | Imagery | Unsplash for lifestyle/hero photos. Product cards use generated SVG renders (`ProductImage`). Nothing is copied from the reference site. |
-| Copy | Original copy that mirrors the reference's structure and tone. Testimonials are placeholders (`isPlaceholder: true`). |
+| Copy | Original copy that mirrors the reference's structure and tone. No reviews, star ratings or testimonials until the client sends real ones (2026-10-18). |
 | Catalog | About 50 generic SKUs across 10 categories. No third-party manufacturer brand names. |
 | Ordering | Phone only (2026-09-13). No cart, checkout or accounts. "Contractor account" means the approved trade-pricing program, not a login. |
+| Forms | None (2026-10-18). The site has no contact, contractor or newsletter forms; everything is a `tel:` or `mailto:` link (`lib/contact.mailtoHref` prefills subject/body). |
+| Data sheets | TDS/SDS are sent on request by email or phone (2026-10-18). Only the 3 color chart PDFs are generated (`/docs/[docId]`). |
 
 ## Stack
 - Next.js **16.3** (App Router, Turbopack, React 19.2). `params`/`searchParams` are Promises; use the `PageProps<'/route'>` / `RouteContext` helpers.
@@ -32,8 +34,12 @@ A front-end-only clone of the layout, design and UX of coatingwarehouse.com, reb
 - `app/layout.tsx` → `Providers` (ToastProvider > UIProvider) → `AnnouncementBar`, `Navbar`, `{children}`, `Footer`, overlays (`CallToOrderModal`, `MobileMenu`, `SearchModal`, `CallFab`, `Toaster`)
 - `ProductCard` (server) → `ProductImage` (SVG), `ProductBadge`, `CallToOrderButton` (client) → `useUI().requestCall`. The call overlay replaces search / mobile menu (one overlay at a time).
 - `ShopView` (client, inside `<Suspense fallback={<ShopFallback/>}>`) → `useShopParams` (URL state via `window.history.replaceState`) → `FilterSidebar`, `ProductGrid`, bottom-sheet `Drawer`
-- `product/[id]` → `ProductGallery`, `ProductPurchasePanel`, `CoverageCalculator` (`lib/coverage`), `ProductTabs`
-- `docs/[docId]/route.ts` → `lib/documents.renderDocumentPdf` → `lib/pdf.buildPdf` (dependency-free PDF writer)
+- `product/[id]` → `ProductGallery`, `ProductPurchasePanel`, `CoverageCalculator` (`lib/coverage`), `ProductTabs` (Data sheets tab → `ContactCards`)
+- `ContactCards` (components/contact) → call / email / address / hours cards, used on Contact, Contractors, Training, Resources and the product Data sheets tab
+- `docs/[docId]/route.ts` → `lib/documents.renderDocumentPdf` (color charts only) → `lib/pdf.buildPdf` (dependency-free PDF writer)
+- `app/sitemap.ts`, `app/robots.ts`, all keyed off `siteConfig.url`
+- Structured data: builders in `lib/schema.ts`, rendered by `components/seo/JsonLd`. Organization + WebSite live in the layout. `Breadcrumbs` always starts at Home and emits its own BreadcrumbList, so every page with a visible trail gets the schema. Page schemas: Product (priced SKUs only), CollectionPage + ItemList (shop and categories), BlogPosting (articles), FAQPage + Course list (training), ContactPage / AboutPage / WebPage (the rest).
+- `lib/seo.ts`: `seoTitle()` drops the brand suffix past ~60 characters; `seoDescription()` clips to 155 on a word boundary.
 - `SearchModal` → `lib/catalog.searchCatalog / searchProducts`
 - `Modal` (unmounts when closed) / `Drawer` (always mounted, `inert` when closed) → `useBodyScrollLock`, `useDialogFocus` (topmost-dialog Escape, focus trap and return)
 
@@ -44,7 +50,7 @@ A front-end-only clone of the layout, design and UX of coatingwarehouse.com, reb
 - The browser tool's synthetic Enter doesn't trigger native implicit form submission, so the chat input also handles Enter explicitly.
 
 ## Current phase
-All 5 phases complete, plus the phone-ordering change (2026-09-13). Remaining before launch: replace the placeholders (contact details, testimonials/reviews, PDFs, photography).
+All 5 phases complete, plus the phone-ordering change (2026-09-13). Production pass done 2026-10-18. Still to confirm with the client: contractor promises (15% off, net-30, free shipping over $500, 24–48h shipping), product spec/application data and stock counts (estimates), the production domain (`siteConfig.url`), and real TDS/SDS, reviews and photography.
 
 ## Log
 - 2026-09-12: Phase 1. Scaffolded Next 16.3.5 + Tailwind v4 + TS (git disabled). Installed lucide-react, clsx, tailwind-merge. Wrote the docs ecosystem, tokens, types, mock data (54 SKUs, 100 docs) and lib helpers.
@@ -71,3 +77,20 @@ All 5 phases complete, plus the phone-ordering change (2026-09-13). Remaining be
   - **Microfiber:** Frame is $12.99/$15.99/$21.99 for 18"/24"/36". New `microfiber-pad` SKU is $5.25/$7.25/$8.25. New `Product.priceOptions` adds a size picker, shows the price as "From $x", and names the size in the call request.
   - **Solids:** the doc's solid-color photos are labeled white tubs, so the chart keeps its hex swatches.
 - 2026-10-16: Rest of the "Metallic Color Pictures" doc (a copy also sits in `flakechart/`). The doc's 18 RCM Fuzion photos (no Iron Gray) are in `public/fuzion/`. `ProductColor.image` carries them, and the product page shows the picked color's photo. A new "Fuzion Mica Sprays" section on `/color-charts` (`fuzionColors`) merges both color lists and tags each color Hand spray / Gun. The 6 solid base-color tub photos are in `public/solids/` (`SolidColor.image`); White has none. New call-for-price `fuzion-gun-cleaner` SKU (tools) uses the doc's Gun Cleaner photo.
+- 2026-10-18: Real contact details from the client (via Usman). Phone (661) 516-7201 (from the live store's footer), email luisc@epoxydepotusa.com, and the address 1113 West Columbus Street, Bakersfield, CA 93301. The live store's footer still shows Epoxydepotbakersfield@gmail.com and 5501 Aldrin Ct Suite F; we went with the newer forwarded address and email. `siteConfig.hq` was replaced by `address`, `addressLine` and `mapsHref`. The contact page now shows one address card that links to Google Maps, in place of the three made-up will-call locations, and the footer shows the address. The Locations and Careers pages now say Bakersfield, and so do the in-house training classes (the Sacramento and San Diego partner venues are unchanged). The "placeholder" notices on Contact, About and Locations were removed.
+- 2026-10-18: Production-readiness pass, at the client's request ("no contact form, only call and email").
+  - **Forms removed.** The contact, contractor-application and newsletter forms all faked a submit, so they are gone, along with `Field`/`Input`/`Textarea` (`Select` now lives in `ui/Select.tsx`), `lib/validation`, `makeReference`, `contactTopics` and `newsletterContent`. Contact is now four cards (call, email, address, hours). The contractor application is "call or email us", with an email template. "Request a quote" on product pages is a prefilled `mailto:`.
+  - **Data sheets.** The made-up TDS/SDS and mix/how-to PDFs were removed; only the 3 color chart PDFs remain. The product page's "Data sheets" tab and Resources `#library` now say to call or email for the TDS/SDS.
+  - **Reviews.** The fake product reviews, star ratings, "Top rated" sort and home/contractor testimonials were removed (`reviewPool`, `testimonials`, `Product.rating`/`reviewCount`, `StarRating`). `siteConfig.contractorCount` went with them.
+  - **Training.** The invented dated schedule was removed (two dates had already passed): `trainingClasses` became `trainingTopics` (no dates or prices), with a "Book a seat — call or email" card.
+  - **Copy.** The demo wording in Terms, Privacy and Returns was rewritten, and the remaining "California locations" mentions now say Bakersfield. The real Facebook and Instagram links come from the live store's footer; the dead YouTube and LinkedIn links were removed.
+  - **SEO.** Added `siteConfig.url` (https://epoxydepotcalifornia.com), `metadataBase`, canonical and Open Graph tags, `sitemap.ts`, `robots.ts` and `HomeAndConstructionBusiness` JSON-LD.
+  - Checks: lint and build are clean, the crawl found 140 URLs with 0 broken, and no page mentions "demo".
+- 2026-10-18: Final QA pass.
+  - **Breadcrumbs and schema.** Every page except Home now has visible breadcrumbs plus matching BreadcrumbList JSON-LD (contact, contractors, training and resources were added; article crumbs now end at the title). Per-page schema is listed in the dependency map. Call-for-price SKUs (the flakes and others, 23 in all) get no Product schema, because Google requires a price on an Offer.
+  - **SEO lengths.** Titles over ~60 characters drop the brand suffix, and descriptions are clipped to 155. The home title, the site description and the color-charts title were shortened.
+  - **Product names.** Display names from the live store were tidied: ALL-CAPS Polyrez/Smith/Majestic names, "Urethane1.5 Gal.", stray hyphens and a trailing period (ids and URLs unchanged). The 13 label names that ended in "..." were given short clean labels. Image alt text now uses `product.name`.
+  - **SKUs.** The import had cut each slug to 16 characters ("E4E-100-EPOXY-3-"), and two Smith products shared "SMITH-PERFORMANC". The live store has no SKUs, so all of them were reassigned to unique, readable codes (E4E-100-EPOXY-3G, SMITH-190450, SMITH-190398…). Flake SKUs stay `FLAKE-<ID>`.
+  - **Call modal.** "Prefer email?" now prefills the product, option and SKU.
+  - Checks: the production crawl found 101 pages and 170 image URLs with 0 issues (status, title and description length, duplicates, canonical, og, a single h1, breadcrumbs, valid JSON-LD, alt text). All 102 pages at 375px: no overflow, no broken images. Search, filters and sort, the size picker and the call dialog were exercised in the browser. A second h1 on /shop in dev is React's hidden streaming placeholder (`div#S:0[hidden]`); it is not in the production HTML.
+- 2026-10-18: Real photos for the last two products that showed the drawn SVG placeholder. `fuzion-hand-spray` and `fuzion-spray-gun-colors` now use `public/products/<id>.webp`, a 2×2 grid built with sharp from four of RCM's own Fuzion Max color photos in `public/fuzion/`. Hand spray: Crown Gold, Majestic Blue, Ruby Ice, Tyler Turquoise. Gun colors: Cade Red, Cambridge Blue, Burnished Copper Pearl, Regal Violet Pearl. All 69 products now have a real photo. Swap in single studio shots if the client sends them.

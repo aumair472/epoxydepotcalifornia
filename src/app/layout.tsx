@@ -8,9 +8,11 @@ import { Footer } from "@/components/layout/Footer";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { Navbar } from "@/components/layout/Navbar";
 import { SearchModal } from "@/components/search/SearchModal";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Toaster } from "@/components/ui/Toaster";
 import { Providers } from "@/context/Providers";
 import { siteConfig } from "@/data/mockData";
+import { organizationSchema, websiteSchema } from "@/lib/schema";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
@@ -18,11 +20,20 @@ const spaceGrotesk = Space_Grotesk({ variable: "--font-space-grotesk", subsets: 
 const jetbrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: `Epoxy Flooring Supplies, Floor Coatings & Contractor Tools | ${siteConfig.name}`,
+    default: `Epoxy Flooring Supplies & Floor Coatings | ${siteConfig.name}`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  alternates: { canonical: "./" },
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.name,
+    locale: "en_US",
+    url: "./",
+    images: [{ url: "/logo.png", alt: siteConfig.name }],
+  },
 };
 
 export const viewport: Viewport = {
@@ -34,6 +45,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
       {/* suppressHydrationWarning: browser extensions (e.g. Grammarly) inject attributes on <body>. */}
       <body className="flex min-h-screen flex-col" suppressHydrationWarning>
+        <JsonLd data={organizationSchema()} />
+        <JsonLd data={websiteSchema()} />
         <Providers>
           <a
             href="#main"

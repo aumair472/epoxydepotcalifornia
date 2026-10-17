@@ -2,7 +2,7 @@
  * Mock data layer — the ONLY source of catalog and content data for the storefront.
  * No backend: every page and component reads from these exports (via src/lib/catalog.ts).
  *
- * Contact details, testimonials and reviews are placeholders — replace before launch.
+ * Contact details are real (2026-10-18). There are no reviews or testimonials until the client supplies real ones.
  */
 import type {
   Article,
@@ -20,10 +20,8 @@ import type {
   ProductTag,
   ResourceCard,
   ResourceDoc,
-  Review,
   SolidColor,
-  Testimonial,
-  TrainingClass,
+  TrainingTopic,
   ValueProp,
   WorkPath,
 } from "@/types";
@@ -64,50 +62,47 @@ export const images = {
   greySurface: unsplash("photo-1652305461546-bf0a76934433"),
 } as const;
 
-/** Deterministic pseudo-random number (0–1) from a string, for stable mock metadata. */
-function seeded(key: string) {
-  let h = 2166136261;
-  for (let i = 0; i < key.length; i++) {
-    h ^= key.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return ((h >>> 0) % 10000) / 10000;
-}
-
 /* ------------------------------------------------------------------ */
 /* Site config & navigation                                            */
 /* ------------------------------------------------------------------ */
 
 export const siteConfig = {
   name: "Epoxy Depot California",
+  /** Production origin, used for canonical URLs, the sitemap and social previews. */
+  url: "https://epoxydepotcalifornia.com",
   shortName: "Epoxy Depot",
   wordmarkTop: "Epoxy Depot",
   wordmarkBottom: "California · Coatings · Supply",
   monogram: "ED",
   description:
-    "Contractor-grade epoxy, polyaspartic, urethane, decorative flake, pigments, concrete prep and floor coating tools — stocked in California with contractor pricing and fast will-call.",
-  // Placeholder contact details (555-01xx numbers and .example domains are reserved for fiction).
-  phone: "1-800-555-0142",
-  phoneHref: "tel:+18005550142",
-  email: "orders@epoxydepotca.example",
-  emailHref: "mailto:orders@epoxydepotca.example",
+    "Contractor-grade epoxy, polyaspartic, urethane, flake, pigments, concrete prep and floor coating tools, with contractor pricing and will-call in Bakersfield, CA.",
+  // Real contact details, from the client (2026-10-18).
+  phone: "(661) 516-7201",
+  phoneHref: "tel:+16615167201",
+  email: "luisc@epoxydepotusa.com",
+  emailHref: "mailto:luisc@epoxydepotusa.com",
   hours: "Mon–Fri · 7a–5p PT",
-  hq: "Ontario, CA (Inland Empire)",
+  address: {
+    street: "1113 West Columbus Street",
+    city: "Bakersfield",
+    region: "CA",
+    postalCode: "93301",
+  },
+  addressLine: "1113 West Columbus Street, Bakersfield, CA 93301",
+  mapsHref: "https://www.google.com/maps/search/?api=1&query=1113+West+Columbus+Street%2C+Bakersfield%2C+CA+93301",
+  // From the live store's footer (2026-10-18).
   socials: [
-    { label: "Instagram", href: "https://www.instagram.com/", icon: "instagram" },
-    { label: "Facebook", href: "https://www.facebook.com/", icon: "facebook" },
-    { label: "YouTube", href: "https://www.youtube.com/", icon: "youtube" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/", icon: "linkedin" },
+    { label: "Instagram", href: "https://www.instagram.com/epoxydepotcalifornia/", icon: "instagram" },
+    { label: "Facebook", href: "https://www.facebook.com/EpoxyDepotCalifornia", icon: "facebook" },
   ],
   freeShippingThreshold: 500,
   contractorDiscount: 0.15,
-  contractorCount: "2,500+",
 } as const;
 
 export const announcements = [
   { icon: "truck", text: "Free shipping on qualifying orders" },
   { icon: "tag", text: "Contractor pricing available" },
-  { icon: "graduation-cap", text: "Hands-on training classes now booking" },
+  { icon: "graduation-cap", text: "Hands-on training classes — call to book" },
 ] as const;
 
 export const primaryNav: NavLink[] = [
@@ -456,8 +451,6 @@ function flakeProduct(b: FlakeBlend): Product {
     packGroup: "box-bag",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: `${b.description} 40 lb box — call for pricing.`,
     description: `${b.name} is a decorative vinyl flake blend for broadcast epoxy and polyaspartic floors. ${b.description} Sold in 40 lb boxes; call for pricing and stock.`,
     features: ["Broadcast into a wet epoxy or polyaspartic base coat", `${b.size ?? ""} chip`.trim(), "Call for a physical sample before you commit"],
@@ -475,19 +468,17 @@ export const products: Product[] = [
   /* Imported from the client's live Shopify catalog (epoxydepotcalifornia.com), 2026-09-13. */
   {
     id: "e4e-ur-a-fill-polyurea-crack-filler-2-gallon-kit",
-    sku: "E4E-UR-A-FILL-PO",
-    name: "E4E-UR-A-FILL (Polyurea Crack Filler) 2 Gallon Kit",
-    labelName: "E4E-UR-A-FILL (Polyurea C...",
+    sku: "E4E-UR-A-FILL",
+    name: "E4E-UR-A-FILL Polyurea Crack Filler (2 Gal Kit)",
+    labelName: "E4E-UR-A-FILL",
     category: "surface-prep",
     price: 174.99,
     packSize: "Standard unit",
     packGroup: "2-gal",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "E4E-UR-A-FILL (Polyurea Crack Filler) 2 Gallon Kit for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "E4E-UR-A-FILL (Polyurea Crack Filler) 2 Gallon Kit is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $174.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "E4E-UR-A-FILL Polyurea Crack Filler (2 Gal Kit) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "E4E-UR-A-FILL Polyurea Crack Filler (2 Gal Kit) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $174.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -502,19 +493,17 @@ export const products: Product[] = [
   },
   {
     id: "e4e-urethane-clear-three-component-urethane",
-    sku: "E4E-URETHANE-CLE",
-    name: "E4E Urethane Clear-Three Component Urethane",
-    labelName: "E4E Urethane Clear-Three ...",
+    sku: "E4E-URETHANE-CLEAR",
+    name: "E4E Urethane Clear (Three-Component Urethane)",
+    labelName: "E4E Urethane Clear",
     category: "urethane",
     price: 52.99,
     packSize: "1 Pint",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "E4E Urethane Clear-Three Component Urethane for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "E4E Urethane Clear-Three Component Urethane is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $52.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "E4E Urethane Clear (Three-Component Urethane) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "E4E Urethane Clear (Three-Component Urethane) is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $52.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "2 options available \u2014 call to confirm the right pick for your project",
@@ -529,19 +518,17 @@ export const products: Product[] = [
   },
   {
     id: "e4e-super-poly-polyaspartic-2-gal",
-    sku: "E4E-SUPER-POLY-P",
-    name: "E4E Super Poly-Polyaspartic -2 Gal",
-    labelName: "E4E Super Poly-Polyaspart...",
+    sku: "E4E-SUPER-POLY-2G",
+    name: "E4E Super Poly Polyaspartic (2 Gal)",
+    labelName: "E4E Super Poly",
     category: "polyaspartic",
     price: 179.99,
     packSize: "Standard unit",
     packGroup: "2-gal",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "E4E Super Poly-Polyaspartic -2 Gal for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "E4E Super Poly-Polyaspartic -2 Gal is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $179.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "E4E Super Poly Polyaspartic (2 Gal) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "E4E Super Poly Polyaspartic (2 Gal) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $179.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -556,19 +543,17 @@ export const products: Product[] = [
   },
   {
     id: "super-turtle-poly-2-gal-kit",
-    sku: "SUPER-TURTLE-POL",
-    name: "Super Turtle Poly - 2 Gal. Kit",
-    labelName: "Super Turtle Poly - 2 Gal...",
+    sku: "SUPER-TURTLE-POLY-2G",
+    name: "Super Turtle Poly (2 Gal Kit)",
+    labelName: "Super Turtle Poly",
     category: "polyaspartic",
     price: 195.0,
     packSize: "Standard unit",
     packGroup: "2-gal",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "Super Turtle Poly - 2 Gal. Kit for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "Super Turtle Poly - 2 Gal. Kit is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $195.00. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "Super Turtle Poly (2 Gal Kit) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "Super Turtle Poly (2 Gal Kit) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $195.00. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -583,7 +568,7 @@ export const products: Product[] = [
   },
   {
     id: "wooster-big-ben-roller-18",
-    sku: "WOOSTER-BIG-BEN-",
+    sku: "WOOSTER-BIG-BEN-18",
     name: "Wooster Big Ben Roller 18\"",
     labelName: "Wooster Big Ben Roller 18\"",
     category: "tools",
@@ -592,8 +577,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Wooster Big Ben Roller 18\" for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "Wooster Big Ben Roller 18\" is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $21.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -610,7 +593,7 @@ export const products: Product[] = [
   },
   {
     id: "eagle-craft-spike-shoes",
-    sku: "EAGLE-CRAFT-SPIK",
+    sku: "EAGLE-CRAFT-SPIKE",
     name: "Eagle Craft Spike Shoes",
     labelName: "Eagle Craft Spike Shoes",
     category: "tools",
@@ -619,8 +602,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Eagle Craft Spike Shoes for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "Eagle Craft Spike Shoes is part of Epoxy Depot California's professional coating lineup. Available in 3 options starting at $89.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -637,7 +618,7 @@ export const products: Product[] = [
   },
   {
     id: "premera-t2-topcoat-gloss",
-    sku: "PREMERA-T2-TOPCO",
+    sku: "PREMERA-T2-GLOSS",
     name: "Premera T2 Topcoat Gloss",
     labelName: "Premera T2 Topcoat Gloss",
     category: "stains-sealers",
@@ -646,8 +627,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Premera T2 Topcoat Gloss for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "Premera T2 Topcoat Gloss is part of Epoxy Depot California's professional coating lineup. Available in 3 options starting at $165.00. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -664,7 +643,7 @@ export const products: Product[] = [
   },
   {
     id: "e4e-100-epoxy-3-gal-kit",
-    sku: "E4E-100-EPOXY-3-",
+    sku: "E4E-100-EPOXY-3G",
     name: "E4E-100 Epoxy (3 Gal Kit)",
     labelName: "E4E-100 Epoxy (3 Gal Kit)",
     category: "epoxy",
@@ -673,8 +652,6 @@ export const products: Product[] = [
     packGroup: "3-gal",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "E4E-100 Epoxy (3 Gal Kit) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "E4E-100 Epoxy (3 Gal Kit) is part of Epoxy Depot California's professional coating lineup. Available in 3 options starting at $125.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -691,7 +668,7 @@ export const products: Product[] = [
   },
   {
     id: "20-sanding-screen",
-    sku: "20-SANDING-SCREE",
+    sku: "SANDING-SCREEN-20",
     name: "20\" Sanding Screen",
     labelName: "20\" Sanding Screen",
     category: "surface-prep",
@@ -700,8 +677,6 @@ export const products: Product[] = [
     packGroup: "box-bag",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "20\" Sanding Screen for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "20\" Sanding Screen is part of Epoxy Depot California's professional coating lineup. Available in 10 options starting at $6.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -718,19 +693,17 @@ export const products: Product[] = [
   },
   {
     id: "17-sanding-screen-10-pack",
-    sku: "17-SANDING-SCREE",
-    name: "17\" Sanding Screen-10 Pack",
-    labelName: "17\" Sanding Screen-10 Pack",
+    sku: "SANDING-SCREEN-17-10PK",
+    name: "17\" Sanding Screen (10-Pack)",
+    labelName: "17\" Sanding Screen (10-Pack)",
     category: "surface-prep",
     price: 45.99,
     packSize: "#60 - Pre-Order",
     packGroup: "box-bag",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "17\" Sanding Screen-10 Pack for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "17\" Sanding Screen-10 Pack is part of Epoxy Depot California's professional coating lineup. Available in 4 options starting at $45.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "17\" Sanding Screen (10-Pack) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "17\" Sanding Screen (10-Pack) is part of Epoxy Depot California's professional coating lineup. Available in 4 options starting at $45.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "4 options available \u2014 call to confirm the right pick for your project",
@@ -745,19 +718,17 @@ export const products: Product[] = [
   },
   {
     id: "20-non-woven-polyester-pad",
-    sku: "20-NON-WOVEN-POL",
-    name: "20\" Non-Woven Polyester pad",
-    labelName: "20\" Non-Woven Polyester pad",
+    sku: "POLY-PAD-20",
+    name: "20\" Non-Woven Polyester Pad",
+    labelName: "20\" Non-Woven Polyester Pad",
     category: "surface-prep",
     price: 8.65,
     packSize: "20\" Red Buffing Pad",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "20\" Non-Woven Polyester pad for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "20\" Non-Woven Polyester pad is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $8.65. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "20\" Non-Woven Polyester Pad for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "20\" Non-Woven Polyester Pad is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $8.65. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "2 options available \u2014 call to confirm the right pick for your project",
@@ -781,8 +752,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Speed Squeegee for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "Speed Squeegee is part of Epoxy Depot California's professional coating lineup. Available in 16 options starting at $19.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -808,8 +777,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "White Out for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "White Out is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $26.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -826,17 +793,15 @@ export const products: Product[] = [
   },
   {
     id: "8-oz-e4e-metallic-pigment-powder",
-    sku: "8-OZ-E4E-METALLI",
+    sku: "E4E-METALLIC-8OZ",
     name: "8 oz. E4E Metallic Pigment Powder",
-    labelName: "8 oz. E4E Metallic Pigmen...",
+    labelName: "E4E Metallic Pigment",
     category: "pigments",
     price: 27.99,
     packSize: "Aztec Gold",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "8 oz. E4E Metallic Pigment Powder for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "8 oz. E4E Metallic Pigment Powder is part of Epoxy Depot California's professional coating lineup. Available in 44 options starting at $27.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -853,17 +818,15 @@ export const products: Product[] = [
   },
   {
     id: "flex-12-amp-5-variable-speed-grinder",
-    sku: "FLEX-12-AMP-5-VA",
+    sku: "FLEX-GRINDER-5",
     name: "Flex 12 Amp 5\" Variable Speed Grinder",
-    labelName: "Flex 12 Amp 5\" Variable S...",
+    labelName: "Flex 5\" Grinder",
     category: "surface-prep",
     price: 129.99,
     packSize: "Standard unit",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Flex 12 Amp 5\" Variable Speed Grinder for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "Flex 12 Amp 5\" Variable Speed Grinder is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $129.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -880,19 +843,17 @@ export const products: Product[] = [
   },
   {
     id: "polyrez-6000-wb-urethane-gloss",
-    sku: "POLYREZ-6000-WB-",
-    name: "POLYREZ 6000 WB URETHANE GLOSS",
-    labelName: "POLYREZ 6000 WB URETHANE ...",
+    sku: "POLYREZ-6000-GLOSS",
+    name: "Polyrez 6000 Water-Based Urethane Gloss",
+    labelName: "Polyrez 6000 WB Gloss",
     category: "urethane",
     price: 136.99,
     packSize: "Standard unit",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "POLYREZ 6000 WB URETHANE GLOSS for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "POLYREZ 6000 WB URETHANE GLOSS is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $136.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "Polyrez 6000 Water-Based Urethane Gloss for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "Polyrez 6000 Water-Based Urethane Gloss is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $136.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -907,19 +868,17 @@ export const products: Product[] = [
   },
   {
     id: "polyrez-6100-matte-water-based-urethane1-5-gal",
-    sku: "POLYREZ-6100-MAT",
-    name: "POLYREZ 6100 Matte Water-Based Urethane1.5 Gal.",
-    labelName: "POLYREZ 6100 Matte Water-...",
+    sku: "POLYREZ-6100-MATTE",
+    name: "Polyrez 6100 Water-Based Urethane Matte (1.5 Gal)",
+    labelName: "Polyrez 6100 WB Matte",
     category: "urethane",
     price: 179.99,
     packSize: "Standard unit",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "POLYREZ 6100 Matte Water-Based Urethane1.5 Gal. for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "POLYREZ 6100 Matte Water-Based Urethane1.5 Gal. is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $179.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "Polyrez 6100 Water-Based Urethane Matte (1.5 Gal) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "Polyrez 6100 Water-Based Urethane Matte (1.5 Gal) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $179.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -934,17 +893,15 @@ export const products: Product[] = [
   },
   {
     id: "putty-knife-scraper-5-in-1-tool",
-    sku: "PUTTY-KNIFE-SCRA",
+    sku: "PUTTY-KNIFE-5IN1",
     name: "Putty Knife/Scraper 5-In-1 Tool",
-    labelName: "Putty Knife/Scraper 5-In-...",
+    labelName: "5-in-1 Putty Knife",
     category: "tools",
     price: 2.39,
     packSize: "Standard unit",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Putty Knife/Scraper 5-In-1 Tool for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "Putty Knife/Scraper 5-In-1 Tool is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $2.39. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -970,8 +927,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "RCM Fuzion Relax for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "RCM Fuzion Relax is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $22.00. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -988,19 +943,17 @@ export const products: Product[] = [
   },
   {
     id: "smith-performance-2-gallon-acetone-compression-sprayer-190450",
-    sku: "SMITH-PERFORMANC",
-    name: "SMITH PERFORMANCE 2-GALLON ACETONE COMPRESSION SPRAYER 190450",
-    labelName: "SMITH PERFORMANCE 2-GALLO...",
+    sku: "SMITH-190450",
+    name: "Smith Performance 2-Gallon Acetone Compression Sprayer (190450)",
+    labelName: "Smith 2-Gal Acetone Sprayer",
     category: "surface-prep",
     price: 169.0,
     packSize: "Standard unit",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "SMITH PERFORMANCE 2-GALLON ACETONE COMPRESSION SPRAYER 190450 for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "SMITH PERFORMANCE 2-GALLON ACETONE COMPRESSION SPRAYER 190450 is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $169.00. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "Smith Performance 2-Gallon Acetone Compression Sprayer (190450) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "Smith Performance 2-Gallon Acetone Compression Sprayer (190450) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $169.00. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -1015,19 +968,17 @@ export const products: Product[] = [
   },
   {
     id: "smith-performance-t100act-48-oz-handheld-acetone-mister-model-190398",
-    sku: "SMITH-PERFORMANC",
-    name: "SMITH PERFORMANCE T100ACT 48 OZ. HANDHELD ACETONE MISTER, MODEL 190398",
-    labelName: "SMITH PERFORMANCE T100ACT...",
+    sku: "SMITH-190398",
+    name: "Smith Performance T100ACT 48 oz Handheld Acetone Mister (190398)",
+    labelName: "Smith T100ACT Mister",
     category: "surface-prep",
     price: 25.99,
     packSize: "Standard unit",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "SMITH PERFORMANCE T100ACT 48 OZ. HANDHELD ACETONE MISTER, MODEL 190398 for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "SMITH PERFORMANCE T100ACT 48 OZ. HANDHELD ACETONE MISTER, MODEL 190398 is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $25.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "Smith Performance T100ACT 48 oz Handheld Acetone Mister (190398) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "Smith Performance T100ACT 48 oz Handheld Acetone Mister (190398) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $25.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -1042,19 +993,17 @@ export const products: Product[] = [
   },
   {
     id: "smith-s103ex-stainless-concrete-sprayer-viton-extreme-3-5-gal",
-    sku: "SMITH-S103EX-STA",
-    name: "Smith S103EX Stainless Concrete Sprayer Viton Extreme- 3.5 Gal",
-    labelName: "Smith S103EX Stainless Co...",
+    sku: "SMITH-S103EX",
+    name: "Smith S103EX Stainless Concrete Sprayer, Viton Extreme (3.5 Gal)",
+    labelName: "Smith S103EX Sprayer",
     category: "tools",
     price: 279.99,
     packSize: "Standard unit",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "Smith S103EX Stainless Concrete Sprayer Viton Extreme- 3.5 Gal for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "Smith S103EX Stainless Concrete Sprayer Viton Extreme- 3.5 Gal is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $279.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "Smith S103EX Stainless Concrete Sprayer, Viton Extreme (3.5 Gal) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "Smith S103EX Stainless Concrete Sprayer, Viton Extreme (3.5 Gal) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $279.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -1069,19 +1018,17 @@ export const products: Product[] = [
   },
   {
     id: "majestic-deep-pour-2-casting-epoxy-3gal-kit",
-    sku: "MAJESTIC-DEEP-PO",
-    name: "MAJESTIC Deep Pour 2 Casting Epoxy 3GAL KIT",
-    labelName: "MAJESTIC Deep Pour 2 Cast...",
+    sku: "MAJESTIC-DEEP-POUR-2",
+    name: "Majestic Deep Pour 2 Casting Epoxy (3 Gal Kit)",
+    labelName: "Majestic Deep Pour 2",
     category: "epoxy",
     price: 230.99,
     packSize: "Standard unit",
     packGroup: "3-gal",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "MAJESTIC Deep Pour 2 Casting Epoxy 3GAL KIT for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "MAJESTIC Deep Pour 2 Casting Epoxy 3GAL KIT is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $230.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "Majestic Deep Pour 2 Casting Epoxy (3 Gal Kit) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "Majestic Deep Pour 2 Casting Epoxy (3 Gal Kit) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $230.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -1096,19 +1043,17 @@ export const products: Product[] = [
   },
   {
     id: "flex-tools-5-125mm-guard-for-grinder",
-    sku: "FLEX-TOOLS-5-125",
-    name: "Flex Tools 5\" (125mm) guard for Grinder",
-    labelName: "Flex Tools 5\" (125mm) gua...",
+    sku: "FLEX-GUARD-5",
+    name: "Flex Tools 5\" (125 mm) Grinder Guard",
+    labelName: "Flex 5\" Grinder Guard",
     category: "surface-prep",
     price: 59.99,
     packSize: "Standard unit",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "Flex Tools 5\" (125mm) guard for Grinder for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "Flex Tools 5\" (125mm) guard for Grinder is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $59.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "Flex Tools 5\" (125 mm) Grinder Guard for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "Flex Tools 5\" (125 mm) Grinder Guard is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $59.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -1132,8 +1077,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Foam Window Seal 3/8x1/2x10 for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "Foam Window Seal 3/8x1/2x10 is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $6.59. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -1150,19 +1093,17 @@ export const products: Product[] = [
   },
   {
     id: "garage-door-jacks-set-of-4",
-    sku: "GARAGE-DOOR-JACK",
-    name: "Garage Door Jacks (set of 4)",
-    labelName: "Garage Door Jacks (set of 4)",
+    sku: "GARAGE-DOOR-JACKS",
+    name: "Garage Door Jacks (Set of 4)",
+    labelName: "Garage Door Jacks (Set of 4)",
     category: "sundries",
     price: 29.95,
     packSize: "Standard unit",
     packGroup: "set",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "Garage Door Jacks (set of 4) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "Garage Door Jacks (set of 4) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $29.95. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "Garage Door Jacks (Set of 4) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "Garage Door Jacks (Set of 4) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $29.95. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -1177,7 +1118,7 @@ export const products: Product[] = [
   },
   {
     id: "isonem-liquid-glass",
-    sku: "ISONEM-LIQUID-GL",
+    sku: "ISONEM-LIQUID-GLASS",
     name: "Isonem Liquid Glass",
     labelName: "Isonem Liquid Glass",
     category: "stains-sealers",
@@ -1186,8 +1127,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Isonem Liquid Glass for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "Isonem Liquid Glass is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $199.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -1204,7 +1143,7 @@ export const products: Product[] = [
   },
   {
     id: "dust-control-dc-tromb-400l",
-    sku: "DUST-CONTROL-DC-",
+    sku: "DC-TROMB-400L",
     name: "Dust Control DC Tromb 400L",
     labelName: "Dust Control DC Tromb 400L",
     category: "surface-prep",
@@ -1213,8 +1152,6 @@ export const products: Product[] = [
     packGroup: "system",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Dust Control DC Tromb 400L for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "Dust Control DC Tromb 400L is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $4,399.00. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -1231,17 +1168,15 @@ export const products: Product[] = [
   },
   {
     id: "dust-control-dc2900l-vac-and-parts",
-    sku: "DUST-CONTROL-DC2",
+    sku: "DC2900L",
     name: "Dust Control DC2900L (Vac and Parts)",
-    labelName: "Dust Control DC2900L (Vac...",
+    labelName: "Dust Control DC2900L",
     category: "surface-prep",
     price: 1689.99,
     packSize: "Standard unit",
     packGroup: "system",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Dust Control DC2900L (Vac and Parts) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "Dust Control DC2900L (Vac and Parts) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $1,689.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -1267,8 +1202,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "E4E Acetone for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "E4E Acetone is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $26.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -1286,18 +1219,16 @@ export const products: Product[] = [
   {
     id: "e4e-gel-patch",
     sku: "E4E-GEL-PATCH",
-    name: "E4E- Gel Patch",
-    labelName: "E4E- Gel Patch",
+    name: "E4E Gel Patch",
+    labelName: "E4E Gel Patch",
     category: "surface-prep",
     price: 185.99,
     packSize: "Standard unit",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "E4E- Gel Patch for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "E4E- Gel Patch is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $185.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "E4E Gel Patch for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "E4E Gel Patch is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $185.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -1312,7 +1243,7 @@ export const products: Product[] = [
   },
   {
     id: "e4e-100-vapor-barrier-primer",
-    sku: "E4E-100-VAPOR-BA",
+    sku: "E4E-100-VAPOR-PRIMER",
     name: "E4E-100 Vapor Barrier Primer",
     labelName: "E4E-100 Vapor Barrier Primer",
     category: "epoxy",
@@ -1321,8 +1252,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "E4E-100 Vapor Barrier Primer for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "E4E-100 Vapor Barrier Primer is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $199.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -1340,18 +1269,16 @@ export const products: Product[] = [
   {
     id: "e4e-oil-stopping-epoxy",
     sku: "E4E-OIL-STOPPING",
-    name: "E4E-Oil Stopping Epoxy",
-    labelName: "E4E-Oil Stopping Epoxy",
+    name: "E4E Oil-Stopping Epoxy",
+    labelName: "E4E Oil-Stopping Epoxy",
     category: "epoxy",
     price: 125.99,
     packSize: "Standard unit",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "E4E-Oil Stopping Epoxy for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "E4E-Oil Stopping Epoxy is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $125.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "E4E Oil-Stopping Epoxy for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "E4E Oil-Stopping Epoxy is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $125.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -1366,19 +1293,17 @@ export const products: Product[] = [
   },
   {
     id: "epoxy-depot-4x3-8-shed-resistance-mini-roller-12-pack",
-    sku: "EPOXY-DEPOT-4X3-",
-    name: "Epoxy Depot 4\"x3/8 shed resistance mini roller 12 pack.",
-    labelName: "Epoxy Depot 4\"x3/8 shed r...",
+    sku: "MINI-ROLLER-4-12PK",
+    name: "Epoxy Depot 4\" x 3/8\" Shed-Resistant Mini Roller (12-Pack)",
+    labelName: "4\" Mini Roller 12-Pack",
     category: "sundries",
     price: 11.99,
     packSize: "Standard unit",
     packGroup: "box-bag",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "Epoxy Depot 4\"x3/8 shed resistance mini roller 12 pack. for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "Epoxy Depot 4\"x3/8 shed resistance mini roller 12 pack. is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $11.99. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "Epoxy Depot 4\" x 3/8\" Shed-Resistant Mini Roller (12-Pack) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "Epoxy Depot 4\" x 3/8\" Shed-Resistant Mini Roller (12-Pack) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $11.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "1 option available \u2014 call to confirm the right pick for your project",
@@ -1393,7 +1318,7 @@ export const products: Product[] = [
   },
   {
     id: "epoxy-depot-chip-brushes",
-    sku: "EPOXY-DEPOT-CHIP",
+    sku: "CHIP-BRUSH-2",
     name: "Epoxy Depot Chip Brushes 2\"",
     labelName: "Epoxy Depot Chip Brushes 2\"",
     category: "sundries",
@@ -1402,8 +1327,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Epoxy Depot Chip Brushes 2\" for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "Epoxy Depot Chip Brushes 2\" is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $0.89. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -1420,17 +1343,15 @@ export const products: Product[] = [
   },
   {
     id: "epoxy-depot-mixing-containers-eagle-craft",
-    sku: "EPOXY-DEPOT-MIXI",
+    sku: "MIXING-CONTAINER-40OZ",
     name: "40 oz Epoxy Depot Mixing Containers (Eagle Craft)",
-    labelName: "40 oz Epoxy Depot Mixing ...",
+    labelName: "40 oz Mixing Containers",
     category: "sundries",
     price: 0.89,
     packSize: "Standard unit",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "40 oz Epoxy Depot Mixing Containers (Eagle Craft) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "40 oz Epoxy Depot Mixing Containers (Eagle Craft) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $0.89. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -1447,7 +1368,7 @@ export const products: Product[] = [
   },
   {
     id: "epoxy-resinous-cleaner",
-    sku: "EPOXY-RESINOUS-C",
+    sku: "RESINOUS-CLEANER",
     name: "Epoxy Resinous Cleaner",
     labelName: "Epoxy Resinous Cleaner",
     category: "surface-prep",
@@ -1456,8 +1377,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Epoxy Resinous Cleaner for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "Epoxy Resinous Cleaner is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $89.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -1474,7 +1393,7 @@ export const products: Product[] = [
   },
   {
     id: "18-floor-scraper",
-    sku: "18-FLOOR-SCRAPER",
+    sku: "FLOOR-SCRAPER-18",
     name: "18\" Floor Scraper",
     labelName: "18\" Floor Scraper",
     category: "tools",
@@ -1483,8 +1402,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "18\" Floor Scraper for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "18\" Floor Scraper is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $43.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -1501,7 +1418,7 @@ export const products: Product[] = [
   },
   {
     id: "18-lightweight-t-bar",
-    sku: "18-LIGHTWEIGHT-T",
+    sku: "T-BAR-18",
     name: "18\" Lightweight T-Bar",
     labelName: "18\" Lightweight T-Bar",
     category: "tools",
@@ -1510,8 +1427,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "18\" Lightweight T-Bar for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "18\" Lightweight T-Bar is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $34.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -1528,7 +1443,7 @@ export const products: Product[] = [
   },
   {
     id: "4-foam-mini-roller-10-pack",
-    sku: "4-FOAM-MINI-ROLL",
+    sku: "FOAM-MINI-ROLLER-4-10PK",
     name: "4\" Foam Mini Roller 10-Pack",
     labelName: "4\" Foam Mini Roller 10-Pack",
     category: "tools",
@@ -1537,8 +1452,6 @@ export const products: Product[] = [
     packGroup: "box-bag",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "4\" Foam Mini Roller 10-Pack for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "4\" Foam Mini Roller 10-Pack is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $10.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -1569,8 +1482,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Microfiber frame in 18\", 24\" and 36\" widths for even, lint-free coat application.",
     description: "Microfiber Frame is part of Epoxy Depot California's professional coating lineup. Available in 18\", 24\" and 36\" widths, and takes the matching Microfiber Pad. Call to confirm stock and the right width for your project.",
     features: [
@@ -1601,8 +1512,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Replacement microfiber pad for the Microfiber Frame, in 18\", 24\" and 36\" widths.",
     description: "Microfiber Pad fits the Microfiber Frame for smooth, lint-free coat application. Available in 18\", 24\" and 36\" widths. Call to confirm stock for your project.",
     features: [
@@ -1628,8 +1537,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Fuzion spray gun for laying down even mica color over epoxy and polyaspartic coats.",
     description: "Fuzion Spray Gun is part of Epoxy Depot California's professional coating lineup. It runs the Fuzion spray gun colors for even metallic effects across large floors. Call to confirm stock and lead time for your project.",
     features: [
@@ -1646,7 +1553,7 @@ export const products: Product[] = [
   },
   {
     id: "fuzion-spray-gun-colors",
-    sku: "FUZION-GUN-COLOR",
+    sku: "FUZION-GUN-COLORS",
     name: "Fuzion Spray Gun Colors",
     labelName: "Fuzion Spray Gun Colors",
     category: "pigments",
@@ -1655,8 +1562,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Mica-infused Fuzion color for the Fuzion Spray Gun, in 21 colors.",
     description: "Fuzion Spray Gun Colors load straight into the Fuzion Spray Gun for metallic and pearl effects over epoxy, polyaspartic and solvent-based sealers, with no mica powder to mix. Pick a color below and call to confirm stock.",
     features: [
@@ -1669,6 +1574,8 @@ export const products: Product[] = [
       { label: "Options", value: "21" },
     ],
     visual: { kind: "hangtag", icon: "sparkles" },
+    // A grid of four of RCM's own Fuzion Max color photos (client's "Metallic Color Pictures" doc).
+    image: "/products/fuzion-spray-gun-colors.webp",
     colors: fuzionSprayGunColors,
   },
   {
@@ -1683,8 +1590,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Cleaner for flushing the Fuzion Spray Gun between colors and after each job.",
     description: "Fuzion Gun Cleaner flushes leftover mica color out of the Fuzion Spray Gun so it's ready for the next color. Call for current pricing and stock.",
     features: [
@@ -1710,8 +1615,6 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
     shortDescription: "Mica-infused Fuzion hand spray for metallic accents, in 20 colors.",
     description: "Fuzion Hand Spray puts mica color down straight from the can for veining, accents and touch-ups over epoxy, polyaspartic and solvent-based sealers. Pick a color below and call to confirm stock.",
     features: [
@@ -1724,23 +1627,23 @@ export const products: Product[] = [
       { label: "Options", value: "20" },
     ],
     visual: { kind: "hangtag", icon: "sparkles" },
+    // A grid of four of RCM's own Fuzion Max color photos (client's "Metallic Color Pictures" doc).
+    image: "/products/fuzion-hand-spray.webp",
     colors: fuzionHandSprayColors,
   },
   {
     id: "ameripolish-sr2",
     sku: "AMERIPOLISH-SR2",
-    name: "Ameripolish SR2 1Gal Polish Sealer",
-    labelName: "Ameripolish SR2 1Gal Poli...",
+    name: "Ameripolish SR2 Polish Sealer (1 Gal)",
+    labelName: "Ameripolish SR2",
     category: "stains-sealers",
     price: 177.54,
     packSize: "1 Gal",
     packGroup: "unit",
     tags: [],
     stock: 25,
-    rating: 4.7,
-    reviewCount: 0,
-    shortDescription: "Ameripolish SR2 1Gal Polish Sealer for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
-    description: "Ameripolish SR2 1Gal Polish Sealer is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $177.54. Call to confirm current pricing, lead time and quantity for your project.",
+    shortDescription: "Ameripolish SR2 Polish Sealer (1 Gal) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
+    description: "Ameripolish SR2 Polish Sealer (1 Gal) is part of Epoxy Depot California's professional coating lineup. Available in 2 options starting at $177.54. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
       "Professional-grade formulation used on real jobsites",
       "2 options available \u2014 call to confirm the right pick for your project",
@@ -1755,55 +1658,6 @@ export const products: Product[] = [
   },
   ...flakeBlends.map(flakeProduct),
 ];
-
-/* ------------------------------------------------------------------ */
-/* Reviews (placeholder)                                               */
-/* ------------------------------------------------------------------ */
-
-export const reviewPool: Record<CategorySlug, Review[]> = {
-  epoxy: [
-    { id: "r-ep-1", author: "Luis M.", role: "Contractor · Riverside, CA", rating: 5, title: "Levels like glass", body: "Mixed three kits back to back and the batches matched perfectly. Flows out flat with a gauge rake and cures hard overnight.", date: "2026-08-02", verified: true },
-    { id: "r-ep-2", author: "Hannah K.", role: "DIY · Fresno, CA", rating: 5, title: "Great for a first-timer", body: "The tech rep walked me through prep on the phone. Pot life gave me plenty of time to work a single-car garage alone.", date: "2026-07-18", verified: true },
-    { id: "r-ep-3", author: "Andre P.", role: "GC · Long Beach, CA", rating: 4, title: "Solid product, plan your mix", body: "Excellent build and gloss. Just mix smaller batches in hot weather — it kicks faster above 85°F.", date: "2026-06-29", verified: true },
-  ],
-  polyaspartic: [
-    { id: "r-pa-1", author: "Carlos R.", role: "Owner · Bakersfield, CA", rating: 5, title: "True one-day floors", body: "Ground at 7am, customers parked on it the next morning. No ambering on the west-facing garage after a full summer.", date: "2026-08-11", verified: true },
-    { id: "r-pa-2", author: "Megan T.", role: "Installer · San Jose, CA", rating: 5, title: "Consistent batch to batch", body: "I box two kits together for big pours and the sheen is identical. Short pot life, so bring a second roller.", date: "2026-07-04", verified: true },
-  ],
-  urethane: [
-    { id: "r-ur-1", author: "Dev S.", role: "Facilities · Oakland, CA", rating: 5, title: "Holding up to forklifts", body: "Six months in a distribution center and the wear lanes still look new. Easy to roll thin.", date: "2026-07-22", verified: true },
-    { id: "r-ur-2", author: "Priya N.", role: "Designer · Pasadena, CA", rating: 4, title: "Beautiful matte finish", body: "The matte is truly flat and looks like sealed concrete. Two thin coats gave the best result.", date: "2026-06-15", verified: true },
-  ],
-  flake: [
-    { id: "r-fl-1", author: "Tony G.", role: "Contractor · Temecula, CA", rating: 5, title: "Clients love the blend", body: "It's our default blend now. Hides dust and tire marks and looks upscale under a clear polyaspartic.", date: "2026-08-19", verified: true },
-    { id: "r-fl-2", author: "Rachel W.", role: "DIY · Sacramento, CA", rating: 5, title: "Box covered more than expected", body: "Full broadcast on a 280 sq ft garage with a little left over for touch-ups. Chips are consistent in size.", date: "2026-07-30", verified: true },
-    { id: "r-fl-3", author: "Jorge L.", role: "Installer · Chula Vista, CA", rating: 4, title: "Order samples first", body: "Great quality. Colors look a touch warmer in person than on screen — the sample boards are worth it.", date: "2026-06-08", verified: true },
-  ],
-  pigments: [
-    { id: "r-pg-1", author: "Kim A.", role: "Resin artist · Irvine, CA", rating: 5, title: "Rich, even color", body: "Disperses instantly with no clumps. The copper metallic looks incredible on a bar top.", date: "2026-08-05", verified: true },
-    { id: "r-pg-2", author: "Marcus D.", role: "Contractor · Modesto, CA", rating: 5, title: "Perfectly measured", body: "One pack per kit means no leftover partial tubs and consistent color across a big job.", date: "2026-07-12", verified: true },
-  ],
-  "stains-sealers": [
-    { id: "r-ss-1", author: "Elena V.", role: "Homeowner · Santa Rosa, CA", rating: 4, title: "Gorgeous mottling", body: "Our patio came out with a natural, variegated look. Test first — every slab reacts a little differently.", date: "2026-07-26", verified: true },
-    { id: "r-ss-2", author: "Brian O.", role: "Polisher · Ontario, CA", rating: 5, title: "Great densifier", body: "Noticeably harder surface and it polishes up beautifully. No residue to clean up.", date: "2026-06-21", verified: true },
-  ],
-  "surface-prep": [
-    { id: "r-sp-1", author: "Nate F.", role: "Contractor · Visalia, CA", rating: 5, title: "Garage workhorse", body: "Runs on a normal garage circuit and fits in the back of my truck. Paired with the HEPA vac, zero dust complaints.", date: "2026-08-14", verified: true },
-    { id: "r-sp-2", author: "Sam Y.", role: "Installer · Fremont, CA", rating: 4, title: "Worth it", body: "Took the guesswork out of whether we needed an MVB. Easy instructions.", date: "2026-07-07", verified: true },
-  ],
-  tools: [
-    { id: "r-tl-1", author: "Chris B.", role: "Installer · Anaheim, CA", rating: 5, title: "Zero lint", body: "Finally a roller cover that doesn't leave fibers in the topcoat. Buying these by the case.", date: "2026-08-09", verified: true },
-    { id: "r-tl-2", author: "Dana J.", role: "DIY · Clovis, CA", rating: 4, title: "Does the job", body: "Solid build and easy to adjust. Made hitting my mil thickness much easier.", date: "2026-06-30", verified: true },
-  ],
-  sundries: [
-    { id: "r-sn-1", author: "Oscar H.", role: "Contractor · Pomona, CA", rating: 5, title: "Job-site staple", body: "Graduations are accurate and the pails clean up easily after the resin cures.", date: "2026-07-19", verified: true },
-    { id: "r-sn-2", author: "Liz C.", role: "Installer · Stockton, CA", rating: 4, title: "Tough gloves", body: "These hold up to a full day of mixing and cleanup without tearing.", date: "2026-06-11", verified: true },
-  ],
-  "sales-aids": [
-    { id: "r-sa-1", author: "Ray T.", role: "Owner · Escondido, CA", rating: 5, title: "Paid for itself", body: "Closed two garage jobs the first week. Clients want to touch the finish before they buy.", date: "2026-08-17", verified: true },
-    { id: "r-sa-2", author: "Gina P.", role: "Sales · Roseville, CA", rating: 5, title: "Professional look", body: "Clean, well-printed and easy to leave behind after an estimate.", date: "2026-07-01", verified: true },
-  ],
-};
 
 /* ------------------------------------------------------------------ */
 /* Home page content                                                   */
@@ -1850,7 +1704,7 @@ export const workPaths: WorkPath[] = [
     kicker: "Path 2 · We install",
     title: "Have Us Install",
     description: "Rather not? Our crews coat garages, basements, showrooms and commercial floors across California. Get a real estimate.",
-    cta: { label: "Get an install estimate", href: "/contact?topic=install" },
+    cta: { label: "Get an install estimate", href: "/contact" },
     icon: "hard-hat",
   },
   {
@@ -1858,7 +1712,7 @@ export const workPaths: WorkPath[] = [
     kicker: "Path 3 · Learn",
     title: "Learn at a Class",
     description: "Hands-on training for first-time DIYers and contractor crews — prep, product selection and application.",
-    cta: { label: "See training schedule", href: "/training" },
+    cta: { label: "About our classes", href: "/training" },
     icon: "graduation-cap",
   },
 ];
@@ -1934,60 +1788,25 @@ export const categoryFeatures: CategoryFeature[] = [
     id: "contractor",
     eyebrow: "Contractor epoxy supply",
     title: "Contractor-grade supply with bulk pricing.",
-    body: "Verified contractors get 15% off every product, order and quote — plus pallet shipping, net-30 terms after qualifying orders and a dedicated tech rep for commercial specs. Same-day will-call at our California locations.",
+    body: "Verified contractors get 15% off every product, order and quote — plus pallet shipping, net-30 terms after qualifying orders and a dedicated tech rep for commercial specs. Same-day will-call at our Bakersfield warehouse.",
     bullets: ["Automatic 15% off", "Net-30 terms", "Pallet shipping & will-call"],
     ctas: [{ label: "Apply for contractor account", href: "/contractors", variant: "primary" }],
     icon: "handshake",
   },
 ];
 
-export const testimonialsIntro = {
-  eyebrow: "Trusted by contractors",
-  title: `${siteConfig.contractorCount} contractors order monthly`,
-};
-
-export const testimonials: Testimonial[] = [
-  {
-    id: "t-1",
-    quote: "We switched our whole crew over last spring. The polyaspartic kits are consistent from one batch to the next, and will-call saves us a trip across town every week.",
-    name: "Marco D.",
-    role: "Owner",
-    location: "Riverside, CA",
-    rating: 5,
-    isPlaceholder: true,
-  },
-  {
-    id: "t-2",
-    quote: "The metallic packs and sample boards helped me close two custom-home projects this quarter. Clients want to touch the finish — now they can.",
-    name: "Alyssa R.",
-    role: "Interior designer",
-    location: "San Diego, CA",
-    rating: 5,
-    isPlaceholder: true,
-  },
-  {
-    id: "t-3",
-    quote: "Their tech rep spec'd a 12,000 sq ft warehouse with me in one call. Product was on a pallet at the job site two days later. That's how supply should work.",
-    name: "Kevin S.",
-    role: "General contractor",
-    location: "Sacramento, CA",
-    rating: 5,
-    isPlaceholder: true,
-  },
-];
-
 export const resourcesIntro = {
   title: "Specs, color charts & how-tos",
-  body: "Every system we stock ships with a TDS and SDS, recommended prep, mix ratios and dry times. Grab the literature before you spec your next job.",
+  body: "Color charts, how-to guides and training — plus the manufacturer TDS and SDS for any product we stock, sent on request.",
 };
 
 export const resourceCards: ResourceCard[] = [
   {
     title: "Data Sheets",
-    description: "TDS & SDS for every system.",
-    longDescription: "Technical data sheets, safety data sheets and complete system specs for every product line we stock.",
+    description: "TDS & SDS on request.",
+    longDescription: "Need the technical data sheet or safety data sheet for a product? Call or email us and we'll send the manufacturer's current sheet.",
     href: "/resources#library",
-    cta: "Browse data sheets",
+    cta: "Request data sheets",
     icon: "file-text",
   },
   {
@@ -2009,19 +1828,12 @@ export const resourceCards: ResourceCard[] = [
   {
     title: "Training Classes",
     description: "Hands-on contractor certification.",
-    longDescription: "In-person installation training at our California facilities plus free virtual product webinars.",
+    longDescription: "Hands-on installation training at our Bakersfield training bay. Call or email us for the next class date.",
     href: "/training",
     cta: "See schedule",
     icon: "graduation-cap",
   },
 ];
-
-export const newsletterContent = {
-  badge: "Epoxy Depot Insider",
-  title: "Contractor deals, product tips and system guides — weekly.",
-  body: "One email a week. No fluff — just new SKUs, class dates and the system specs our installers swear by.",
-  fineprint: "By subscribing you agree to receive marketing emails. Unsubscribe any time.",
-};
 
 /* ------------------------------------------------------------------ */
 /* Color charts                                                        */
@@ -2214,193 +2026,26 @@ export const trainingIntro = {
   body: "Learn to prep, apply and finish professional-grade floor coatings. Small classes — usually six to ten seats — so you get real time on the tools with the people who use them every day.",
 };
 
-export const trainingClasses: TrainingClass[] = [
-  {
-    id: "product-selection-webinar",
-    title: "Product Selection Webinar",
-    level: "All levels",
-    format: "Virtual",
-    startDate: "2026-09-24",
-    schedule: "Thu · 10:00–11:30a PT",
-    city: "Online",
-    venue: "Live on Zoom",
-    duration: "90 min",
-    price: 0,
-    seatsTotal: 100,
-    seatsLeft: 41,
-    summary: "Pick the right primer, base and topcoat for any slab — free.",
-    description: "A free live walkthrough of our core systems: when to prime, when you need an MVB, and how to choose between epoxy, polyaspartic and urethane topcoats. Bring your job questions for the live Q&A.",
-    agenda: ["System overview", "Moisture & prep decision tree", "Topcoat selection", "Live Q&A"],
-    audience: "DIYers, new contractors and sales staff",
-    image: images.modernWarehouse,
-  },
-  {
-    id: "polyaspartic-one-day-oct",
-    title: "Polyaspartic One-Day Garage System",
-    level: "Intermediate",
-    format: "In-person",
-    startDate: "2026-10-08",
-    endDate: "2026-10-09",
-    schedule: "Thu–Fri · 8:00a–4:00p",
-    city: "Ontario, CA",
-    venue: "Epoxy Depot training bay",
-    duration: "2 days",
-    price: 695,
-    seatsTotal: 8,
-    seatsLeft: 3,
-    summary: "Grind, base, broadcast and topcoat a full floor in one day.",
-    description: "Install a complete one-day polyaspartic flake system on a full-size practice slab. Covers grinder setup, crack repair, pot-life management and topcoat technique for same-day return to service.",
-    agenda: ["Grinding & crack repair", "Mixing & pot-life management", "Full-broadcast flake", "Scrape, topcoat & inspect"],
-    audience: "Crews with some coating experience",
-    image: images.crewWarehouse,
-  },
-  {
-    id: "metallic-designer-oct",
-    title: "Metallic Epoxy Designer Class",
-    level: "Advanced",
-    format: "In-person",
-    startDate: "2026-10-22",
-    endDate: "2026-10-23",
-    schedule: "Thu–Fri · 8:00a–4:00p",
-    city: "Ontario, CA",
-    venue: "Epoxy Depot training bay",
-    duration: "2 days",
-    price: 795,
-    seatsTotal: 6,
-    seatsLeft: 2,
-    summary: "Marble, lava and ocean effects on full-size boards.",
-    description: "Master reflective pigment loading, solvent veining, blower work and layering to produce showroom-grade metallic floors. Every student finishes two full-size sample boards to take home.",
-    agenda: ["Pigment loading & color theory", "Marble & veining", "Lava & cell effects", "Topcoat & client presentation"],
-    audience: "Experienced installers and resin artists",
-    image: images.marbleFloor,
-  },
-  {
-    id: "concrete-prep-mvb-nov",
-    title: "Concrete Prep, Moisture & MVB Repair",
-    level: "All levels",
-    format: "In-person",
-    startDate: "2026-11-05",
-    schedule: "Thu · 8:00a–3:00p",
-    city: "Sacramento, CA",
-    venue: "Partner facility · West Sacramento",
-    duration: "1 day",
-    price: 395,
-    seatsTotal: 10,
-    seatsLeft: 6,
-    summary: "The prep and testing that prevents 90% of failures.",
-    description: "Hands-on grinding, profile checks, moisture testing (F1869 and F2170) and MVB application. Learn to spot the slabs that will fail before you coat them.",
-    agenda: ["Grinder & tooling selection", "Profile & moisture testing", "Crack & spall repair", "MVB application"],
-    audience: "Anyone who preps concrete",
-    image: images.grinder,
-  },
-  {
-    id: "diy-garage-weekend-nov",
-    title: "DIY Garage Floor Weekend",
-    level: "Beginner",
-    format: "In-person",
-    startDate: "2026-11-14",
-    schedule: "Sat · 9:00a–3:00p",
-    city: "San Diego, CA",
-    venue: "Partner facility · Miramar",
-    duration: "1 day",
-    price: 249,
-    seatsTotal: 12,
-    seatsLeft: 8,
-    summary: "Everything a homeowner needs before coating their own garage.",
-    description: "A beginner-friendly day covering prep, mixing, rolling and broadcasting flake on practice boards. Leave with a checklist, a shopping list and 10% off your first system kit.",
-    agenda: ["Planning & shopping list", "Prep basics", "Rolling & broadcasting", "Topcoat & cure times"],
-    audience: "Homeowners and first-timers",
-    image: images.garageHood,
-  },
-  {
-    id: "commercial-urethane-cement-dec",
-    title: "Commercial Urethane Cement Systems",
-    level: "Advanced",
-    format: "In-person",
-    startDate: "2026-12-03",
-    endDate: "2026-12-04",
-    schedule: "Thu–Fri · 7:00a–3:00p",
-    city: "Ontario, CA",
-    venue: "Epoxy Depot training bay",
-    duration: "2 days",
-    price: 895,
-    seatsTotal: 8,
-    seatsLeft: 4,
-    summary: "Trowel and slurry systems for food & beverage floors.",
-    description: "Troweled and slurry urethane cement installs, cove bases, drains and terminations for wash-down environments. Includes a spec-writing session with our commercial tech rep.",
-    agenda: ["Substrate prep & keyways", "Trowel-down application", "Integral cove bases", "Topcoats & terminations"],
-    audience: "Commercial crews and project managers",
-    image: images.crewPair,
-  },
-  {
-    id: "flake-masterclass-jan",
-    title: "Flake Broadcast & Topcoat Masterclass",
-    level: "Intermediate",
-    format: "In-person",
-    startDate: "2027-01-14",
-    endDate: "2027-01-15",
-    schedule: "Thu–Fri · 8:00a–4:00p",
-    city: "Ontario, CA",
-    venue: "Epoxy Depot training bay",
-    duration: "2 days",
-    price: 695,
-    seatsTotal: 8,
-    seatsLeft: 0,
-    summary: "Broadcast technique, scraping and flawless topcoats.",
-    description: "Refine full- and partial-broadcast technique, scraping, grout coats and topcoat finishing on large practice slabs. This class is full — join the waitlist to be notified of openings.",
-    agenda: ["Blend selection", "Broadcast technique", "Scraping & grout coats", "Topcoat finishing"],
-    audience: "Installers who want a flawless finish",
-    image: images.crewPainting,
-  },
+/** What the classes cover. Dates are given by phone or email; there is no fixed public schedule. */
+export const trainingTopics: TrainingTopic[] = [
+  { id: "polyaspartic-one-day", title: "Polyaspartic One-Day Garage System", level: "Intermediate", summary: "Grind, base, broadcast and topcoat a full floor in one day." },
+  { id: "metallic-designer", title: "Metallic Epoxy Designer Class", level: "Advanced", summary: "Marble, lava and ocean effects on full-size boards." },
+  { id: "concrete-prep", title: "Concrete Prep, Moisture & MVB Repair", level: "All levels", summary: "The prep and testing that prevents most coating failures." },
+  { id: "diy-garage", title: "DIY Garage Floor", level: "Beginner", summary: "Everything a homeowner needs to know before coating their own garage." },
+  { id: "urethane-cement", title: "Commercial Urethane Cement Systems", level: "Advanced", summary: "Trowel and slurry systems for food and beverage floors." },
+  { id: "flake-masterclass", title: "Flake Broadcast & Topcoat Masterclass", level: "Intermediate", summary: "Broadcast technique, scraping and flawless topcoats." },
 ];
 
 /* ------------------------------------------------------------------ */
-/* Documents (TDS/SDS derived from products + guides & charts)         */
+/* Documents: printable color charts, built from the client's real charts.   */
+/* Manufacturer TDS / SDS sheets are sent on request (call or email).        */
 /* ------------------------------------------------------------------ */
 
-const productDocs: ResourceDoc[] = products.flatMap((p) => {
-  const base = {
-    category: p.category,
-    productId: p.id,
-    updated: `2026-0${1 + Math.floor(seeded(p.id) * 8)}-${String(1 + Math.floor(seeded(p.sku) * 27)).padStart(2, "0")}`,
-  };
-  const tds: ResourceDoc = {
-    ...base,
-    id: `tds-${p.id}`,
-    type: "TDS",
-    title: `${p.name} — Technical Data Sheet`,
-    description: `Physical properties, coverage, mix ratio and application instructions for ${p.name}.`,
-    pages: 2 + Math.floor(seeded(`tds${p.id}`) * 3),
-    sizeKb: 180 + Math.floor(seeded(`tdsz${p.id}`) * 420),
-  };
-  if (!p.application) return [tds];
-  const sds: ResourceDoc = {
-    ...base,
-    id: `sds-${p.id}`,
-    type: "SDS",
-    title: `${p.name} — Safety Data Sheet`,
-    description: `GHS hazard classification, handling, storage and first-aid information for ${p.name}.`,
-    pages: 6 + Math.floor(seeded(`sds${p.id}`) * 5),
-    sizeKb: 240 + Math.floor(seeded(`sdsz${p.id}`) * 360),
-  };
-  return [tds, sds];
-});
-
-const guideDocs: ResourceDoc[] = [
+export const resourceDocs: ResourceDoc[] = [
   { id: "chart-solid-colors", type: "Color Chart", title: "Solid Color Chart", description: "All seven stock solid colors for epoxy and polyaspartic.", pages: 1, sizeKb: 820, updated: "2026-05-12" },
   { id: "chart-metallic", type: "Color Chart", title: "Metallic Pigment Chart", description: "All 56 stock metallic pigments, including the four new colors.", category: "pigments", pages: 2, sizeKb: 1240, updated: "2026-06-03" },
   { id: "chart-flake-blends", type: "Color Chart", title: "Flake Blend Reference Chart", description: "Every stock flake blend with chip ratios.", category: "flake", pages: 2, sizeKb: 1480, updated: "2026-07-21" },
-  { id: "guide-mix-ratios", type: "Mix Guide", title: "Epoxy & Polyaspartic Mix Ratio Guide", description: "Ratios, batch sizes and induction times for every two-component system.", pages: 3, sizeKb: 360, updated: "2026-04-18" },
-  { id: "guide-pot-life", type: "Mix Guide", title: "Pot Life & Temperature Chart", description: "How slab and air temperature change working time.", pages: 1, sizeKb: 210, updated: "2026-05-30" },
-  { id: "guide-pigment-loading", type: "Mix Guide", title: "Pigment Loading Guide", description: "Metallic and solid pigment loading rates per kit.", category: "pigments", pages: 2, sizeKb: 290, updated: "2026-06-22" },
-  { id: "guide-broadcast-rates", type: "Mix Guide", title: "Flake & Quartz Broadcast Rates", description: "Pounds per square foot for full and partial broadcast.", category: "flake", pages: 1, sizeKb: 190, updated: "2026-03-09" },
-  { id: "howto-garage-install", type: "How-To", title: "Garage Flake System Install Guide", description: "Step-by-step: prep, base, broadcast, scrape and topcoat.", category: "epoxy", pages: 8, sizeKb: 2150, updated: "2026-07-02" },
-  { id: "howto-surface-prep", type: "How-To", title: "Concrete Surface Prep Guide", description: "Grinding, profiling, crack repair and moisture testing.", category: "surface-prep", pages: 6, sizeKb: 1620, updated: "2026-05-14" },
-  { id: "howto-metallic", type: "How-To", title: "Metallic Floor Technique Guide", description: "Loading, veining and layering reflective pigments.", category: "pigments", pages: 7, sizeKb: 1930, updated: "2026-06-10" },
-  { id: "howto-topcoat-sequencing", type: "How-To", title: "Topcoat Sequencing Guide", description: "Recoat windows and compatibility across our systems.", category: "polyaspartic", pages: 4, sizeKb: 640, updated: "2026-08-01" },
 ];
-
-export const resourceDocs: ResourceDoc[] = [...guideDocs, ...productDocs];
 
 /* ------------------------------------------------------------------ */
 /* Contractor program                                                  */
@@ -2412,23 +2057,11 @@ export const contractorProgram = {
   body: "Verified contractors get an automatic 15% discount on every product, net-30 terms after the first three orders, same-day will-call and a dedicated tech rep.",
   perks: [
     { icon: "badge-percent", text: "Automatic 15% off products, orders and quotes" },
-    { icon: "store", text: "Same-day will-call at our California locations" },
+    { icon: "store", text: "Same-day will-call at our Bakersfield warehouse" },
     { icon: "clipboard", text: "Net-30 terms after qualifying orders" },
     { icon: "headset", text: "A direct line to a tech rep — no chatbots" },
   ],
-  tradeTypes: ["Epoxy contractor", "Concrete contractor", "Flooring contractor", "General contractor", "Other"],
-  volumes: ["< $1k", "$1k–$5k", "$5k–$15k", "$15k–$50k", "$50k +"],
 } as const;
-
-export const contactTopics = [
-  { value: "general", label: "General question" },
-  { value: "install", label: "Install estimate" },
-  { value: "quote", label: "Quote request" },
-  { value: "order", label: "Order status" },
-  { value: "tech", label: "Tech support / spec help" },
-] as const;
-
-export type ContactTopic = (typeof contactTopics)[number]["value"];
 
 /* ------------------------------------------------------------------ */
 /* Info pages (footer)                                                 */
@@ -2443,19 +2076,16 @@ export const infoPages: InfoPage[] = [
     sections: [
       { heading: "Who we are", paragraphs: ["Epoxy Depot California started as an install crew that got tired of waiting on product. Today we stock the full floor-coating supply chain — resins, flake, pigments, prep equipment and tools — and still run our own install crews."] },
       { heading: "What we believe", paragraphs: ["Good floors come from good prep, honest specs and product that behaves the same batch after batch. We only stock what our own crews would put down, and our tech reps are installers first."] },
-      { heading: "Placeholder notice", paragraphs: ["This storefront is a front-end demo. Company history, addresses and contact details are placeholders to be replaced with the client's real information."] },
     ],
   },
   {
     slug: "locations",
     eyebrow: "Company",
     title: "Locations & will-call",
-    intro: "Same-day will-call pickup at three California warehouses.",
+    intro: "Same-day will-call pickup at our Bakersfield warehouse.",
     sections: [
-      { heading: "Ontario (Inland Empire) — HQ & training bay", paragraphs: ["Main warehouse, will-call counter and hands-on training bay. Mon–Fri 7a–5p."] },
-      { heading: "Sacramento", paragraphs: ["Will-call and contractor pickup for Northern California. Mon–Fri 7a–4p."] },
-      { heading: "San Diego", paragraphs: ["Will-call for San Diego County and the coast. Mon–Fri 7a–4p."] },
-      { heading: "Before you drive over", paragraphs: ["Place your order online or call ahead and we'll have it staged at the counter. Addresses shown in this demo are placeholders."] },
+      { heading: "Bakersfield — warehouse, will-call & training bay", paragraphs: ["1113 West Columbus Street, Bakersfield, CA 93301.", "Main warehouse, will-call counter and hands-on training bay. Mon–Fri 7a–5p."] },
+      { heading: "Before you drive over", paragraphs: ["Call ahead with your order and we'll have it staged at the counter when you arrive."] },
     ],
   },
   {
@@ -2464,7 +2094,7 @@ export const infoPages: InfoPage[] = [
     title: "Careers",
     intro: "We hire installers, warehouse staff and tech reps who care about doing the job right.",
     sections: [
-      { heading: "Open roles", paragraphs: ["Floor coating installer (Ontario) · Warehouse associate (Sacramento) · Inside tech rep (Ontario). Send a short note and your experience to our team through the contact page."] },
+      { heading: "Open roles", paragraphs: ["Floor coating installer · Warehouse associate · Inside tech rep, all based in Bakersfield. Send a short note and your experience to our team through the contact page."] },
       { heading: "Why work here", paragraphs: ["Paid training, company vehicles for install crews, health benefits and a team that actually uses the product we sell."] },
     ],
   },
@@ -2496,8 +2126,8 @@ export const infoPages: InfoPage[] = [
     intro: "Unopened product can be returned within 30 days.",
     sections: [
       { heading: "What can be returned", paragraphs: ["Unopened, undamaged product in its original packaging within 30 days of delivery. Tinted, mixed or special-order items are final sale."] },
-      { heading: "Hazmat items", paragraphs: ["Some resins and solvents ship as hazmat and must be returned via ground freight or dropped off at a will-call location."] },
-      { heading: "Start a return", paragraphs: ["Contact our team with your order number to receive a return authorization. Placeholder policy text for this demo."] },
+      { heading: "Hazmat items", paragraphs: ["Some resins and solvents ship as hazmat and must be returned via ground freight or dropped off at our Bakersfield warehouse."] },
+      { heading: "Start a return", paragraphs: ["Call or email us with your order number and we'll issue a return authorization. Returns without an authorization can't be accepted."] },
     ],
   },
   {
@@ -2508,29 +2138,31 @@ export const infoPages: InfoPage[] = [
     sections: [
       { heading: "Free shipping", paragraphs: [`Orders over $${siteConfig.freeShippingThreshold} ship free via ground to the contiguous US, excluding freight-only items like grinders and pallets.`] },
       { heading: "Processing times", paragraphs: ["Most orders ship within 24–48 hours. Hazmat items ship ground only. Pallet orders ship LTL freight with liftgate available."] },
-      { heading: "Will-call", paragraphs: ["Ask for will-call when you order to pick up at any of our California warehouses — usually the same day."] },
+      { heading: "Will-call", paragraphs: ["Ask for will-call when you order to pick up at our Bakersfield warehouse, usually the same day."] },
     ],
   },
   {
     slug: "terms",
     eyebrow: "Policies",
     title: "Terms of use",
-    intro: "Placeholder terms for the demo storefront.",
+    intro: "The terms that apply when you use this website.",
     sections: [
-      { heading: "Demo notice", paragraphs: ["This website is a front-end demonstration. No orders are processed, no payments are taken and no personal information is transmitted or stored on a server."] },
-      { heading: "Product information", paragraphs: ["Specifications shown are illustrative. Always follow the manufacturer's technical data sheet for application."] },
+      { heading: "Ordering", paragraphs: ["This website is a catalog. We take orders by phone and email, and no payment is taken on the site. Prices and availability are confirmed when you place your order and may change without notice."] },
+      { heading: "Product information", paragraphs: ["We work to keep descriptions, coverage figures and colors accurate, but screens vary and product formulas change. Always follow the manufacturer's current technical data sheet and safety data sheet when you store, handle or apply a product."] },
+      { heading: "Questions", paragraphs: ["Call or email us with any questions about these terms."] },
     ],
   },
   {
     slug: "privacy",
     eyebrow: "Policies",
     title: "Privacy policy",
-    intro: "Placeholder privacy policy for the demo storefront.",
+    intro: "How we handle your information.",
     sections: [
-      { heading: "What we store", paragraphs: ["We don't store any personal data in your browser. Orders are taken by phone, and forms on this site display a confirmation only — nothing is sent to a server."] },
-      { heading: "Cookies", paragraphs: ["This demo does not set tracking or advertising cookies."] },
+      { heading: "What we collect", paragraphs: ["This website has no forms, accounts or checkout, so it doesn't collect personal information. When you call or email us, we use the details you give us (name, phone, email, address) only to quote, fulfill and support your order."] },
+      { heading: "Cookies", paragraphs: ["This website doesn't set tracking or advertising cookies."] },
+      { heading: "Questions", paragraphs: ["Call or email us to ask what information we hold about you or to have it removed."] },
     ],
   },
 ];
 
-export const popularSearches = ["100% solids", "polyaspartic", "flake", "metallic", "primer", "grinder", "SDS"];
+export const popularSearches = ["100% solids", "polyaspartic", "flake", "metallic", "primer", "grinder", "color chart"];

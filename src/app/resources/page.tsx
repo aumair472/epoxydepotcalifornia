@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, CalendarDays, MapPin } from "lucide-react";
-import { Newsletter } from "@/components/home/Newsletter";
+import { ArrowRight, Download, FileText } from "lucide-react";
 import { ArticleCard } from "@/components/resources/ArticleCard";
-import { DocumentLibrary } from "@/components/resources/DocumentLibrary";
-import { ButtonLink } from "@/components/ui/Button";
+import { ContactCards } from "@/components/contact/ContactCards";
 import { Icon } from "@/components/ui/Icon";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { articles, resourceCards, resourceDocs } from "@/data/mockData";
-import { getUpcomingClasses } from "@/lib/catalog";
-import { formatDateRange } from "@/lib/format";
+import { getDocHref } from "@/lib/catalog";
+import { webPageSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Resources, Data Sheets & How-To Guides",
@@ -18,11 +17,12 @@ export const metadata: Metadata = {
 };
 
 export default function ResourcesPage() {
-  const classes = getUpcomingClasses(3);
   return (
     <>
+      <JsonLd data={webPageSchema("CollectionPage", "Resources, Data Sheets & How-To Guides", String(metadata.description), "/resources")} />
       <PageHeader
         eyebrow="Resources"
+        breadcrumbs={[{ label: "Resources" }]}
         title="Specs, guides and training — built for contractors."
         body="Everything you need to spec the right system, prep the slab correctly and finish the job on schedule."
       />
@@ -47,12 +47,26 @@ export default function ResourcesPage() {
       <section id="library" className="scroll-mt-52 border-y border-line bg-white py-16 md:py-20">
         <div className="container-page">
           <SectionHeading
-            eyebrow="Document library"
-            title="Data sheets, SDS, color charts & mix guides"
-            description={`Search ${resourceDocs.length} downloadable PDFs. Every system ships with a technical data sheet, and every chemical product has a safety data sheet.`}
+            eyebrow="Data sheets"
+            title="TDS & SDS on request"
+            description="Need the technical data sheet or safety data sheet for a product? Call or email us with the product name and we'll send the manufacturer's current sheet."
           />
-          <div className="mt-8">
-            <DocumentLibrary />
+          <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr]">
+            <ContactCards showVisit={false} emailSubject="TDS / SDS request" emailBody={"Product(s):\nTDS, SDS or both:\n"} className="sm:grid-cols-1" />
+            <div>
+              <p className="text-[10.5px] font-semibold tracking-[0.16em] text-subtle uppercase">Printable color charts</p>
+              <ul className="mt-3 divide-y divide-line overflow-hidden rounded-lg border border-line">
+                {resourceDocs.map((d) => (
+                  <li key={d.id}>
+                    <a href={getDocHref(d)} target="_blank" rel="noopener" className="flex items-center gap-3 px-4 py-3 text-sm transition hover:bg-cream">
+                      <FileText aria-hidden className="size-4 shrink-0 text-brand" />
+                      <span className="min-w-0 flex-1 font-medium text-ink">{d.title}</span>
+                      <Download aria-hidden className="size-4 text-subtle" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -69,40 +83,6 @@ export default function ResourcesPage() {
           </ul>
         </div>
       </section>
-
-      <section className="border-t border-line bg-white py-16 md:py-20">
-        <div className="container-page">
-          <SectionHeading
-            title="Upcoming training classes"
-            action={
-              <Link href="/training" className="inline-flex items-center gap-1.5 text-[12px] font-bold tracking-[0.14em] text-brand uppercase hover:text-brand-dark">
-                Full schedule <ArrowRight aria-hidden className="size-4" />
-              </Link>
-            }
-          />
-          <ul className="mt-8 grid gap-4 md:grid-cols-3">
-            {classes.map((c) => (
-              <li key={c.id} className="flex flex-col rounded-lg border border-line bg-cream p-5">
-                <p className="flex items-center gap-2 font-display text-lg font-bold text-ink">
-                  <CalendarDays aria-hidden className="size-4 text-brand" /> {formatDateRange(c.startDate, c.endDate)}
-                </p>
-                <p className="mt-1 flex items-center gap-1.5 text-xs text-subtle">
-                  <MapPin aria-hidden className="size-3.5" /> {c.city}
-                </p>
-                <p className="mt-4 font-semibold text-ink">{c.title}</p>
-                <p className="mt-1 text-sm text-muted">{c.summary}</p>
-                <ButtonLink href={`/training#${c.id}`} size="sm" variant="outline" className="mt-auto self-start">
-                  Reserve seat
-                </ButtonLink>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <div className="pt-16 md:pt-20">
-        <Newsletter />
-      </div>
     </>
   );
 }

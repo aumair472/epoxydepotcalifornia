@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
 import { SocialIcon } from "@/components/layout/SocialIcons";
 import { footerColumns, legalLinks, siteConfig } from "@/data/mockData";
@@ -66,6 +66,14 @@ export function Footer() {
             </a>
             <a href={siteConfig.emailHref} className="inline-flex items-center gap-1.5 transition hover:text-white">
               <Mail aria-hidden className="size-3.5" /> {siteConfig.email}
+            </a>
+            <a
+              href={siteConfig.mapsHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 transition hover:text-white"
+            >
+              <MapPin aria-hidden className="size-3.5" /> {siteConfig.addressLine}
             </a>
           </div>
         </div>

@@ -6,6 +6,7 @@ import { buttonClasses, Button } from "@/components/ui/Button";
 import { useToast } from "@/context/ToastContext";
 import { useUI } from "@/context/UIContext";
 import { siteConfig } from "@/data/mockData";
+import { mailtoHref } from "@/lib/contact";
 
 /** Desktop fallback for every buy action: we take orders by phone. */
 export function CallToOrderModal() {
@@ -57,7 +58,14 @@ export function CallToOrderModal() {
           </Button>
         </div>
         <a
-          href={siteConfig.emailHref}
+          href={
+            callSubject
+              ? mailtoHref(
+                  `Order: ${callSubject.title}`,
+                  `I'd like to order:\n${callSubject.title}${callSubject.detail ? `\n${callSubject.detail}` : ""}\n\nName:\nPhone:\nShip to / pickup:\n`,
+                )
+              : mailtoHref("Order inquiry")
+          }
           className="mt-4 flex items-center justify-center gap-1.5 text-[13px] font-medium text-brand-deep hover:underline"
         >
           <Mail aria-hidden className="size-4" /> Prefer email? {siteConfig.email}

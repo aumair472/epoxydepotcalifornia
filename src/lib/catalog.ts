@@ -8,9 +8,7 @@ import {
   packGroups,
   products,
   resourceDocs,
-  reviewPool,
   tagLabels,
-  trainingClasses,
 } from "@/data/mockData";
 import type {
   Category,
@@ -84,20 +82,12 @@ export function getRelatedProducts(product: Product, limit = 4) {
   return [...sameCategory, ...sharedTag].slice(0, limit);
 }
 
-export function getProductDocs(productId: string) {
-  return resourceDocs.filter((d) => d.productId === productId);
-}
-
 export function getDoc(id: string) {
   return docMap.get(id);
 }
 
 export function getDocHref(doc: Pick<ResourceDoc, "id">) {
   return `/docs/${doc.id}`;
-}
-
-export function getProductReviews(product: Product) {
-  return reviewPool[product.category].slice(0, Math.min(3, product.reviewCount));
 }
 
 /** Base specs every product shares, followed by product-specific specs. */
@@ -116,18 +106,6 @@ export function getArticle(slug: string) {
 
 export function getInfoPage(slug: string) {
   return infoPages.find((p) => p.slug === slug);
-}
-
-export function getTrainingClass(id: string) {
-  return trainingClasses.find((c) => c.id === id);
-}
-
-/** Classes with open seats, soonest first. */
-export function getUpcomingClasses(limit?: number) {
-  const open = trainingClasses
-    .filter((c) => c.seatsLeft > 0)
-    .sort((a, b) => a.startDate.localeCompare(b.startDate));
-  return limit ? open.slice(0, limit) : open;
 }
 
 /* ---------------- Search ---------------- */
@@ -172,7 +150,7 @@ export function searchProducts(query: string) {
   return products
     .map((p) => ({ p, score: scoreProduct(p, tokens, phrase) }))
     .filter((r) => r.score > 0)
-    .sort((a, b) => b.score - a.score || b.p.rating - a.p.rating)
+    .sort((a, b) => b.score - a.score)
     .map((r) => r.p);
 }
 
@@ -212,14 +190,13 @@ export interface ProductFilters {
   packs?: PackGroupId[];
 }
 
-export type SortKey = "featured" | "price-asc" | "price-desc" | "name-asc" | "rating";
+export type SortKey = "featured" | "price-asc" | "price-desc" | "name-asc";
 
 export const sortOptions: { value: SortKey; label: string }[] = [
   { value: "featured", label: "Featured" },
   { value: "price-asc", label: "Price: Low to High" },
   { value: "price-desc", label: "Price: High to Low" },
   { value: "name-asc", label: "Name A–Z" },
-  { value: "rating", label: "Top rated" },
 ];
 
 export function isSortKey(value: string): value is SortKey {
@@ -250,8 +227,6 @@ export function sortProducts(list: Product[], sort: SortKey) {
       return sorted.sort((a, b) => Number(!!a.callForPrice) - Number(!!b.callForPrice) || b.price - a.price);
     case "name-asc":
       return sorted.sort((a, b) => a.name.localeCompare(b.name));
-    case "rating":
-      return sorted.sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
     default:
       return sorted.sort((a, b) => (productOrder.get(a.id) ?? 0) - (productOrder.get(b.id) ?? 0));
   }

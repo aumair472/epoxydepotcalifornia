@@ -1,20 +1,42 @@
 import type { Metadata } from "next";
 import { Lightbulb } from "lucide-react";
-import { ContractorForm } from "@/components/contractors/ContractorForm";
+import { ContactCards } from "@/components/contact/ContactCards";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Icon } from "@/components/ui/Icon";
-import { StarRating } from "@/components/ui/StarRating";
-import { contractorProgram, siteConfig, testimonials } from "@/data/mockData";
+import { contractorProgram, siteConfig } from "@/data/mockData";
+import { webPageSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Contractor Account — 15% Off Floor Coatings",
-  description: "Apply for a contractor account: automatic 15% off, net-30 terms, pallet pricing, will-call and a dedicated tech rep.",
+  description: "Apply for a contractor account by phone or email: automatic 15% off, net-30 terms, pallet pricing, will-call and a dedicated tech rep.",
 };
 
+const applicationEmail = [
+  "Company name:",
+  "Contractor license #:",
+  "Contact name:",
+  "Phone:",
+  "Business address:",
+  "Trade (epoxy, concrete, flooring, general…):",
+  "Estimated monthly volume:",
+  "Website (optional):",
+].join("\n");
+
+const applySteps = [
+  "Call or email us with your company name and contractor license number.",
+  "We verify your license, usually within one business day.",
+  "Your discount applies to every phone order from then on.",
+];
+
 export default function ContractorsPage() {
-  const quote = testimonials[2];
   return (
     <div className="bg-cream">
-      <div className="container-page grid gap-10 py-12 md:py-16 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
+      <JsonLd data={webPageSchema("WebPage", "Contractor Account", String(metadata.description), "/contractors")} />
+      <div className="container-page pt-8">
+        <Breadcrumbs items={[{ label: "Contractor Account" }]} />
+      </div>
+      <div className="container-page grid gap-10 pt-8 pb-12 md:pb-16 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
         <div>
           <p className="eyebrow">{contractorProgram.eyebrow}</p>
           <h1 className="mt-3 font-display text-[36px] leading-[1.08] font-bold text-ink md:text-5xl">{contractorProgram.title}</h1>
@@ -39,17 +61,6 @@ export default function ContractorsPage() {
             </span>
           </p>
 
-          <figure className="mt-10 rounded-lg border border-line bg-white p-6">
-            <StarRating rating={quote.rating} />
-            <blockquote className="mt-3 text-[15px] leading-relaxed text-ink">&ldquo;{quote.quote}&rdquo;</blockquote>
-            <figcaption className="mt-4 text-sm">
-              <span className="font-semibold text-ink">{quote.name}</span>
-              <span className="ml-2 text-subtle">
-                {quote.role} · {quote.location}
-              </span>
-            </figcaption>
-          </figure>
-
           <dl className="mt-10 grid grid-cols-3 gap-4 border-t border-line pt-8 text-center">
             {[
               ["15%", "Automatic discount"],
@@ -66,8 +77,23 @@ export default function ContractorsPage() {
         </div>
 
         <div className="lg:sticky lg:top-[212px] lg:self-start">
-          <div className="overflow-hidden rounded-xl border border-line bg-white shadow-[0_24px_48px_-32px_rgba(24,24,27,0.35)]">
-            <ContractorForm />
+          <div className="rounded-xl border border-line bg-white px-6 py-6 shadow-[0_24px_48px_-32px_rgba(24,24,27,0.35)] md:px-7">
+            <h2 className="font-display text-xl font-semibold">How to apply</h2>
+            <ol className="mt-4 space-y-3 text-sm text-muted">
+              {applySteps.map((step, i) => (
+                <li key={step} className="flex gap-3">
+                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-charcoal text-[11px] font-bold text-gold">{i + 1}</span>
+                  {step}
+                </li>
+              ))}
+            </ol>
+            <ContactCards
+              showVisit={false}
+              emailSubject="Contractor account application"
+              emailBody={applicationEmail}
+              className="mt-6 sm:grid-cols-1"
+            />
+            <p className="mt-4 text-xs leading-relaxed text-subtle">The discount applies only after your license is verified.</p>
           </div>
         </div>
       </div>

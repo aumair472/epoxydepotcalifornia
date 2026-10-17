@@ -4,11 +4,13 @@ import Link from "next/link";
 import { Download, Phone } from "lucide-react";
 import { CallToOrderButton } from "@/components/call/CallToOrderButton";
 import { Chips } from "@/components/product/ProductImage";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { flakeBlends, fuzionColors, metallicColors, siteConfig, solidColors } from "@/data/mockData";
+import { webPageSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Color Charts — Solid, Metallic, Fuzion & Flake",
+  title: "Metallic, Flake & Solid Color Charts",
   description: "Reference palettes for solid color epoxy and polyaspartic, metallic pigments and decorative flake blends.",
 };
 
@@ -26,6 +28,7 @@ function SectionTitle({ title, docId }: { title: string; docId: string }) {
 export default function ColorChartsPage() {
   return (
     <>
+      <JsonLd data={webPageSchema("WebPage", "Color Charts", String(metadata.description), "/color-charts")} />
       <PageHeader
         eyebrow="Resources"
         title="Color Charts"

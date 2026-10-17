@@ -30,7 +30,7 @@ const DISPLAY = { fontFamily: "var(--font-space-grotesk), ui-sans-serif, sans-se
 const MONO = { fontFamily: "var(--font-jetbrains-mono), ui-monospace, monospace" };
 const BRAND = siteConfig.shortName.toUpperCase();
 
-type ImageProduct = Pick<Product, "id" | "labelName" | "sku" | "category" | "visual" | "packSize" | "image">;
+type ImageProduct = Pick<Product, "id" | "name" | "labelName" | "sku" | "category" | "visual" | "packSize" | "image">;
 
 function hash(str: string) {
   let h = 1779033703 ^ str.length;
@@ -430,7 +430,7 @@ export function ProductImage({
       <div className={cn("relative h-full w-full", className)}>
         <Image
           src={product.image}
-          alt={`${product.labelName} — product photo`}
+          alt={product.name}
           fill
           sizes={sizes}
           priority={priority}
@@ -477,7 +477,7 @@ export function ProductImage({
       break;
   }
   return (
-    <svg viewBox="0 0 200 200" className={cn("h-full w-full", className)} role="img" aria-label={`${product.labelName} — product packaging`}>
+    <svg viewBox="0 0 200 200" className={cn("h-full w-full", className)} role="img" aria-label={product.name}>
       <ellipse cx={100} cy={182} rx={66} ry={6} fill="#000" opacity={0.1} />
       {body}
     </svg>

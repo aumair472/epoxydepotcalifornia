@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import { CallToOrderButton } from "@/components/call/CallToOrderButton";
 import { QuantityStepper } from "@/components/product/QuantityStepper";
 import { cn } from "@/lib/cn";
+import { mailtoHref } from "@/lib/contact";
 import { formatPrice } from "@/lib/format";
 import type { Product } from "@/types";
 
@@ -73,12 +73,15 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
         <QuantityStepper value={qty} onChange={setQty} size="md" label="Quantity" />
         <CallToOrderButton productId={product.id} quantity={qty} option={option} label="Call to order" size="lg" block className="h-12 flex-1 text-[12px]" />
       </div>
-      <Link
-        href={`/contact?topic=quote&sku=${encodeURIComponent(product.sku)}`}
+      <a
+        href={mailtoHref(
+          `Quote request: ${product.name} (SKU ${product.sku})`,
+          `Product: ${product.name}\nSKU: ${product.sku}${option ? `\nOption: ${option}` : ""}\nQuantity: ${qty}\n\nName:\nPhone:\nShip to / pickup:`,
+        )}
         className="mt-3 block text-center text-[13px] font-medium text-brand-deep hover:underline"
       >
-        Request a quote on this SKU →
-      </Link>
+        Email us for a quote on this SKU →
+      </a>
     </div>
   );
 }

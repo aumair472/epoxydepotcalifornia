@@ -81,7 +81,7 @@ function SearchPanel({ seed, onClose }: { seed: string; onClose: () => void }) {
             setActive(-1);
           }}
           onKeyDown={onKeyDown}
-          placeholder="Search epoxy, flake, primers, tools, SDS…"
+          placeholder="Search epoxy, flake, primers, tools, colors…"
           aria-label="Search products, categories and documents"
           aria-activedescendant={activeKey ? `search-opt-${activeKey}` : undefined}
           aria-controls="search-results"

@@ -13,7 +13,7 @@ export function ShopFallback({ category }: { category?: CategorySlug }) {
   const results = sortProducts(filterProducts({ category }), "featured");
   return (
     <div className="container-page pt-6 pb-16 lg:pt-8 lg:pb-24">
-      <Breadcrumbs items={cat ? [{ label: "Home", href: "/" }, { label: "Shop", href: "/shop" }, { label: cat.name }] : [{ label: "Home", href: "/" }, { label: "Shop" }]} />
+      <Breadcrumbs items={cat ? [{ label: "Shop", href: "/shop" }, { label: cat.name }] : [{ label: "Shop" }]} />
       <div className="mt-5 max-w-2xl">
         <p className="eyebrow">Shop</p>
         <h1 className="mt-2 font-display text-[34px] leading-tight font-bold text-ink md:text-[40px]">{cat?.name ?? "All Products"}</h1>

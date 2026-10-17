@@ -3,11 +3,14 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { ArticleCard } from "@/components/resources/ArticleCard";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/Button";
 import { articles } from "@/data/mockData";
 import { getArticle } from "@/lib/catalog";
 import { formatDate } from "@/lib/format";
+import { seoDescription, seoTitle } from "@/lib/seo";
+import { articleSchema } from "@/lib/schema";
 
 export const dynamicParams = false;
 
@@ -18,7 +21,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/resources/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const article = getArticle(slug);
-  return article ? { title: article.title, description: article.excerpt } : {};
+  return article
+    ? { title: seoTitle(article.title), description: seoDescription(article.excerpt), openGraph: { type: "article", images: [{ url: article.image }] } }
+    : {};
 }
 
 export default async function ArticlePage({ params }: PageProps<"/resources/[slug]">) {
@@ -29,9 +34,10 @@ export default async function ArticlePage({ params }: PageProps<"/resources/[slu
 
   return (
     <article>
+      <JsonLd data={articleSchema(article)} />
       <header className="bg-cream">
         <div className="container-page max-w-4xl pt-8 pb-10 md:pb-14">
-          <Breadcrumbs items={[{ label: "Resources", href: "/resources" }, { label: "Guides", href: "/resources#guides" }, { label: article.tag }]} />
+          <Breadcrumbs items={[{ label: "Resources", href: "/resources" }, { label: article.title }]} />
           <p className="eyebrow mt-8">{article.tag}</p>
           <h1 className="mt-3 font-display text-[34px] leading-[1.1] font-bold text-ink md:text-5xl">{article.title}</h1>
           <p className="mt-4 text-lg text-muted">{article.excerpt}</p>

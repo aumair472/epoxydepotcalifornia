@@ -1,27 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, Download, FileText, PackageCheck, ShieldCheck, Truck } from "lucide-react";
+import { ArrowRight, FileText, PackageCheck, ShieldCheck, Truck } from "lucide-react";
 import { CoverageCalculator } from "@/components/product/CoverageCalculator";
 import { ProductBadge } from "@/components/product/ProductBadge";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { ProductPurchasePanel } from "@/components/product/ProductPurchasePanel";
 import { ProductTabs } from "@/components/product/ProductTabs";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { StarRating } from "@/components/ui/StarRating";
 import { products } from "@/data/mockData";
-import {
-  getCategory,
-  getDocHref,
-  getProduct,
-  getProductDocs,
-  getProductReviews,
-  getProductSpecs,
-  getRelatedProducts,
-} from "@/lib/catalog";
+import { getCategory, getProduct, getProductSpecs, getRelatedProducts } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
 import { formatProductPrice } from "@/lib/format";
+import { seoDescription, seoTitle } from "@/lib/seo";
+import { productSchema } from "@/lib/schema";
 
 export const dynamicParams = false;
 
@@ -32,7 +26,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/product/[id]">): Promise<Metadata> {
   const { id } = await params;
   const product = getProduct(id);
-  return product ? { title: product.name, description: product.shortDescription } : {};
+  return product ? { title: seoTitle(product.name), description: seoDescription(product.shortDescription) } : {};
 }
 
 export default async function ProductPage({ params }: PageProps<"/product/[id]">) {
@@ -40,14 +34,16 @@ export default async function ProductPage({ params }: PageProps<"/product/[id]">
   const product = getProduct(id);
   if (!product) notFound();
   const category = getCategory(product.category)!;
-  const docs = getProductDocs(product.id);
   const specs = getProductSpecs(product);
   const related = getRelatedProducts(product, 4);
   const lowStock = product.stock <= 10;
   const glance = specs.filter((s) => ["Package", "SKU", "Origin", "Shelf life", "Hazmat", "Coverage"].includes(s.label));
 
+  const schema = productSchema(product, category.name);
+
   return (
     <div className="container-page pt-6 pb-16 lg:pt-8 lg:pb-24">
+      {schema && <JsonLd data={schema} />}
       <Breadcrumbs items={[{ label: "Shop", href: "/shop" }, { label: category.name, href: `/shop/${category.slug}` }, { label: product.name }]} />
 
       <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:gap-14">
@@ -61,9 +57,6 @@ export default async function ProductPage({ params }: PageProps<"/product/[id]">
             {product.badge && <ProductBadge badge={product.badge} stock={product.stock} />}
           </div>
           <h1 className="mt-3 font-display text-[32px] leading-[1.1] font-bold text-ink md:text-[40px]">{product.name}</h1>
-          <a href="#details" className="mt-3 inline-flex">
-            <StarRating rating={product.rating} label={`${product.rating.toFixed(1)} · ${product.reviewCount} reviews`} />
-          </a>
 
           <div className="mt-5 flex items-baseline gap-2">
             <p className="font-display text-4xl font-bold text-ink">{formatProductPrice(product)}</p>
@@ -94,22 +87,6 @@ export default async function ProductPage({ params }: PageProps<"/product/[id]">
             </li>
           </ul>
 
-          {docs.length > 0 && (
-            <div className="mt-6 flex flex-wrap gap-2">
-              {docs.map((d) => (
-                <a
-                  key={d.id}
-                  href={getDocHref(d)}
-                  target="_blank"
-                  rel="noopener"
-                  className="inline-flex h-9 items-center gap-2 rounded-md border border-line bg-white px-3.5 text-[13px] font-medium text-ink transition hover:border-ink"
-                >
-                  <Download aria-hidden className="size-3.5" /> Download {d.type}
-                </a>
-              ))}
-            </div>
-          )}
-
           {product.application && (
             <div className="mt-6">
               <CoverageCalculator product={product} application={product.application} />
@@ -127,13 +104,13 @@ export default async function ProductPage({ params }: PageProps<"/product/[id]">
               ))}
             </dl>
             <a href="#details" className="flex items-center gap-1.5 border-t border-line px-4 py-2.5 text-[11px] font-bold tracking-[0.14em] text-brand uppercase hover:bg-cream">
-              <FileText aria-hidden className="size-3.5" /> Full specs & documents
+              <FileText aria-hidden className="size-3.5" /> Full specs & data sheets
             </a>
           </div>
         </div>
       </div>
 
-      <ProductTabs product={product} specs={specs} docs={docs} reviews={getProductReviews(product)} />
+      <ProductTabs product={product} specs={specs} />
 
       {related.length > 0 && (
         <section className="mt-20">

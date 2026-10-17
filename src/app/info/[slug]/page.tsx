@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Mail, Phone } from "lucide-react";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { infoPages, siteConfig } from "@/data/mockData";
 import { getInfoPage } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
+import { seoDescription, seoTitle } from "@/lib/seo";
+import { webPageSchema } from "@/lib/schema";
 
 export const dynamicParams = false;
 
@@ -16,7 +19,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/info/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const page = getInfoPage(slug);
-  return page ? { title: page.title, description: page.intro } : {};
+  return page ? { title: seoTitle(page.title), description: seoDescription(page.intro) } : {};
 }
 
 export default async function InfoPage({ params }: PageProps<"/info/[slug]">) {
@@ -27,7 +30,8 @@ export default async function InfoPage({ params }: PageProps<"/info/[slug]">) {
 
   return (
     <>
-      <PageHeader eyebrow={page.eyebrow} title={page.title} body={page.intro} breadcrumbs={[{ label: "Home", href: "/" }, { label: page.title }]} />
+      <JsonLd data={webPageSchema(page.slug === "about" ? "AboutPage" : "WebPage", page.title, page.intro, `/info/${page.slug}`)} />
+      <PageHeader eyebrow={page.eyebrow} title={page.title} body={page.intro} breadcrumbs={[{ label: page.title }]} />
       <div className="container-page grid gap-10 py-12 md:py-16 lg:grid-cols-[220px_1fr] lg:gap-16">
         <nav aria-label={`${page.eyebrow} pages`} className="lg:sticky lg:top-[212px] lg:self-start">
           <p className="mb-3 text-[10px] font-semibold tracking-[0.18em] text-subtle uppercase">{page.eyebrow}</p>

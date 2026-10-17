@@ -1,5 +1,5 @@
 /**
- * Minimal, dependency-free PDF 1.4 writer for placeholder TDS/SDS/guide documents.
+ * Minimal, dependency-free PDF 1.4 writer for the printable color chart documents.
  * Supports a branded header band, headings, wrapped paragraphs, bullet and key/value rows,
  * and automatic pagination on US Letter pages using the built-in Helvetica fonts.
  */

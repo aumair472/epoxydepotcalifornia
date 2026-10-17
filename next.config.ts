@@ -2,15 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    // Must stay in sync with the `unsplash()` helper in src/data/mockData.ts.
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        pathname: "/photo-*",
-        search: "?auto=format&fit=crop&w=1600&q=80",
-      },
-    ],
+    // Vercel Image Optimization is a paid quota (it returned 402 on the Hobby plan), so images
+    // skip it: Unsplash resizes on its own CDN and local photos are pre-compressed.
+    loader: "custom",
+    loaderFile: "./src/lib/imageLoader.ts",
   },
   // Map the reference site's URL shapes onto this app's routes so old links keep working.
   async redirects() {

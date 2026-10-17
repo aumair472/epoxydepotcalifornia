@@ -30,7 +30,7 @@ import type {
 /* Helpers                                                             */
 /* ------------------------------------------------------------------ */
 
-/** Unsplash URL with the exact query string allowed in next.config.ts remotePatterns. */
+/** Unsplash URL; `lib/imageLoader` swaps `w` and `q` per rendered size. */
 const unsplash = (id: string) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1600&q=80`;
 

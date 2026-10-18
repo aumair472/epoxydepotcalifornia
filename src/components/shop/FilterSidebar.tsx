@@ -27,7 +27,7 @@ export function FilterSidebar({ category, params, query, facets, onChange, onCle
   const rowClass = (active: boolean) =>
     cn(
       "flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-[13.5px] transition",
-      active ? "bg-brand/15 font-semibold text-brand-deep" : "text-ink hover:bg-white"
+      active ? "bg-brand/15 font-semibold text-brand-ink" : "text-ink hover:bg-white"
     );
   const hasFilters = params.min !== undefined || params.max !== undefined || params.packs.length > 0 || params.q || params.tag;
 

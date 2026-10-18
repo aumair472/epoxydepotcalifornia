@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { ShopFallback } from "@/components/shop/ShopFallback";
 import { ShopView } from "@/components/shop/ShopView";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { categories } from "@/data/mockData";
@@ -29,9 +27,7 @@ export default async function CategoryPage({ params }: PageProps<"/shop/[categor
   return (
     <>
       <JsonLd data={collectionSchema(`${cat.name} Supplies`, cat.longDescription, `/shop/${cat.slug}`, getProductsByCategory(cat.slug))} />
-      <Suspense fallback={<ShopFallback category={cat.slug} />}>
-        <ShopView category={cat.slug} />
-      </Suspense>
+      <ShopView category={cat.slug} />
     </>
   );
 }

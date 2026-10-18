@@ -35,6 +35,6 @@ export function renderDocumentPdf(doc: ResourceDoc) {
     title: doc.title,
     subtitle: `Revised ${doc.updated}`,
     blocks: chartBlocks(doc),
-    footer: `${siteConfig.name}  -  ${siteConfig.phone}  -  ${siteConfig.email}`,
+    footer: `${siteConfig.name}  -  ${siteConfig.url.replace("https://", "")}`,
   });
 }

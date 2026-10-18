@@ -19,7 +19,7 @@ export function CategoryTiles({ slugs }: { slugs: readonly CategorySlug[] }) {
               src={c.image}
               alt=""
               fill
-              preload={i < 2}
+              loading={i < 2 ? "eager" : undefined}
               sizes="(min-width: 1280px) 290px, (min-width: 1024px) 22vw, 46vw"
               className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
             />

@@ -11,9 +11,9 @@ A front-end-only clone of the layout, design and UX of coatingwarehouse.com, reb
 | Topic | Decision |
 |---|---|
 | Brand | Epoxy Depot California. Every brand string comes from `siteConfig` in `mockData.ts`. |
-| Contact details | Real (2026-10-18): (661) 516-7201 · luisc@epoxydepotusa.com · 1113 West Columbus Street, Bakersfield, CA 93301 (`siteConfig.address` / `addressLine` / `mapsHref`). |
+| Contact details | Real (2026-10-18): (661) 516-7201 · luisc@epoxydepotusa.com · 1113 West Columbus Street, Bakersfield, CA 93301. Phone and email are stored encoded in `siteConfig.contactEncoded` and only decoded in the browser (`useContactDetails`, `PhoneLink`, `EmailLink`), never in server HTML or schema (2026-10-19). |
 | Palette | Match the live reference exactly (warm charcoal + cream + safety orange + gold). See `docs/design.md`. |
-| Imagery | Unsplash for lifestyle/hero photos. Product cards use generated SVG renders (`ProductImage`). Nothing is copied from the reference site. |
+| Imagery | Unsplash lifestyle/hero photos, self-hosted in `public/photos/` (2026-10-19). Products use real photos. All photos are served as WebP copies built by `scripts/build-images.mjs`. |
 | Copy | Original copy that mirrors the reference's structure and tone. No reviews, star ratings or testimonials until the client sends real ones (2026-10-18). |
 | Catalog | About 50 generic SKUs across 10 categories. No third-party manufacturer brand names. |
 | Ordering | Phone only (2026-09-13). No cart, checkout or accounts. "Contractor account" means the approved trade-pricing program, not a login. |
@@ -24,11 +24,12 @@ A front-end-only clone of the layout, design and UX of coatingwarehouse.com, reb
 - Next.js **16.3** (App Router, Turbopack, React 19.2). `params`/`searchParams` are Promises; use the `PageProps<'/route'>` / `RouteContext` helpers.
 - Tailwind CSS **v4**: CSS-first config in `src/app/globals.css` (`@theme`). There is no `tailwind.config.*`.
 - TypeScript strict, `lucide-react` v1 (no brand icons, so social glyphs are inline SVG in `components/layout/SocialIcons.tsx`), `clsx` + `tailwind-merge` via `cn()`.
-- Fonts via `next/font/google`: Inter (body), Space Grotesk (display), JetBrains Mono (SKUs).
+- Fonts via `next/font/google`: Inter (body), Space Grotesk (display). SKUs use the system monospace stack (no web font).
 - Lint with `npm run lint` (ESLint CLI; `next lint` was removed in v16).
 
 ## Design tokens (quick ref; full spec in docs/design.md)
-`cream #F6F4EE` · `charcoal #1A1A1D` · `charcoal-2 #262629` · `ink #18181B` · `muted #52525B` · `subtle #71717A` · `dim #8A8F98` · `line #E5E0D5` · `brand #F97316` · `brand-dark #EA580C` · `gold #D9A441` · `success #4ADE80`
+`cream #F6F4EE` · `charcoal #1A1A1D` · `charcoal-2 #262629` · `ink #18181B` · `muted #52525B` · `subtle #6A6A73` · `dim #8A8F98` · `line #E5E0D5` · `brand #F97316` · `brand-dark #EA580C` · `brand-deep #C2410C` · `brand-ink #9A3412` · `gold #D9A441` · `success #4ADE80`
+- Contrast (AA): solid orange fills with white text use `brand-deep` (hover `brand-ink`). Orange text on light backgrounds uses `brand-deep`, on orange tints `brand-ink`. Bright `brand` is for icons, borders and text on dark backgrounds only.
 
 ## Component dependency map
 - `app/layout.tsx` → `Providers` (ToastProvider > UIProvider) → `AnnouncementBar`, `Navbar`, `{children}`, `Footer`, overlays (`CallToOrderModal`, `MobileMenu`, `SearchModal`, `CallFab`, `Toaster`)
@@ -50,7 +51,7 @@ A front-end-only clone of the layout, design and UX of coatingwarehouse.com, reb
 - The browser tool's synthetic Enter doesn't trigger native implicit form submission, so the chat input also handles Enter explicitly.
 
 ## Current phase
-All 5 phases complete, plus the phone-ordering change (2026-09-13). Production pass done 2026-10-18. Still to confirm with the client: contractor promises (15% off, net-30, free shipping over $500, 24–48h shipping), product spec/application data and stock counts (estimates), the production domain (`siteConfig.url`), and real TDS/SDS, reviews and photography.
+All 5 phases complete, plus the phone-ordering change (2026-09-13). Production pass done 2026-10-18. Still to confirm with the client: contractor promises (15% off, net-30, free shipping over $500, 24–48h shipping), product spec/application data and stock counts (estimates), and real TDS/SDS, reviews and photography.
 
 ## Log
 - 2026-09-12: Phase 1. Scaffolded Next 16.3.5 + Tailwind v4 + TS (git disabled). Installed lucide-react, clsx, tailwind-merge. Wrote the docs ecosystem, tokens, types, mock data (54 SKUs, 100 docs) and lib helpers.
@@ -95,3 +96,12 @@ All 5 phases complete, plus the phone-ordering change (2026-09-13). Production p
   - Checks: the production crawl found 101 pages and 170 image URLs with 0 issues (status, title and description length, duplicates, canonical, og, a single h1, breadcrumbs, valid JSON-LD, alt text). All 102 pages at 375px: no overflow, no broken images. Search, filters and sort, the size picker and the call dialog were exercised in the browser. A second h1 on /shop in dev is React's hidden streaming placeholder (`div#S:0[hidden]`); it is not in the production HTML.
 - 2026-10-18: Real photos for the last two products that showed the drawn SVG placeholder. `fuzion-hand-spray` and `fuzion-spray-gun-colors` now use `public/products/<id>.webp`, a 2×2 grid built with sharp from four of RCM's own Fuzion Max color photos in `public/fuzion/`. Hand spray: Crown Gold, Majestic Blue, Ruby Ice, Tyler Turquoise. Gun colors: Cade Red, Cambridge Blue, Burnished Copper Pearl, Regal Violet Pearl. All 69 products now have a real photo. Swap in single studio shots if the client sends them.
 - 2026-10-18: Live on https://epoxydepotcalifornia.vercel.app (main auto-deploys). The first production check found every image broken: Vercel returned `402 OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED` because the Hobby plan's Image Optimization quota was used up. `next.config.ts` now uses a custom loader (`src/lib/imageLoader.ts`). Unsplash URLs get `w`/`q` set per srcset width (Unsplash's own CDN does the resizing), and local /public photos are served directly (already compressed) with a `?w=` hint. Nothing goes through `/_next/image`; don't reintroduce the default loader unless the Vercel plan includes image optimization.
+- 2026-10-19: **epoxydepotcalifornia.com is live on Vercel.** In GoDaddy (nameservers ns69/ns70.domaincontrol.com), the A `@` record was changed from Shopify's `23.227.38.32` to `216.198.79.1`, and CNAME `www` from `shops.myshopify.com` to `b74a5c61a78afd8e.vercel-dns-017.com`. In Vercel, the apex domain serves Production and `www` redirects to the apex, matching `siteConfig.url`. Both have Let's Encrypt certificates. A crawl of the domain through Vercel found 101 pages and 172 images with 0 issues. Don't confuse it with epoxytrainingcalifornia.com (A `160.153.0.187`, ns67/ns68), the client's separate training site, which is in the same GoDaddy login and was left untouched.
+- 2026-10-19: Performance, icons, accessibility and contact protection (live baseline: desktop 97–100, mobile home 74, product 76, article 80).
+  - **Images:** `scripts/build-images.mjs` (npm `predev`/`prebuild`, about 35 s on Vercel) writes WebP copies of every photo at 64–1600 px to `public/_img/` (gitignored). `lib/imageLoader` maps each next/image width to its copy. `next.config` sets `imageSizes`/`deviceSizes` to the same widths; keep the three lists in sync. The 24 Unsplash photos are self-hosted in `public/photos/`, so there is no third-party image origin. First-row product cards and the gallery photo load eagerly (`ProductImage eager`, `ProductGrid eagerCount`). `sharp` is now an explicit devDependency.
+  - **Shop:** `useShopParams` reads `window.location.search` through `useSyncExternalStore`, not `useSearchParams`, so the shop and category grids render on the server (they were browser-only behind a Suspense fallback). `ShopFallback` was removed.
+  - **Icons:** square `src/app/icon.png` (192), `apple-icon.png` (180) and `favicon.ico` (16/32/48; `/favicon.ico` used to 404), `manifest.ts`, `public/icon-192/512.png`. Photos and icons are cached for a week (`headers()` in next.config).
+  - **Accessibility:** contrast tokens (see design tokens), visible labels inside accessible names (CallToOrderButton uses sr-only text, not aria-label), heading order. Lighthouse accessibility is 100 on every page.
+  - **Contact protection:** the phone, email, `tel:` and `mailto:` links are absent from the server HTML of all 101 pages, from the JS bundles and from the PDFs (verified by scan). Schema keeps the address but has no telephone or email. Googlebot renders JS, so it still sees the number (not cloaking).
+  - **Fonts:** JetBrains Mono was dropped (system monospace for SKUs).
+

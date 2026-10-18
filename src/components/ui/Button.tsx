@@ -9,10 +9,10 @@ const base =
   "inline-flex shrink-0 items-center justify-center gap-2 rounded-md font-bold uppercase tracking-[0.14em] whitespace-nowrap transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-brand text-white shadow-sm hover:bg-brand-dark",
+  primary: "bg-brand-deep text-white shadow-sm hover:bg-brand-ink",
   outline: "border-2 border-ink text-ink hover:bg-ink hover:text-white",
   dark: "bg-charcoal text-white hover:bg-charcoal-2",
-  ghost: "text-brand hover:text-brand-dark",
+  ghost: "text-brand-deep hover:text-brand-ink",
   soft: "bg-brand/10 text-brand-deep hover:bg-brand/15",
   "outline-light": "border border-white/25 text-white hover:bg-white/10",
   white: "bg-white text-ink hover:bg-cream",

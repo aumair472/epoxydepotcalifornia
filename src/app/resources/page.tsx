@@ -35,7 +35,7 @@ export default function ResourcesPage() {
                 <Icon name={r.icon} className="size-6 text-brand" />
                 <h2 className="mt-5 font-display text-xl font-semibold text-ink">{r.title}</h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{r.longDescription}</p>
-                <span className="mt-6 inline-flex items-center gap-1 text-[13px] font-semibold text-brand transition group-hover:gap-2">
+                <span className="mt-6 inline-flex items-center gap-1 text-[13px] font-semibold text-brand-deep transition group-hover:gap-2">
                   {r.cta} <ArrowRight aria-hidden className="size-4" />
                 </span>
               </Link>

@@ -3,16 +3,19 @@
 /**
  * next/image loader that never goes through Vercel's Image Optimization (a paid quota that
  * returned 402 on the Hobby plan, breaking every image).
- * - Unsplash photos are resized by Unsplash's own CDN via its `w` / `q` params.
- * - Local photos in /public are already resized and compressed, so they are served as-is;
- *   the `w` hint only gives each srcset candidate a distinct URL, as next/image expects.
+ * Every photo (including the self-hosted Unsplash ones in /photos) is served from the WebP copies
+ * that scripts/build-images.mjs writes to /_img/<path>-<width>.webp before every build.
  */
-export default function imageLoader({ src, width, quality }: { src: string; width: number; quality?: number }) {
-  if (src.startsWith("https://images.unsplash.com/")) {
-    const url = new URL(src);
-    url.searchParams.set("w", String(width));
-    url.searchParams.set("q", String(quality ?? 75));
-    return url.toString();
+
+// Keep in sync with WIDTHS in scripts/build-images.mjs and the image sizes in next.config.ts.
+const IMAGE_WIDTHS = [64, 128, 256, 384, 640, 828, 1080, 1600];
+const LOCAL_PHOTO = /^\/((?:products|flakes|metallics|fuzion|solids|photos)\/[^?]+|logo)\.(?:jpe?g|png|webp)$/i;
+
+export default function imageLoader({ src, width }: { src: string; width: number }) {
+  const local = LOCAL_PHOTO.exec(src);
+  if (local) {
+    const w = IMAGE_WIDTHS.find((size) => size >= width) ?? IMAGE_WIDTHS[IMAGE_WIDTHS.length - 1];
+    return `/_img/${local[1]}-${w}.webp`;
   }
   return `${src}?w=${width}`;
 }

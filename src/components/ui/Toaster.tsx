@@ -35,7 +35,7 @@ export function Toaster() {
                 <Link
                   href={t.action.href}
                   onClick={() => dismiss(t.id)}
-                  className="mt-2 inline-block text-[11px] font-bold tracking-[0.14em] text-brand uppercase hover:text-brand-dark"
+                  className="mt-2 inline-block text-[11px] font-bold tracking-[0.14em] text-brand-deep uppercase hover:text-brand-ink"
                 >
                   {t.action.label} →
                 </Link>

@@ -12,7 +12,7 @@ export function Bestsellers() {
           eyebrow="Bestsellers"
           title="The floor coating supplies crews reorder most"
           action={
-            <Link href="/shop" className="inline-flex items-center gap-1.5 text-[12px] font-bold tracking-[0.14em] text-brand uppercase hover:text-brand-dark">
+            <Link href="/shop" className="inline-flex items-center gap-1.5 text-[12px] font-bold tracking-[0.14em] text-brand-deep uppercase hover:text-brand-ink">
               Shop all <ArrowRight aria-hidden className="size-4" />
             </Link>
           }

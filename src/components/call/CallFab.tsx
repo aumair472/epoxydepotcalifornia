@@ -17,8 +17,7 @@ export function CallFab() {
       <button
         type="button"
         onClick={() => requestCall()}
-        aria-label="Call to order"
-        className="inline-flex h-12 items-center gap-2.5 rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(249,115,22,0.7)] transition hover:bg-brand-dark"
+        className="inline-flex h-12 items-center gap-2.5 rounded-full bg-brand-deep px-5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(194,65,12,0.7)] transition hover:bg-brand-ink"
       >
         <Phone aria-hidden className="size-4" />
         Call us

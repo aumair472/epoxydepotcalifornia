@@ -12,7 +12,7 @@ export function ArticleCard({ article }: { article: Article }) {
       </Link>
       <div className="flex flex-1 flex-col p-5">
         <p className="flex items-center gap-2 text-[10.5px] font-semibold tracking-[0.16em] uppercase">
-          <span className="text-brand">{article.tag}</span>
+          <span className="text-brand-deep">{article.tag}</span>
           <span className="text-subtle">
             {formatDate(article.date)} · {article.readMins} min
           </span>
@@ -23,7 +23,7 @@ export function ArticleCard({ article }: { article: Article }) {
           </Link>
         </h3>
         <p className="mt-2 line-clamp-2 text-sm text-muted">{article.excerpt}</p>
-        <span className="mt-auto inline-flex items-center gap-1 pt-5 text-[11px] font-bold tracking-[0.14em] text-brand uppercase transition group-hover:gap-2">
+        <span className="mt-auto inline-flex items-center gap-1 pt-5 text-[11px] font-bold tracking-[0.14em] text-brand-deep uppercase transition group-hover:gap-2">
           Read article <ArrowRight aria-hidden className="size-3.5" />
         </span>
       </div>

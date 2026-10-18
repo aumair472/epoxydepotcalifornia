@@ -30,9 +30,12 @@ import type {
 /* Helpers                                                             */
 /* ------------------------------------------------------------------ */
 
-/** Unsplash URL; `lib/imageLoader` swaps `w` and `q` per rendered size. */
-const unsplash = (id: string) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1600&q=80`;
+/**
+ * Unsplash photo, self-hosted from public/photos/ (downloaded at 1600px, free Unsplash License) so
+ * it loads from our own domain: no extra connection on mobile, and sized WebP copies come from
+ * scripts/build-images.mjs. To add one, save it as public/photos/<photo-id>.jpg.
+ */
+const unsplash = (id: string) => `/photos/${id}.jpg`;
 
 /** Verified Unsplash photos (free Unsplash License). */
 export const images = {
@@ -76,11 +79,15 @@ export const siteConfig = {
   monogram: "ED",
   description:
     "Contractor-grade epoxy, polyaspartic, urethane, flake, pigments, concrete prep and floor coating tools, with contractor pricing and will-call in Bakersfield, CA.",
-  // Real contact details, from the client (2026-10-18).
-  phone: "(661) 516-7201",
-  phoneHref: "tel:+16615167201",
-  email: "luisc@epoxydepotusa.com",
-  emailHref: "mailto:luisc@epoxydepotusa.com",
+  // Real contact details from the client (2026-10-18), stored encoded so the phone number and
+  // email never appear in plain text in the HTML that scrapers and robocall-list bots read.
+  // Decode with `lib/contact.decodeContact`; components use `useContactDetails()`.
+  // Each value is the string reversed, then base64-encoded (see scripts in memory.md to re-encode).
+  contactEncoded: {
+    phone: "MTAyNy02MTUgKTE2Nig=", // display form
+    phoneDial: "MTAyNzYxNTE2NjEr", // E.164 form for tel: links
+    email: "bW9jLmFzdXRvcGVkeXhvcGVAY3NpdWw=",
+  },
   hours: "Mon–Fri · 7a–5p PT",
   address: {
     street: "1113 West Columbus Street",

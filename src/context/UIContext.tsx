@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
-import { siteConfig } from "@/data/mockData";
+import { decodeContact } from "@/lib/contact";
 import type { CallSubject } from "@/types";
 
 type Overlay = "search" | "call" | "mobileMenu" | null;
@@ -38,7 +38,7 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
   }, []);
   const requestCall = useCallback((subject?: CallSubject) => {
     if (window.matchMedia("(pointer: coarse)").matches) {
-      window.location.href = siteConfig.phoneHref;
+      window.location.href = decodeContact().phoneHref;
       return;
     }
     setCallSubject(subject ?? null);

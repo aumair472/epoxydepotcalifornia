@@ -228,7 +228,7 @@ function SearchPanel({ seed, onClose }: { seed: string; onClose: () => void }) {
             <span>
               See all product results for “{trimmed}”
             </span>
-            <span className="inline-flex items-center gap-1 text-[11px] tracking-[0.14em] text-brand uppercase">
+            <span className="inline-flex items-center gap-1 text-[11px] tracking-[0.14em] text-brand-deep uppercase">
               Enter <ArrowRight aria-hidden className="size-3.5" />
             </span>
           </Link>

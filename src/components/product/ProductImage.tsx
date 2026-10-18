@@ -27,7 +27,7 @@ const CHARCOAL = "#1A1A1D";
 const PAIL = "#FAFAF9";
 const EDGE = "#E7E5E4";
 const DISPLAY = { fontFamily: "var(--font-space-grotesk), ui-sans-serif, sans-serif" };
-const MONO = { fontFamily: "var(--font-jetbrains-mono), ui-monospace, monospace" };
+const MONO = { fontFamily: "var(--font-mono), ui-monospace, monospace" };
 const BRAND = siteConfig.shortName.toUpperCase();
 
 type ImageProduct = Pick<Product, "id" | "name" | "labelName" | "sku" | "category" | "visual" | "packSize" | "image">;
@@ -417,13 +417,14 @@ export function ProductImage({
   product,
   className,
   sizes = "(min-width: 1024px) 25vw, 50vw",
-  priority = false,
+  eager = false,
 }: {
   product: ImageProduct;
   className?: string;
   /** Pass a wider hint (e.g. gallery stages) — defaults to a card-grid-sized hint. */
   sizes?: string;
-  priority?: boolean;
+  /** Above-the-fold image (likely the LCP): load right away at high priority instead of lazily. */
+  eager?: boolean;
 }) {
   if (product.image) {
     return (
@@ -433,7 +434,8 @@ export function ProductImage({
           alt={product.name}
           fill
           sizes={sizes}
-          priority={priority}
+          loading={eager ? "eager" : undefined}
+          fetchPriority={eager ? "high" : undefined}
           className="object-contain"
         />
       </div>

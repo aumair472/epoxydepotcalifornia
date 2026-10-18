@@ -21,8 +21,6 @@ export function organizationSchema() {
     logo: absoluteUrl("/logo.png"),
     image: absoluteUrl("/logo.png"),
     description: siteConfig.description,
-    telephone: siteConfig.phoneHref.replace("tel:", ""),
-    email: siteConfig.email,
     address: {
       "@type": "PostalAddress",
       streetAddress: siteConfig.address.street,
@@ -36,14 +34,6 @@ export function organizationSchema() {
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       opens: "07:00",
       closes: "17:00",
-    },
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "sales",
-      telephone: siteConfig.phoneHref.replace("tel:", ""),
-      email: siteConfig.email,
-      areaServed: "US",
-      availableLanguage: "English",
     },
     sameAs: siteConfig.socials.map((s) => s.href),
   };

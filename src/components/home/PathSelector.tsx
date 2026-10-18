@@ -18,7 +18,7 @@ export function PathSelector() {
                 className="group flex h-full flex-col rounded-xl bg-charcoal p-6 text-white transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(0,0,0,0.7)] sm:p-7"
               >
                 <div className="flex items-start justify-between">
-                  <p className="text-[10px] font-semibold tracking-[0.2em] text-white/45 uppercase">{p.kicker}</p>
+                  <p className="text-[10px] font-semibold tracking-[0.2em] text-white/60 uppercase">{p.kicker}</p>
                   <Icon name={p.icon} className="size-5 text-gold/80" strokeWidth={1.6} />
                 </div>
                 <h3 className="mt-3 font-display text-2xl font-semibold text-white">{p.title}</h3>

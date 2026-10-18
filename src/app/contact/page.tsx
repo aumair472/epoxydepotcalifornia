@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import { ContactCards } from "@/components/contact/ContactCards";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { siteConfig } from "@/data/mockData";
 import { webPageSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: `Call ${siteConfig.phone} or email ${siteConfig.email} to order, get a quote, book an install estimate or talk to a tech rep. Will-call in Bakersfield, CA.`,
+  description: "Call or email us to order, get a quote, book an install estimate or talk to a tech rep. Will-call in Bakersfield, CA.",
 };
 
 export default function ContactPage() {

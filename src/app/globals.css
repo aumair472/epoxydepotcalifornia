@@ -8,12 +8,14 @@
   --color-charcoal-3: #323236;
   --color-ink: #18181b;
   --color-muted: #52525b;
-  --color-subtle: #71717a;
+  --color-subtle: #6a6a73;
   --color-dim: #8a8f98;
   --color-line: #e5e0d5;
   --color-brand: #f97316;
   --color-brand-dark: #ea580c;
   --color-brand-deep: #c2410c;
+  /* Orange text on orange-tinted backgrounds, and the hover shade for brand-deep fills (AA contrast). */
+  --color-brand-ink: #9a3412;
   --color-gold: #d9a441;
   --color-success: #4ade80;
   --color-danger: #dc2626;
@@ -87,7 +89,8 @@
 @theme inline {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+  /* SKUs only: the system monospace font, so there is no web font to download. */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 }
 
 @layer base {
@@ -154,7 +157,7 @@
     @apply mx-auto w-full max-w-[1296px] px-4 sm:px-6 lg:px-8;
   }
   .eyebrow {
-    @apply text-[11px] font-semibold tracking-[0.18em] text-brand uppercase;
+    @apply text-[11px] font-semibold tracking-[0.18em] text-brand-deep uppercase;
   }
   .hazard-stripe {
     background-image: repeating-linear-gradient(

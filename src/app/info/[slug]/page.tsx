@@ -8,6 +8,8 @@ import { infoPages, siteConfig } from "@/data/mockData";
 import { getInfoPage } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
 import { seoDescription, seoTitle } from "@/lib/seo";
+import { PhoneLink } from "@/components/contact/PhoneLink";
+import { EmailLink } from "@/components/contact/EmailLink";
 import { webPageSchema } from "@/lib/schema";
 
 export const dynamicParams = false;
@@ -43,7 +45,7 @@ export default async function InfoPage({ params }: PageProps<"/info/[slug]">) {
                   aria-current={p.slug === page.slug ? "page" : undefined}
                   className={cn(
                     "block rounded-md px-3 py-2 text-sm transition",
-                    p.slug === page.slug ? "bg-brand/15 font-semibold text-brand-deep" : "text-ink hover:bg-white"
+                    p.slug === page.slug ? "bg-brand/15 font-semibold text-brand-ink" : "text-ink hover:bg-white"
                   )}
                 >
                   {p.title}
@@ -66,12 +68,12 @@ export default async function InfoPage({ params }: PageProps<"/info/[slug]">) {
           <div className="mt-12 flex flex-col gap-4 rounded-xl border border-line bg-white p-6 sm:flex-row sm:items-center sm:justify-between">
             <p className="font-semibold text-ink">Questions? We&apos;re here {siteConfig.hours}.</p>
             <div className="flex flex-wrap gap-4 text-sm">
-              <a href={siteConfig.phoneHref} className="inline-flex items-center gap-1.5 text-brand-deep hover:underline">
-                <Phone aria-hidden className="size-4" /> {siteConfig.phone}
-              </a>
-              <a href={siteConfig.emailHref} className="inline-flex items-center gap-1.5 text-brand-deep hover:underline">
+              <PhoneLink className="inline-flex items-center gap-1.5 text-brand-deep hover:underline">
+                <Phone aria-hidden className="size-4" />
+              </PhoneLink>
+              <EmailLink hideAddress className="inline-flex items-center gap-1.5 text-brand-deep hover:underline">
                 <Mail aria-hidden className="size-4" /> Email us
-              </a>
+              </EmailLink>
             </div>
           </div>
         </div>

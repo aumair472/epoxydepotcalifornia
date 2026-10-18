@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
 import { SocialIcon } from "@/components/layout/SocialIcons";
+import { PhoneLink } from "@/components/contact/PhoneLink";
+import { EmailLink } from "@/components/contact/EmailLink";
 import { footerColumns, legalLinks, siteConfig } from "@/data/mockData";
 
 const YEAR = new Date().getFullYear();
@@ -61,12 +63,12 @@ export function Footer() {
                 {l.label}
               </Link>
             ))}
-            <a href={siteConfig.phoneHref} className="inline-flex items-center gap-1.5 transition hover:text-white">
-              <Phone aria-hidden className="size-3.5" /> {siteConfig.phone}
-            </a>
-            <a href={siteConfig.emailHref} className="inline-flex items-center gap-1.5 transition hover:text-white">
-              <Mail aria-hidden className="size-3.5" /> {siteConfig.email}
-            </a>
+            <PhoneLink className="inline-flex items-center gap-1.5 transition hover:text-white">
+              <Phone aria-hidden className="size-3.5" />
+            </PhoneLink>
+            <EmailLink className="inline-flex items-center gap-1.5 transition hover:text-white">
+              <Mail aria-hidden className="size-3.5" />
+            </EmailLink>
             <a
               href={siteConfig.mapsHref}
               target="_blank"

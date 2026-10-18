@@ -21,7 +21,7 @@ export function LogoMark({ tone = "dark", className }: { tone?: "dark" | "light"
 /** Monogram + wordmark. The tagline line hides on phones so the header never overflows. */
 export function Logo({ tone = "dark", className }: { tone?: "dark" | "light"; className?: string }) {
   return (
-    <Link href="/" className={cn("flex min-w-0 shrink-0 items-center gap-2 sm:gap-2.5", className)} aria-label={`${siteConfig.name} — home`}>
+    <Link href="/" className={cn("flex min-w-0 shrink-0 items-center gap-2 sm:gap-2.5", className)}>
       <LogoMark tone={tone} className="h-8 sm:h-9" />
       <span className="flex flex-col leading-none">
         <span

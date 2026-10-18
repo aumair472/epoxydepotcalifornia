@@ -7,7 +7,18 @@ import { cn } from "@/lib/cn";
 import { formatProductPrice } from "@/lib/format";
 import type { Product } from "@/types";
 
-export function ProductCard({ product, compact = false, className }: { product: Product; compact?: boolean; className?: string }) {
+export function ProductCard({
+  product,
+  compact = false,
+  eager = false,
+  className,
+}: {
+  product: Product;
+  compact?: boolean;
+  /** First cards on the page: load the photo right away (it is usually the LCP). */
+  eager?: boolean;
+  className?: string;
+}) {
   const href = `/product/${product.id}`;
   return (
     <article
@@ -17,7 +28,7 @@ export function ProductCard({ product, compact = false, className }: { product: 
       )}
     >
       <Link href={href} tabIndex={-1} aria-hidden className="relative block aspect-square bg-gradient-to-b from-cream-2/80 to-white p-5 sm:p-7">
-        <ProductImage product={product} className="transition-transform duration-300 group-hover:scale-[1.04]" />
+        <ProductImage product={product} eager={eager} className="transition-transform duration-300 group-hover:scale-[1.04]" />
         {product.badge && <ProductBadge badge={product.badge} stock={product.stock} className="absolute top-3 left-3" />}
       </Link>
       <div className={cn("flex flex-1 flex-col border-t border-line/70", compact ? "p-3" : "p-3 sm:p-4")}>

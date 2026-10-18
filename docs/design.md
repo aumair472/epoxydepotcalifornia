@@ -37,9 +37,9 @@ Tints: `brand/10` and `brand/15` for pills and icon wells on light, `gold/10` wi
 | Button | Inter | 11–12px / 700 / uppercase / `0.14em` |
 | Nav (primary) | Inter | 12px / 500 / uppercase / `0.14em` |
 | Nav (category bar) | Inter | 11px / 700 / uppercase / `0.16em`, white |
-| SKU / codes | JetBrains Mono | 11px / uppercase / `0.12em`, color `subtle` |
+| SKU / codes | System monospace (`ui-monospace`, no web font) | 11px / uppercase / `0.12em`, color `subtle` |
 
-Font wiring: `next/font/google` exposes `--font-inter`, `--font-space-grotesk` and `--font-jetbrains-mono`. `@theme inline` maps them to `font-sans`, `font-display` and `font-mono`.
+Font wiring: `next/font/google` exposes `--font-inter` and `--font-space-grotesk`. `@theme inline` maps them to `font-sans` and `font-display`; `font-mono` is the system monospace stack (no web font, for speed).
 
 ## Spacing & layout
 - Container: `.container-page` = `mx-auto w-full max-w-[1296px] px-4 sm:px-6 lg:px-8`. That gives about a 1264px content width at desktop, matching the reference.
@@ -107,6 +107,6 @@ Font wiring: `next/font/google` exposes `--font-inter`, `--font-space-grotesk` a
 @theme inline {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 }
 ```

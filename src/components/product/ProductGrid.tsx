@@ -7,12 +7,23 @@ const columnClasses = {
   4: "grid-cols-2 lg:grid-cols-4",
 };
 
-export function ProductGrid({ products, columns = 4, className }: { products: Product[]; columns?: 3 | 4; className?: string }) {
+/** `eagerCount` cards at the top load their photos right away (set it when the grid is above the fold). */
+export function ProductGrid({
+  products,
+  columns = 4,
+  eagerCount = 0,
+  className,
+}: {
+  products: Product[];
+  columns?: 3 | 4;
+  eagerCount?: number;
+  className?: string;
+}) {
   return (
     <ul className={cn("grid gap-3 sm:gap-5", columnClasses[columns], className)}>
-      {products.map((p) => (
+      {products.map((p, i) => (
         <li key={p.id} className="flex">
-          <ProductCard product={p} className="w-full" />
+          <ProductCard product={p} eager={i < eagerCount} className="w-full" />
         </li>
       ))}
     </ul>

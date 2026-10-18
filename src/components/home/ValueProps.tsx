@@ -13,7 +13,7 @@ export function ValueProps() {
               <Icon name={v.icon} className="size-5" />
             </span>
             <div>
-              <h3 className="font-sans text-[12px] font-bold tracking-[0.14em] text-white uppercase">{v.title}</h3>
+              <h2 className="font-sans text-[12px] font-bold tracking-[0.14em] text-white uppercase">{v.title}</h2>
               <p className="mt-1.5 text-[13px] leading-relaxed text-white/60">{v.description}</p>
             </div>
           </li>

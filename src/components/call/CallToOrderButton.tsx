@@ -48,11 +48,15 @@ export function CallToOrderButton({
       size={size}
       variant={variant}
       block={block}
-      aria-label={`Call to order ${quantity > 1 ? `${quantity} × ` : ""}${name}`}
       className={className}
     >
       <Phone aria-hidden className="size-3.5" strokeWidth={2.5} />
       {label}
+      {/* Screen readers hear which product, after the visible label. */}
+      <span className="sr-only">
+        : {quantity > 1 ? `${quantity} × ` : ""}
+        {name}
+      </span>
     </Button>
   );
 }

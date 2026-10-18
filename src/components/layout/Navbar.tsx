@@ -5,8 +5,12 @@ import { usePathname } from "next/navigation";
 import { Mail, Menu, Phone, Search } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
 import { useUI } from "@/context/UIContext";
-import { categories, primaryNav, siteConfig, utilityNav } from "@/data/mockData";
+import { categories, primaryNav, utilityNav } from "@/data/mockData";
 import { useHotkey } from "@/hooks/useHotkey";
+import { useContactDetails } from "@/hooks/useContactDetails";
+import { MASKED_PHONE } from "@/lib/contact";
+import { PhoneLink } from "@/components/contact/PhoneLink";
+import { EmailLink } from "@/components/contact/EmailLink";
 import { cn } from "@/lib/cn";
 
 function isActive(pathname: string, href: string) {
@@ -17,6 +21,7 @@ function isActive(pathname: string, href: string) {
 export function Navbar() {
   const pathname = usePathname();
   const { openSearch, requestCall, openMobileMenu } = useUI();
+  const contact = useContactDetails();
 
   useHotkey("k", (e) => {
     e.preventDefault();
@@ -33,14 +38,12 @@ export function Navbar() {
       <div className="hidden bg-charcoal text-[11.5px] text-white/75 md:block">
         <div className="container-page flex h-8 items-center justify-between">
           <div className="flex items-center gap-6">
-            <a href={siteConfig.phoneHref} className="inline-flex items-center gap-1.5 transition hover:text-white">
+            <PhoneLink className="inline-flex items-center gap-1.5 transition hover:text-white">
               <Phone aria-hidden className="size-3.5" />
-              {siteConfig.phone}
-            </a>
-            <a href={siteConfig.emailHref} className="inline-flex items-center gap-1.5 transition hover:text-white">
+            </PhoneLink>
+            <EmailLink className="inline-flex items-center gap-1.5 transition hover:text-white">
               <Mail aria-hidden className="size-3.5" />
-              {siteConfig.email}
-            </a>
+            </EmailLink>
           </div>
           <nav aria-label="Utility" className="flex items-center gap-6">
             {utilityNav.map((l) => (
@@ -70,12 +73,11 @@ export function Navbar() {
             type="button"
             onClick={() => openSearch()}
             className="group hidden h-12 min-w-0 flex-1 items-center gap-3 rounded-md border border-line bg-white pr-1.5 pl-4 text-left text-sm text-subtle transition hover:border-subtle/50 lg:ml-10 lg:flex"
-            aria-label="Search products"
           >
             <Search aria-hidden className="size-4 shrink-0" />
             <span className="flex-1 truncate">Search products: epoxy, polyaspartic, flakes, tools…</span>
             <kbd className="hidden rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-subtle xl:inline">⌘K</kbd>
-            <span className="rounded bg-brand px-3 py-2 text-[10.5px] font-bold tracking-[0.14em] text-white uppercase transition group-hover:bg-brand-dark">
+            <span className="rounded bg-brand-deep px-3 py-2 text-[10.5px] font-bold tracking-[0.14em] text-white uppercase transition group-hover:bg-brand-ink">
               Search
             </span>
           </button>
@@ -92,12 +94,11 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => requestCall()}
-              aria-label={`Call to order: ${siteConfig.phone}`}
-              className="inline-flex h-10 items-center gap-2 rounded-md bg-brand px-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark md:h-11 md:px-4"
+              className="inline-flex h-10 items-center gap-2 rounded-md bg-brand-deep px-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-ink md:h-11 md:px-4"
             >
               <Phone aria-hidden className="size-4" />
               <span className="sm:hidden">Call</span>
-              <span className="hidden tabular-nums sm:inline">{siteConfig.phone}</span>
+              <span className="hidden tabular-nums sm:inline">{contact?.phone ?? MASKED_PHONE}</span>
             </button>
           </div>
         </div>
@@ -112,8 +113,8 @@ export function Navbar() {
               href={l.href}
               aria-current={isActive(pathname, l.href) ? "page" : undefined}
               className={cn(
-                "text-[12px] font-medium tracking-[0.14em] uppercase transition hover:text-brand",
-                isActive(pathname, l.href) ? "text-brand" : "text-ink"
+                "text-[12px] font-medium tracking-[0.14em] uppercase transition hover:text-brand-deep",
+                isActive(pathname, l.href) ? "text-brand-deep" : "text-ink"
               )}
             >
               {l.label}

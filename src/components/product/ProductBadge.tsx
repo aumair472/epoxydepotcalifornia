@@ -2,7 +2,7 @@ import { cn } from "@/lib/cn";
 import type { Badge } from "@/types";
 
 const styles: Record<Badge, string> = {
-  "Best Seller": "bg-brand text-white",
+  "Best Seller": "bg-brand-deep text-white",
   New: "bg-ink text-white",
   Pro: "bg-charcoal text-gold",
   "Fast Cure": "bg-gold text-charcoal",

@@ -39,7 +39,7 @@ export function FilterSidebar({ category, params, query, facets, onChange, onCle
           <li>
             <Link href={`/shop${query}`} onClick={onNavigate} className={rowClass(!category)} aria-current={!category ? "page" : undefined}>
               All categories
-              <span className="ml-auto text-xs text-subtle tabular-nums">{facets.allCategories}</span>
+              <span className={cn("ml-auto text-xs tabular-nums", !category ? "text-muted" : "text-subtle")}>{facets.allCategories}</span>
             </Link>
           </li>
           {categories.map((c) => {
@@ -50,12 +50,12 @@ export function FilterSidebar({ category, params, query, facets, onChange, onCle
                 <Link
                   href={`/shop/${c.slug}${query}`}
                   onClick={onNavigate}
-                  className={cn(rowClass(active), !active && count === 0 && "opacity-50")}
+                  className={cn(rowClass(active), !active && count === 0 && "text-subtle")}
                   aria-current={active ? "page" : undefined}
                 >
                   <span aria-hidden className="size-1.5 shrink-0 rounded-full" style={{ backgroundColor: c.color }} />
                   {c.name}
-                  <span className="ml-auto text-xs text-subtle tabular-nums">{count}</span>
+                  <span className={cn("ml-auto text-xs tabular-nums", active ? "text-muted" : "text-subtle")}>{count}</span>
                 </Link>
               </li>
             );
@@ -99,7 +99,7 @@ export function FilterSidebar({ category, params, query, facets, onChange, onCle
             const count = facets.byPack.get(g.id) ?? 0;
             return (
               <li key={g.id}>
-                <label className={cn(rowClass(false), "cursor-pointer", !checked && count === 0 && "cursor-not-allowed opacity-45")}>
+                <label className={cn(rowClass(false), "cursor-pointer", !checked && count === 0 && "cursor-not-allowed text-subtle")}>
                   <input
                     type="checkbox"
                     className="peer sr-only"
@@ -126,7 +126,7 @@ export function FilterSidebar({ category, params, query, facets, onChange, onCle
       </section>
 
       {hasFilters && (
-        <button type="button" onClick={onClear} className="text-[11px] font-bold tracking-[0.14em] text-brand uppercase hover:text-brand-dark">
+        <button type="button" onClick={onClear} className="text-[11px] font-bold tracking-[0.14em] text-brand-deep uppercase hover:text-brand-ink">
           Clear all filters
         </button>
       )}

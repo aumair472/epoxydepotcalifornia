@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
-import { ShopFallback } from "@/components/shop/ShopFallback";
 import { ShopView } from "@/components/shop/ShopView";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { products } from "@/data/mockData";
@@ -15,9 +13,7 @@ export default function ShopPage() {
   return (
     <>
       <JsonLd data={collectionSchema("Shop All Floor Coating Supplies", String(metadata.description), "/shop", products)} />
-      <Suspense fallback={<ShopFallback />}>
-        <ShopView />
-      </Suspense>
+      <ShopView />
     </>
   );
 }

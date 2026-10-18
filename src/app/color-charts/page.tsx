@@ -6,7 +6,8 @@ import { CallToOrderButton } from "@/components/call/CallToOrderButton";
 import { Chips } from "@/components/product/ProductImage";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { flakeBlends, fuzionColors, metallicColors, siteConfig, solidColors } from "@/data/mockData";
+import { flakeBlends, fuzionColors, metallicColors, solidColors } from "@/data/mockData";
+import { PhoneLink } from "@/components/contact/PhoneLink";
 import { webPageSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
@@ -18,7 +19,7 @@ function SectionTitle({ title, docId }: { title: string; docId: string }) {
   return (
     <div className="mb-5 flex items-end justify-between gap-4">
       <h2 className="font-display text-2xl font-semibold text-ink">{title}</h2>
-      <a href={`/docs/${docId}`} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-[0.14em] text-brand uppercase hover:text-brand-dark">
+      <a href={`/docs/${docId}`} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-[0.14em] text-brand-deep uppercase hover:text-brand-ink">
         <Download aria-hidden className="size-3.5" /> PDF chart
       </a>
     </div>
@@ -71,7 +72,7 @@ export default function ColorChartsPage() {
                   />
                 )}
                 {c.isNew && (
-                  <span className="absolute top-2 left-2 rounded-sm bg-brand px-1.5 py-0.5 text-[10px] font-bold tracking-[0.12em] text-white uppercase">New</span>
+                  <span className="absolute top-2 left-2 rounded-sm bg-brand-deep px-1.5 py-0.5 text-[10px] font-bold tracking-[0.12em] text-white uppercase">New</span>
                 )}
                 <div className="px-3 py-2.5">
                   <p className="text-[13px] leading-tight font-semibold text-ink">{c.name}</p>
@@ -140,9 +141,9 @@ export default function ColorChartsPage() {
                     {b.productId ? (
                       <CallToOrderButton productId={b.productId} size="xs" label="Call · 40 lb box" />
                     ) : (
-                      <a href={siteConfig.phoneHref} className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-[0.12em] text-brand uppercase">
+                      <PhoneLink hideNumber className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-[0.12em] text-brand-deep uppercase">
                         <Phone aria-hidden className="size-3.5" /> Custom blend — call
-                      </a>
+                      </PhoneLink>
                     )}
                   </div>
                 </div>

@@ -103,7 +103,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[id]">
                 </div>
               ))}
             </dl>
-            <a href="#details" className="flex items-center gap-1.5 border-t border-line px-4 py-2.5 text-[11px] font-bold tracking-[0.14em] text-brand uppercase hover:bg-cream">
+            <a href="#details" className="flex items-center gap-1.5 border-t border-line px-4 py-2.5 text-[11px] font-bold tracking-[0.14em] text-brand-deep uppercase hover:bg-cream">
               <FileText aria-hidden className="size-3.5" /> Full specs & data sheets
             </a>
           </div>
@@ -116,7 +116,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[id]">
         <section className="mt-20">
           <div className="flex items-end justify-between gap-4">
             <h2 className="font-display text-[28px] font-semibold text-ink md:text-3xl">More from {category.name}</h2>
-            <Link href={`/shop/${category.slug}`} className="hidden items-center gap-1.5 text-[12px] font-bold tracking-[0.14em] text-brand uppercase hover:text-brand-dark sm:inline-flex">
+            <Link href={`/shop/${category.slug}`} className="hidden items-center gap-1.5 text-[12px] font-bold tracking-[0.14em] text-brand-deep uppercase hover:text-brand-ink sm:inline-flex">
               View all <ArrowRight aria-hidden className="size-4" />
             </Link>
           </div>

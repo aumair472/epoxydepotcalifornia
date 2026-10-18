@@ -103,14 +103,17 @@ export function ShopView({ category }: { category?: CategorySlug }) {
                   <X aria-hidden className="size-3.5 text-subtle" />
                 </button>
               ))}
-              <button type="button" onClick={clear} className="ml-1 text-[11px] font-bold tracking-[0.14em] text-brand uppercase hover:text-brand-dark">
+              <button type="button" onClick={clear} className="ml-1 text-[11px] font-bold tracking-[0.14em] text-brand-deep uppercase hover:text-brand-ink">
                 Clear all
               </button>
             </div>
           )}
 
           {results.length > 0 ? (
-            <ProductGrid products={results} columns={3} />
+            <>
+              <h2 className="sr-only">Products</h2>
+              <ProductGrid products={results} columns={3} eagerCount={2} />
+            </>
           ) : (
             <div className="rounded-xl border border-dashed border-line bg-white px-6 py-16 text-center">
               <PackageSearch aria-hidden className="mx-auto size-10 text-subtle" strokeWidth={1.4} />

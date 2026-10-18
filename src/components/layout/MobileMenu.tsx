@@ -6,6 +6,8 @@ import { LogoMark } from "@/components/layout/Logo";
 import { Drawer } from "@/components/ui/Drawer";
 import { Icon } from "@/components/ui/Icon";
 import { useUI } from "@/context/UIContext";
+import { PhoneLink } from "@/components/contact/PhoneLink";
+import { EmailLink } from "@/components/contact/EmailLink";
 import { categories, primaryNav, siteConfig, utilityNav } from "@/data/mockData";
 
 export function MobileMenu() {
@@ -75,12 +77,12 @@ export function MobileMenu() {
         </div>
 
         <div className="m-4 space-y-2 rounded-lg bg-cream p-4 text-sm">
-          <a href={siteConfig.phoneHref} className="flex items-center gap-2 font-medium">
-            <Phone aria-hidden className="size-4 text-brand" /> {siteConfig.phone}
-          </a>
-          <a href={siteConfig.emailHref} className="flex items-center gap-2 text-muted">
-            <Mail aria-hidden className="size-4 text-brand" /> {siteConfig.email}
-          </a>
+          <PhoneLink className="flex items-center gap-2 font-medium">
+            <Phone aria-hidden className="size-4 text-brand" />
+          </PhoneLink>
+          <EmailLink className="flex items-center gap-2 text-muted">
+            <Mail aria-hidden className="size-4 text-brand" />
+          </EmailLink>
           <p className="text-xs text-subtle">{siteConfig.hours}</p>
         </div>
       </div>
@@ -89,7 +91,7 @@ export function MobileMenu() {
         <button
           type="button"
           onClick={() => requestCall()}
-          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand text-sm font-semibold text-white"
+          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand-deep text-sm font-semibold text-white"
         >
           <Phone aria-hidden className="size-4" /> Call to order
         </button>

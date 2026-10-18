@@ -6,19 +6,23 @@ import { buttonClasses, Button } from "@/components/ui/Button";
 import { useToast } from "@/context/ToastContext";
 import { useUI } from "@/context/UIContext";
 import { siteConfig } from "@/data/mockData";
-import { mailtoHref } from "@/lib/contact";
+import { useContactDetails } from "@/hooks/useContactDetails";
+import { MASKED_PHONE, mailtoHref } from "@/lib/contact";
 
 /** Desktop fallback for every buy action: we take orders by phone. */
 export function CallToOrderModal() {
   const { callOpen, callSubject, closeOverlay } = useUI();
   const { toast } = useToast();
+  const contact = useContactDetails();
+  const phone = contact?.phone ?? MASKED_PHONE;
+  const phoneHref = contact?.phoneHref ?? "/contact";
 
   const copyNumber = async () => {
     try {
-      await navigator.clipboard.writeText(siteConfig.phone);
-      toast({ title: "Number copied", description: siteConfig.phone });
+      await navigator.clipboard.writeText(phone);
+      toast({ title: "Number copied", description: phone });
     } catch {
-      toast({ title: "Couldn't copy", description: `Dial ${siteConfig.phone}`, tone: "error" });
+      toast({ title: "Couldn't copy", description: `Dial ${phone}`, tone: "error" });
     }
   };
 
@@ -40,17 +44,17 @@ export function CallToOrderModal() {
         )}
 
         <a
-          href={siteConfig.phoneHref}
-          className="mt-5 block text-center font-display text-3xl font-bold tracking-tight text-ink transition hover:text-brand"
+          href={phoneHref}
+          className="mt-5 block text-center font-display text-3xl font-bold tracking-tight text-ink transition hover:text-brand-deep"
         >
-          {siteConfig.phone}
+          {phone}
         </a>
         <p className="mt-1.5 flex items-center justify-center gap-1.5 text-sm text-subtle">
           <Clock aria-hidden className="size-3.5" /> {siteConfig.hours}
         </p>
 
         <div className="mt-5 grid gap-2 sm:grid-cols-2">
-          <a href={siteConfig.phoneHref} className={buttonClasses({ size: "md", block: true })}>
+          <a href={phoneHref} className={buttonClasses({ size: "md", block: true })}>
             <Phone aria-hidden className="size-4" /> Call now
           </a>
           <Button variant="outline" size="md" block onClick={copyNumber}>
@@ -59,7 +63,9 @@ export function CallToOrderModal() {
         </div>
         <a
           href={
-            callSubject
+            !contact
+              ? "/contact"
+              : callSubject
               ? mailtoHref(
                   `Order: ${callSubject.title}`,
                   `I'd like to order:\n${callSubject.title}${callSubject.detail ? `\n${callSubject.detail}` : ""}\n\nName:\nPhone:\nShip to / pickup:\n`,
@@ -68,7 +74,7 @@ export function CallToOrderModal() {
           }
           className="mt-4 flex items-center justify-center gap-1.5 text-[13px] font-medium text-brand-deep hover:underline"
         >
-          <Mail aria-hidden className="size-4" /> Prefer email? {siteConfig.email}
+          <Mail aria-hidden className="size-4" /> Prefer email? {contact?.email ?? "Email us"}
         </a>
       </div>
     </Modal>

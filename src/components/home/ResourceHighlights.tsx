@@ -16,7 +16,7 @@ export function ResourceHighlights() {
                 <Icon name={r.icon} className="size-5 text-brand" />
                 <h3 className="mt-5 font-display text-lg font-semibold text-ink">{r.title}</h3>
                 <p className="mt-1 text-sm text-muted">{r.description}</p>
-                <span className="mt-6 inline-flex items-center gap-1 text-[11px] font-bold tracking-[0.14em] text-brand uppercase transition group-hover:gap-2">
+                <span className="mt-6 inline-flex items-center gap-1 text-[11px] font-bold tracking-[0.14em] text-brand-deep uppercase transition group-hover:gap-2">
                   Open <ArrowRight aria-hidden className="size-3.5" />
                 </span>
               </Link>

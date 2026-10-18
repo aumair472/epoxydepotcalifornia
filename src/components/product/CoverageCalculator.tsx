@@ -76,7 +76,7 @@ export function CoverageCalculator({ product, application }: { product: Product;
                 onClick={() => setSqftText(String(p.sqft))}
                 className={cn(
                   "rounded-full border px-2.5 py-1 text-[11px] font-medium transition",
-                  sqft === p.sqft ? "border-brand bg-brand/10 text-brand-deep" : "border-line text-muted hover:border-brand"
+                  sqft === p.sqft ? "border-brand bg-brand/10 text-brand-ink" : "border-line text-muted hover:border-brand"
                 )}
               >
                 {p.label} garage · {p.sqft} sq ft

@@ -13,7 +13,7 @@ const variants: Record<ButtonVariant, string> = {
   outline: "border-2 border-ink text-ink hover:bg-ink hover:text-white",
   dark: "bg-charcoal text-white hover:bg-charcoal-2",
   ghost: "text-brand-deep hover:text-brand-ink",
-  soft: "bg-brand/10 text-brand-deep hover:bg-brand/15",
+  soft: "bg-brand/10 text-brand-ink hover:bg-brand/15",
   "outline-light": "border border-white/25 text-white hover:bg-white/10",
   white: "bg-white text-ink hover:bg-cream",
 };

@@ -8,6 +8,7 @@ import { Footer } from "@/components/layout/Footer";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { Navbar } from "@/components/layout/Navbar";
 import { SearchModal } from "@/components/search/SearchModal";
+import { GoogleTagManager } from "@/components/seo/GoogleTagManager";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Toaster } from "@/components/ui/Toaster";
 import { Providers } from "@/context/Providers";
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       {/* suppressHydrationWarning: browser extensions (e.g. Grammarly) inject attributes on <body>. */}
       <body className="flex min-h-screen flex-col" suppressHydrationWarning>
+        <GoogleTagManager gtmId={siteConfig.gtmId} />
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />
         <Providers>

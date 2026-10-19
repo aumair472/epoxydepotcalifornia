@@ -73,6 +73,8 @@ export const siteConfig = {
   name: "Epoxy Depot California",
   /** Production origin, used for canonical URLs, the sitemap and social previews. */
   url: "https://epoxydepotcalifornia.com",
+  /** Google Tag Manager container (loaded by components/seo/GoogleTagManager). */
+  gtmId: "GTM-NZXHHNMS",
   shortName: "Epoxy Depot",
   wordmarkTop: "Epoxy Depot",
   wordmarkBottom: "California · Coatings · Supply",

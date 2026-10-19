@@ -32,7 +32,7 @@ A front-end-only clone of the layout, design and UX of coatingwarehouse.com, reb
 - Contrast (AA): solid orange fills with white text use `brand-deep` (hover `brand-ink`). Orange text on light backgrounds uses `brand-deep`, on orange tints `brand-ink`. Bright `brand` is for icons, borders and text on dark backgrounds only.
 
 ## Component dependency map
-- `app/layout.tsx` → `Providers` (ToastProvider > UIProvider) → `AnnouncementBar`, `Navbar`, `{children}`, `Footer`, overlays (`CallToOrderModal`, `MobileMenu`, `SearchModal`, `CallFab`, `Toaster`)
+- `app/layout.tsx` → `GoogleTagManager` (components/seo, `siteConfig.gtmId`, first in `<body>`), `Providers` (ToastProvider > UIProvider) → `AnnouncementBar`, `Navbar`, `{children}`, `Footer`, overlays (`CallToOrderModal`, `MobileMenu`, `SearchModal`, `CallFab`, `Toaster`)
 - `ProductCard` (server) → `ProductImage` (SVG), `ProductBadge`, `CallToOrderButton` (client) → `useUI().requestCall`. The call overlay replaces search / mobile menu (one overlay at a time).
 - `ShopView` (client, inside `<Suspense fallback={<ShopFallback/>}>`) → `useShopParams` (URL state via `window.history.replaceState`) → `FilterSidebar`, `ProductGrid`, bottom-sheet `Drawer`
 - `product/[id]` → `ProductGallery`, `ProductPurchasePanel`, `CoverageCalculator` (`lib/coverage`), `ProductTabs` (Data sheets tab → `ContactCards`)
@@ -104,4 +104,4 @@ All 5 phases complete, plus the phone-ordering change (2026-09-13). Production p
   - **Accessibility:** contrast tokens (see design tokens), visible labels inside accessible names (CallToOrderButton uses sr-only text, not aria-label), heading order. Lighthouse accessibility is 100 on every page.
   - **Contact protection:** the phone, email, `tel:` and `mailto:` links are absent from the server HTML of all 101 pages, from the JS bundles and from the PDFs (verified by scan). Schema keeps the address but has no telephone or email. Googlebot renders JS, so it still sees the number (not cloaking).
   - **Fonts:** JetBrains Mono was dropped (system monospace for SKUs).
-
+- 2026-10-19: Google Tag Manager (container `GTM-NZXHHNMS`, in `siteConfig.gtmId`). `components/seo/GoogleTagManager` renders Google's standard loader through `next/script` (`afterInteractive`, so it runs after hydration and doesn't block first paint) and the `<noscript>` iframe, first inside `<body>`. No new dependency (`@next/third-parties` has no noscript fallback). It loads on every environment, including `next dev`, so local and preview visits reach the container unless it filters them. Tags and any consent setup live in the GTM dashboard, not in the code.

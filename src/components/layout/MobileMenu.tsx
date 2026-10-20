@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ChevronRight, Mail, Phone, Search, X } from "lucide-react";
+import { GoogleRatingBadge } from "@/components/layout/GoogleRatingBadge";
 import { LogoMark } from "@/components/layout/Logo";
 import { Drawer } from "@/components/ui/Drawer";
 import { Icon } from "@/components/ui/Icon";
@@ -34,6 +35,7 @@ export function MobileMenu() {
           >
             <Search aria-hidden className="size-4" /> Search products…
           </button>
+          <GoogleRatingBadge className="mt-3" />
         </div>
 
         <nav aria-label="Mobile primary" className="border-y border-line">

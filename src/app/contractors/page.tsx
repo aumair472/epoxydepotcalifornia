@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lightbulb } from "lucide-react";
 import { ContactCards } from "@/components/contact/ContactCards";
+import { GoogleRatingBadge } from "@/components/layout/GoogleRatingBadge";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Icon } from "@/components/ui/Icon";
@@ -38,6 +39,7 @@ export default function ContractorsPage() {
       </div>
       <div className="container-page grid gap-10 pt-8 pb-12 md:pb-16 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
         <div>
+          <GoogleRatingBadge className="mb-5 flex w-fit" />
           <p className="eyebrow">{contractorProgram.eyebrow}</p>
           <h1 className="mt-3 font-display text-[36px] leading-[1.08] font-bold text-ink md:text-5xl">{contractorProgram.title}</h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-muted md:text-[17px]">

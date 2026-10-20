@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { ArticleCard } from "@/components/resources/ArticleCard";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { GoogleRatingBadge } from "@/components/layout/GoogleRatingBadge";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/Button";
 import { articles } from "@/data/mockData";
@@ -38,7 +39,8 @@ export default async function ArticlePage({ params }: PageProps<"/resources/[slu
       <header className="bg-cream">
         <div className="container-page max-w-4xl pt-8 pb-10 md:pb-14">
           <Breadcrumbs items={[{ label: "Resources", href: "/resources" }, { label: article.title }]} />
-          <p className="eyebrow mt-8">{article.tag}</p>
+          <GoogleRatingBadge className="mt-8 flex w-fit" />
+          <p className="eyebrow mt-5">{article.tag}</p>
           <h1 className="mt-3 font-display text-[34px] leading-[1.1] font-bold text-ink md:text-5xl">{article.title}</h1>
           <p className="mt-4 text-lg text-muted">{article.excerpt}</p>
           <p className="mt-6 text-sm text-subtle">

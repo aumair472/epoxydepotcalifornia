@@ -67,34 +67,21 @@ export function Navbar() {
             <Menu className="size-6" />
           </button>
 
-          <Logo className="mr-auto lg:mr-0" />
-
-          <button
-            type="button"
-            onClick={() => openSearch()}
-            className="group hidden h-12 min-w-0 flex-1 items-center gap-3 rounded-md border border-line bg-white pr-1.5 pl-4 text-left text-sm text-subtle transition hover:border-subtle/50 lg:ml-10 lg:flex"
-          >
-            <Search aria-hidden className="size-4 shrink-0" />
-            <span className="flex-1 truncate">Search products: epoxy, polyaspartic, flakes, tools…</span>
-            <kbd className="hidden rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-subtle xl:inline">⌘K</kbd>
-            <span className="rounded bg-brand-deep px-3 py-2 text-[10.5px] font-bold tracking-[0.14em] text-white uppercase transition group-hover:bg-brand-ink">
-              Search
-            </span>
-          </button>
+          <Logo className="mr-auto" />
 
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => openSearch()}
               aria-label="Search products"
-              className="grid size-10 place-items-center rounded-md text-ink hover:bg-cream lg:hidden"
+              className="grid size-10 place-items-center rounded-md text-ink hover:bg-cream md:size-11"
             >
               <Search className="size-5" />
             </button>
             <button
               type="button"
               onClick={() => requestCall()}
-              className="inline-flex h-10 items-center gap-2 rounded-md bg-brand-deep px-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-ink md:h-11 md:px-4"
+              className="inline-flex h-10 items-center gap-2 rounded-md bg-brand-deep px-3 text-sm font-semibold whitespace-nowrap text-white shadow-sm transition hover:bg-brand-ink md:h-11 md:px-4"
             >
               <Phone aria-hidden className="size-4" />
               <span className="sm:hidden">Call</span>

@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { PackageSearch, SlidersHorizontal, X } from "lucide-react";
+import { GoogleRatingBadge } from "@/components/layout/GoogleRatingBadge";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { FilterSidebar } from "@/components/shop/FilterSidebar";
+import { ShopSearchField } from "@/components/shop/ShopSearchField";
 import { useShopParams } from "@/components/shop/useShopParams";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button, ButtonLink } from "@/components/ui/Button";
@@ -22,10 +24,12 @@ export function ShopView({ category }: { category?: CategorySlug }) {
   const facets = useMemo(() => getFacetCounts(filters), [filters]);
   const cat = category ? getCategory(category) : undefined;
 
-  const title = cat?.name ?? (params.tag ? getTagLabel(params.tag) : params.q ? `Results for “${params.q}”` : "All Products");
+  const scopeCount = useMemo(() => filterProducts({ category }).length, [category]);
 
+  const title = cat?.name ?? (params.tag ? getTagLabel(params.tag) : "All Products");
+
+  // The search text has its own field (with a clear button), so it isn't repeated as a chip.
   const chips: { key: string; label: string; remove: () => void }[] = [];
-  if (params.q) chips.push({ key: "q", label: `“${params.q}”`, remove: () => update({ q: undefined }) });
   if (params.tag) chips.push({ key: "tag", label: getTagLabel(params.tag), remove: () => update({ tag: undefined }) });
   if (params.min !== undefined || params.max !== undefined) {
     const label =
@@ -52,43 +56,55 @@ export function ShopView({ category }: { category?: CategorySlug }) {
     <div className="container-page pt-6 pb-16 lg:pt-8 lg:pb-24">
       <Breadcrumbs items={cat ? [{ label: "Shop", href: "/shop" }, { label: cat.name }] : [{ label: "Shop" }]} />
 
-      <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-        <div className="max-w-2xl">
-          <p className="eyebrow">Shop</p>
-          <h1 className="mt-2 font-display text-[34px] leading-tight font-bold text-ink md:text-[40px]">{title}</h1>
-          {cat && <p className="mt-2 text-[15px] leading-relaxed text-muted">{cat.longDescription}</p>}
-          <p className="mt-2 text-sm text-subtle" aria-live="polite">
-            {pluralize(results.length, "product")} found
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="lg:hidden" onClick={() => setSheetOpen(true)}>
-            <SlidersHorizontal aria-hidden className="size-3.5" /> Filters{chips.length > 0 && ` (${chips.length})`}
-          </Button>
-          <label htmlFor="shop-sort" className="sr-only">
-            Sort products
-          </label>
-          <Select
-            id="shop-sort"
-            value={params.sort}
-            onChange={(e) => isSortKey(e.target.value) && update({ sort: e.target.value })}
-            className="h-9 w-[190px] text-sm"
-          >
-            {sortOptions.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </Select>
+      <div className="mt-5 max-w-2xl">
+        <GoogleRatingBadge className="mb-5 flex w-fit" />
+        <p className="eyebrow">Shop</p>
+        <h1 className="mt-2 font-display text-[34px] leading-tight font-bold text-ink md:text-[40px]">{title}</h1>
+        {cat && <p className="mt-2 text-[15px] leading-relaxed text-muted">{cat.longDescription}</p>}
+      </div>
+
+      {/* Search, filters and sort. Below lg it sticks under the header while the grid scrolls. */}
+      <div className="sticky top-[65px] z-30 -mx-4 mt-5 border-b border-line bg-cream px-4 py-3 sm:-mx-6 sm:px-6 md:top-[113px] lg:static lg:mx-0 lg:mt-6 lg:border-0 lg:bg-transparent lg:p-0">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+          <ShopSearchField
+            query={params.q}
+            placeholder={`Search ${pluralize(scopeCount, "product")}`}
+            onSearch={(text) => update({ q: text.trim() || undefined })}
+            className="sm:flex-1"
+          />
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
+            <Button variant="white" size="sm" className="h-11 border border-line lg:hidden" onClick={() => setSheetOpen(true)}>
+              <SlidersHorizontal aria-hidden className="size-3.5" /> Filters{chips.length > 0 && ` (${chips.length})`}
+            </Button>
+            <label htmlFor="shop-sort" className="sr-only">
+              Sort products
+            </label>
+            <Select
+              id="shop-sort"
+              value={params.sort}
+              onChange={(e) => isSortKey(e.target.value) && update({ sort: e.target.value })}
+              className="text-sm sm:w-[190px]"
+            >
+              {sortOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </Select>
+          </div>
         </div>
       </div>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[232px_1fr] lg:gap-10">
+      <div className="mt-5 grid gap-8 lg:mt-8 lg:grid-cols-[232px_1fr] lg:gap-10">
         <aside aria-label="Product filters" className="hidden lg:block">
           {sidebar()}
         </aside>
 
         <div className="min-w-0">
+          <p className="mb-4 text-sm text-subtle" aria-live="polite">
+            {pluralize(results.length, "product")} {params.q ? <>found for “{params.q}”</> : "found"}
+          </p>
+
           {chips.length > 0 && (
             <div className="mb-5 flex flex-wrap items-center gap-2">
               {chips.map((c) => (
@@ -117,10 +133,14 @@ export function ShopView({ category }: { category?: CategorySlug }) {
           ) : (
             <div className="rounded-xl border border-dashed border-line bg-white px-6 py-16 text-center">
               <PackageSearch aria-hidden className="mx-auto size-10 text-subtle" strokeWidth={1.4} />
-              <h2 className="mt-4 font-display text-xl font-semibold">No products match these filters</h2>
-              <p className="mt-1 text-sm text-muted">Try widening the price range or clearing a pack size.</p>
+              <h2 className="mt-4 font-display text-xl font-semibold">
+                {params.q ? <>No products match “{params.q}”</> : "No products match these filters"}
+              </h2>
+              <p className="mt-1 text-sm text-muted">
+                {params.q ? "Check the spelling or try a shorter word." : "Try widening the price range or clearing a pack size."}
+              </p>
               <div className="mt-6 flex flex-wrap justify-center gap-3">
-                <Button onClick={clear}>Clear filters</Button>
+                <Button onClick={clear}>{params.q && chips.length === 0 ? "Clear search" : "Clear filters"}</Button>
                 <ButtonLink href="/contact" variant="outline">
                   Ask a tech rep
                 </ButtonLink>

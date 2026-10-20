@@ -9,6 +9,7 @@ import { ProductGrid } from "@/components/product/ProductGrid";
 import { ProductPurchasePanel } from "@/components/product/ProductPurchasePanel";
 import { ProductTabs } from "@/components/product/ProductTabs";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { GoogleRatingBadge } from "@/components/layout/GoogleRatingBadge";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { products } from "@/data/mockData";
 import { getCategory, getProduct, getProductSpecs, getRelatedProducts } from "@/lib/catalog";
@@ -50,6 +51,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[id]">
         <ProductGallery product={product} category={category} />
 
         <div>
+          <GoogleRatingBadge className="mb-4 flex w-fit" />
           <div className="flex flex-wrap items-center gap-2.5">
             <Link href={`/shop/${category.slug}`} className="eyebrow hover:text-brand-dark">
               {category.name}

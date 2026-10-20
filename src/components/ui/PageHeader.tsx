@@ -1,3 +1,4 @@
+import { GoogleRatingBadge } from "@/components/layout/GoogleRatingBadge";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { cn } from "@/lib/cn";
 import type { NavLink } from "@/types";
@@ -21,6 +22,7 @@ export function PageHeader({ eyebrow, title, body, breadcrumbs, className, child
             <Breadcrumbs items={breadcrumbs} />
           </div>
         )}
+        <GoogleRatingBadge className="mb-5 flex w-fit" />
         <p className="eyebrow">{eyebrow}</p>
         <h1 className="mt-3 max-w-3xl font-display text-[36px] leading-[1.08] font-bold tracking-[-0.01em] text-ink md:text-5xl">{title}</h1>
         {body && <div className="mt-4 max-w-2xl text-base leading-relaxed text-muted md:text-[17px]">{body}</div>}

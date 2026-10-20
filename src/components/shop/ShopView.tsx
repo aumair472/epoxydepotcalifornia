@@ -66,7 +66,7 @@ export function ShopView({ category }: { category?: CategorySlug }) {
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
           <ShopSearchField
             query={params.q}
-            placeholder="Search epoxy products"
+            placeholder="Search products"
             onSearch={(text) => update({ q: text.trim() || undefined })}
             className="sm:flex-1"
           />

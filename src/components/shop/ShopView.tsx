@@ -24,8 +24,6 @@ export function ShopView({ category }: { category?: CategorySlug }) {
   const facets = useMemo(() => getFacetCounts(filters), [filters]);
   const cat = category ? getCategory(category) : undefined;
 
-  const scopeCount = useMemo(() => filterProducts({ category }).length, [category]);
-
   const title = cat?.name ?? (params.tag ? getTagLabel(params.tag) : "All Products");
 
   // The search text has its own field (with a clear button), so it isn't repeated as a chip.
@@ -68,7 +66,7 @@ export function ShopView({ category }: { category?: CategorySlug }) {
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
           <ShopSearchField
             query={params.q}
-            placeholder={`Search ${pluralize(scopeCount, "product")}`}
+            placeholder="Search epoxy products"
             onSearch={(text) => update({ q: text.trim() || undefined })}
             className="sm:flex-1"
           />

@@ -6,7 +6,7 @@ const controlClasses =
 
 export function Select({ className, children, ...props }: ComponentProps<"select">) {
   return (
-    <select className={cn(controlClasses, "h-11 appearance-none bg-[length:16px] bg-[right_12px_center] bg-no-repeat pr-9 pl-3.5", className)} style={{ backgroundImage: CHEVRON }} {...props}>
+    <select className={cn(controlClasses, "h-11 appearance-none bg-[length:16px] bg-[position:right_12px_center] bg-no-repeat pr-9 pl-3.5", className)} style={{ backgroundImage: CHEVRON }} {...props}>
       {children}
     </select>
   );

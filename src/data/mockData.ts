@@ -104,6 +104,15 @@ export const siteConfig = {
     { label: "Instagram", href: "https://www.instagram.com/epoxydepotcalifornia/", icon: "instagram" },
     { label: "Facebook", href: "https://www.facebook.com/EpoxyDepotCalifornia", icon: "facebook" },
   ],
+  // The owner's "Cisneros Decorative Concrete" Google Business Profile at the same address
+  // (1113 W Columbus St), which the client chose over the newer "Epoxy Depot Bakersfield"
+  // listing (4.4 · 13 on 2026-10-20, cid 6405139192895304876). As shown on Google Maps on
+  // 2026-10-20. Hardcoded, so update it by hand when the rating changes.
+  googleRating: {
+    value: 4.9,
+    count: 273,
+    href: "https://maps.google.com/?cid=13271291956368580167",
+  },
   freeShippingThreshold: 500,
   contractorDiscount: 0.15,
 } as const;

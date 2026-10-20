@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { decodeContact } from "@/lib/contact";
+import { focusShopSearch } from "@/lib/shopSearch";
 import type { CallSubject } from "@/types";
 
 type Overlay = "search" | "call" | "mobileMenu" | null;
@@ -33,6 +34,10 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
   const [callSubject, setCallSubject] = useState<CallSubject | null>(null);
 
   const openSearch = useCallback((seed = "") => {
+    if (!seed && focusShopSearch()) {
+      setOverlay(null);
+      return;
+    }
     setSearchSeed(seed);
     setOverlay("search");
   }, []);

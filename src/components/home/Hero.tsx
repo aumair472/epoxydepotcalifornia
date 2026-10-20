@@ -1,4 +1,5 @@
 import { ArrowRight, Sparkles } from "lucide-react";
+import { GoogleRatingBadge } from "@/components/layout/GoogleRatingBadge";
 import { CategoryTiles } from "@/components/home/CategoryTiles";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
@@ -13,6 +14,7 @@ export function Hero() {
       />
       <div className="container-page relative grid items-center gap-10 py-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-20">
         <div>
+          <GoogleRatingBadge className="mb-5 flex w-fit" />
           <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/10 px-3 py-1.5 text-[10.5px] font-bold tracking-[0.18em] text-brand-ink uppercase">
             <Sparkles aria-hidden className="size-3.5" />
             {heroContent.badge}

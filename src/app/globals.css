@@ -17,6 +17,8 @@
   /* Orange text on orange-tinted backgrounds, and the hover shade for brand-deep fills (AA contrast). */
   --color-brand-ink: #9a3412;
   --color-gold: #d9a441;
+  /* Google's review-star yellow, for the Google rating badge only. */
+  --color-star: #fbbc04;
   --color-success: #4ade80;
   --color-danger: #dc2626;
 

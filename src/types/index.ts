@@ -176,6 +176,8 @@ export interface Product {
   price: number;
   /** On sale: the regular price, shown crossed out next to `price` (which holds the sale price). */
   compareAtPrice?: number;
+  /** Short note shown with the price, e.g. "plus tax". */
+  priceNote?: string;
   /** No confirmed price yet: shown as "Call for price" and left out of price filters. */
   callForPrice?: boolean;
   /** Sizes priced separately (e.g. 18"/24"/36"); `price` holds the lowest and shows as "From …". */

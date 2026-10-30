@@ -65,8 +65,10 @@ export default async function ProductPage({ params }: PageProps<"/product/[id]">
 
             <div className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
               {product.compareAtPrice && <s className="font-display text-2xl font-medium text-subtle">{formatPrice(product.compareAtPrice)}</s>}
-              <p className="font-display text-4xl font-bold text-ink">{formatProductPrice(product)}</p>
-              <p className="text-sm text-subtle">/ {product.packSize}</p>
+              <p className={cn("font-display text-4xl font-bold", product.compareAtPrice ? "text-sale" : "text-ink")}>{formatProductPrice(product)}</p>
+              <p className="text-sm text-subtle">
+                {product.priceNote && `${product.priceNote} `}/ {product.packSize}
+              </p>
             </div>
             <p className="mt-1 font-mono text-[11px] tracking-[0.14em] text-subtle uppercase">SKU {product.sku}</p>
 

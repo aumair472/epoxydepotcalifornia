@@ -31,6 +31,7 @@ export function OfferBanner() {
           <p className="mt-5 font-display text-xl font-semibold">
             {product.compareAtPrice && <s className="mr-2 font-medium text-white/60">{formatPrice(product.compareAtPrice)}</s>}
             {product.callForPrice ? "Call for your sale price" : formatProductPrice(product)}
+            {product.priceNote && <span className="ml-2 font-sans text-sm font-normal text-white/70">{product.priceNote}</span>}
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <ButtonLink href={href} variant="sale" size="lg">

@@ -495,25 +495,25 @@ export const featuredOffer = {
 
 export const products: Product[] = [
   /* New from the client, 2026-10-30. Specs are from the E4E Rubix TDS (11-1-2025) and the pail label.
-     Price is call-for-price until the client confirms it; once known, set `price` to the sale price,
-     `compareAtPrice` to the regular price, and remove `callForPrice`. The 3 gal kit size is inferred
-     from the 2:1 mix and the 17.6 lb Part A pail. Coverage uses the low end of 40-50 sq ft per gallon. */
+     $129.99 plus tax is the price customers pay (user, 2026-10-30). Add `compareAtPrice` once the
+     regular price before the 20% off is confirmed. The 3 gal kit size is inferred from the 2:1 mix
+     and the 17.6 lb Part A pail. Coverage uses the low end of 40-50 sq ft per gallon. */
   {
     id: "metallic-epoxy",
     sku: "METALLIC-EPOXY",
     name: "Metallic Epoxy",
     labelName: "Metallic Epoxy",
     category: "epoxy",
-    price: 0,
-    callForPrice: true,
+    price: 129.99,
+    priceNote: "plus tax",
     packSize: "3 gal kit (Part A + Part B)",
     packGroup: "3-gal",
     tags: ["metallic"],
     badge: "20% Off",
     stock: 25,
     bestsellerRank: 1,
-    shortDescription: "Self-leveling metallic epoxy with high gloss, natural veins and cells. Now 20% off: call for your sale price.",
-    description: "Metallic Epoxy is a two-part epoxy made only for metallic floors. It levels itself, keeps a high gloss and forms veins and cells naturally as it flows. It's 20% off right now, so call for your sale price and current stock. For professional use only.",
+    shortDescription: "Self-leveling metallic epoxy with high gloss, natural veins and cells. Now 20% off at $129.99 plus tax.",
+    description: "Metallic Epoxy is a two-part epoxy made only for metallic floors. It levels itself, keeps a high gloss and forms veins and cells naturally as it flows. It's 20% off right now at $129.99 plus tax. Call to order and confirm current stock. For professional use only.",
     features: [
       "Self-leveling, with exceptional clarity and flow",
       "Veins and cells form naturally",

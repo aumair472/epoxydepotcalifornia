@@ -53,10 +53,11 @@ export function ProductCard({
         {!compact && <p className="mt-1.5 line-clamp-2 text-[13px] leading-snug text-muted">{product.shortDescription}</p>}
         <div className="mt-auto flex flex-wrap items-end justify-between gap-2 pt-4">
           <div>
-            <p className="font-display text-lg leading-none font-bold text-ink">
+            <p className={cn("font-display text-lg leading-none font-bold", product.compareAtPrice ? "text-sale" : "text-ink")}>
               {product.compareAtPrice && <s className="mr-1.5 text-sm font-medium text-subtle">{formatPrice(product.compareAtPrice)}</s>}
               {formatProductPrice(product)}
             </p>
+            {product.priceNote && <p className="mt-1 text-[11px] font-medium text-muted">{product.priceNote}</p>}
             <p className="mt-1 text-[11px] text-subtle">{product.packSize}</p>
           </div>
           <CallToOrderButton productId={product.id} variant={hotDeal ? "sale" : undefined} />

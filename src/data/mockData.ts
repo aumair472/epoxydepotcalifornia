@@ -482,7 +482,72 @@ function flakeProduct(b: FlakeBlend): Product {
   };
 }
 
+/** The current promotion: the red bar on the home and product pages, and the home banner. */
+export const featuredOffer = {
+  productId: "metallic-epoxy",
+  percentOff: 20,
+  name: "Metallic Epoxy",
+  headline: "Metallic Epoxy",
+  body: "A self-leveling epoxy made only for metallic floors. It flows into natural veins and cells and cures to a high gloss.",
+  image: "/photos/metallic-epoxy-floor.webp",
+  imageAlt: "Metallic epoxy kit on a glossy swirled metallic floor",
+} as const;
+
 export const products: Product[] = [
+  /* New from the client, 2026-10-30. Specs are from the E4E Rubix TDS (11-1-2025) and the pail label.
+     Price is call-for-price until the client confirms it; once known, set `price` to the sale price,
+     `compareAtPrice` to the regular price, and remove `callForPrice`. The 3 gal kit size is inferred
+     from the 2:1 mix and the 17.6 lb Part A pail. Coverage uses the low end of 40-50 sq ft per gallon. */
+  {
+    id: "metallic-epoxy",
+    sku: "METALLIC-EPOXY",
+    name: "Metallic Epoxy",
+    labelName: "Metallic Epoxy",
+    category: "epoxy",
+    price: 0,
+    callForPrice: true,
+    packSize: "3 gal kit (Part A + Part B)",
+    packGroup: "3-gal",
+    tags: ["metallic"],
+    badge: "20% Off",
+    stock: 25,
+    bestsellerRank: 1,
+    shortDescription: "Self-leveling metallic epoxy with high gloss, natural veins and cells. Now 20% off: call for your sale price.",
+    description: "Metallic Epoxy is a two-part epoxy made only for metallic floors. It levels itself, keeps a high gloss and forms veins and cells naturally as it flows. It's 20% off right now, so call for your sale price and current stock. For professional use only.",
+    features: [
+      "Self-leveling, with exceptional clarity and flow",
+      "Veins and cells form naturally",
+      "High gloss retention, hard with flexible toughness",
+      "Works with E4E metallic pigments",
+      "Proudly made in the USA",
+    ],
+    specs: [
+      { label: "Mix ratio", value: "2:1 by volume (A:B)" },
+      { label: "Coverage", value: "40–50 sq ft per gallon" },
+      { label: "Work time", value: "60+ minutes" },
+      { label: "Part A net weight", value: "17.6 lbs" },
+      { label: "Shelf life", value: "12 months unopened at 70°F" },
+      { label: "Origin", value: "Made in the USA" },
+    ],
+    application: {
+      mixRatio: "2:1 by volume (Part A : Part B)",
+      potLife: "50–70 minutes (depends on temperature)",
+      recoat: "24 hours maximum, or sand before topcoat",
+      lightTraffic: "14–24 hours",
+      fullCure: "7 days",
+      temperature: "70–80°F",
+      coverage: { sqftPerUnit: 120, basis: "per kit at 40 sq ft per gallon" },
+      recommendedCoats: 1,
+      steps: [
+        "Keep the floor and material at 70–80°F while you work.",
+        "Mix 2 parts A with 1 part B by volume for 2 minutes.",
+        "Add your E4E metallic pigment, then pour and spread.",
+        "Topcoat within 24 hours, or sand first.",
+      ],
+    },
+    visual: { kind: "ab-kit" },
+    image: "/metallic epoxy/IMG_1245.JPG.jpeg",
+  },
   /* Imported from the client's live Shopify catalog (epoxydepotcalifornia.com), 2026-09-13. */
   {
     id: "e4e-ur-a-fill-polyurea-crack-filler-2-gallon-kit",
@@ -545,6 +610,7 @@ export const products: Product[] = [
     packGroup: "2-gal",
     tags: [],
     stock: 25,
+    bestsellerRank: 4,
     shortDescription: "E4E Super Poly Polyaspartic (2 Gal) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "E4E Super Poly Polyaspartic (2 Gal) is part of Epoxy Depot California's professional coating lineup. Available in 1 option starting at $179.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -670,6 +736,7 @@ export const products: Product[] = [
     packGroup: "3-gal",
     tags: [],
     stock: 25,
+    bestsellerRank: 2,
     shortDescription: "E4E-100 Epoxy (3 Gal Kit) for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "E4E-100 Epoxy (3 Gal Kit) is part of Epoxy Depot California's professional coating lineup. Available in 3 options starting at $125.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [
@@ -820,6 +887,7 @@ export const products: Product[] = [
     packGroup: "unit",
     tags: [],
     stock: 25,
+    bestsellerRank: 3,
     shortDescription: "8 oz. E4E Metallic Pigment Powder for professional and DIY concrete coating work \u2014 call for current stock and job-specific guidance.",
     description: "8 oz. E4E Metallic Pigment Powder is part of Epoxy Depot California's professional coating lineup. Available in 44 options starting at $27.99. Call to confirm current pricing, lead time and quantity for your project.",
     features: [

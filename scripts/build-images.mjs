@@ -8,7 +8,7 @@ import sharp from "sharp";
 
 const ROOT = path.join(import.meta.dirname, "..", "public");
 const OUT = path.join(ROOT, "_img");
-const DIRS = ["products", "flakes", "metallics", "fuzion", "solids", "photos"];
+const DIRS = ["products", "flakes", "metallics", "metallic epoxy", "fuzion", "solids", "photos"];
 const FILES = ["logo.png"];
 // Keep in sync with IMAGE_WIDTHS in src/lib/imageLoader.ts and next.config.ts.
 const WIDTHS = [64, 128, 256, 384, 640, 828, 1080, 1600];

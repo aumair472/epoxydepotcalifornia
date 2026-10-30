@@ -7,6 +7,7 @@ const styles: Record<Badge, string> = {
   Pro: "bg-charcoal text-gold",
   "Fast Cure": "bg-gold text-charcoal",
   "Low Stock": "bg-danger text-white",
+  "20% Off": "bg-sale text-white",
 };
 
 export function ProductBadge({ badge, stock, className }: { badge: Badge; stock?: number; className?: string }) {

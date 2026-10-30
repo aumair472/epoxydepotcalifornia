@@ -9,13 +9,14 @@
 
 // Keep in sync with WIDTHS in scripts/build-images.mjs and the image sizes in next.config.ts.
 const IMAGE_WIDTHS = [64, 128, 256, 384, 640, 828, 1080, 1600];
-const LOCAL_PHOTO = /^\/((?:products|flakes|metallics|fuzion|solids|photos)\/[^?]+|logo)\.(?:jpe?g|png|webp)$/i;
+const LOCAL_PHOTO = /^\/((?:products|flakes|metallics|metallic epoxy|fuzion|solids|photos)\/[^?]+|logo)\.(?:jpe?g|png|webp)$/i;
 
 export default function imageLoader({ src, width }: { src: string; width: number }) {
   const local = LOCAL_PHOTO.exec(src);
   if (local) {
     const w = IMAGE_WIDTHS.find((size) => size >= width) ?? IMAGE_WIDTHS[IMAGE_WIDTHS.length - 1];
-    return `/_img/${local[1]}-${w}.webp`;
+    // Encoded because a raw space (the "metallic epoxy" folder) would split the srcset entry.
+    return encodeURI(`/_img/${local[1]}-${w}.webp`);
   }
   return `${src}?w=${width}`;
 }

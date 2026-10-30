@@ -21,6 +21,9 @@
   --color-star: #fbbc04;
   --color-success: #4ade80;
   --color-danger: #dc2626;
+  /* Sale red, close to the logo's lettering. White text on it passes AA. */
+  --color-sale: #c1121f;
+  --color-sale-dark: #9d0e19;
 
   --animate-marquee: marquee 28s linear infinite;
   --animate-fade-in: fade-in 180ms ease-out;
@@ -28,6 +31,7 @@
   --animate-slide-up: slide-up 260ms ease-out;
   --animate-flash: flash 1.4s ease-out;
   --animate-typing: typing 1s ease-in-out infinite;
+  --animate-hot-glow: hot-glow 2.4s ease-in-out infinite;
 
   @keyframes marquee {
     from {
@@ -53,6 +57,17 @@
     to {
       opacity: 1;
       transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes hot-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgb(193 18 31 / 0.4);
+    }
+    50% {
+      box-shadow:
+        0 0 0 6px rgb(193 18 31 / 0.14),
+        0 16px 32px -14px rgb(193 18 31 / 0.55);
     }
   }
   @keyframes slide-up {

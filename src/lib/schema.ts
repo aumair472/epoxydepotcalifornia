@@ -72,7 +72,7 @@ export function breadcrumbSchema(items: { label: string; href?: string }[]) {
 /** A product photo for structured data: the product's own photo, else its first color photo. */
 function productImage(product: Product) {
   const image = product.image ?? product.colors?.find((c) => c.image)?.image;
-  return image ? absoluteUrl(image) : undefined;
+  return image ? absoluteUrl(encodeURI(image)) : undefined;
 }
 
 /**

@@ -54,7 +54,7 @@ src/types/index.ts    shared types
 - Write original copy. Don't paste paragraphs from the reference site.
 - Brand strings and hours come from `siteConfig`. Never hardcode them in components.
 - The phone number and email must never appear in server HTML (bots scrape them). Render them only through `PhoneLink` / `EmailLink` / `useContactDetails()`, which decode `siteConfig.contactEncoded` in the browser. Don't add them to schema or metadata.
-- Images: put photos under `public/{products,flakes,metallics,fuzion,solids,photos}` and render with `next/image`; `scripts/build-images.mjs` makes the WebP sizes. Never re-enable Vercel Image Optimization (paid quota).
+- Images: put photos under `public/{products,flakes,metallics,metallic epoxy,fuzion,solids,photos}` and render with `next/image`; `scripts/build-images.mjs` makes the WebP sizes. Never re-enable Vercel Image Optimization (paid quota).
 - Prices are numbers in USD; format with `formatPrice()` from `lib/format.ts`.
 
 ## Quality gate (run before calling a phase done)

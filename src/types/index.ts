@@ -75,7 +75,7 @@ export interface Category {
   color: string;
 }
 
-export type Badge = "Best Seller" | "New" | "Pro" | "Fast Cure" | "Low Stock";
+export type Badge = "Best Seller" | "New" | "Pro" | "Fast Cure" | "Low Stock" | "20% Off";
 
 export type PackGroupId =
   | "quart-gal"
@@ -174,6 +174,8 @@ export interface Product {
   labelName: string;
   category: CategorySlug;
   price: number;
+  /** On sale: the regular price, shown crossed out next to `price` (which holds the sale price). */
+  compareAtPrice?: number;
   /** No confirmed price yet: shown as "Call for price" and left out of price filters. */
   callForPrice?: boolean;
   /** Sizes priced separately (e.g. 18"/24"/36"); `price` holds the lowest and shows as "From …". */

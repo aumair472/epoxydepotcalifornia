@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/cn";
 
-export type ButtonVariant = "primary" | "outline" | "dark" | "ghost" | "soft" | "outline-light" | "white";
+export type ButtonVariant = "primary" | "sale" | "outline" | "dark" | "ghost" | "soft" | "outline-light" | "white";
 export type ButtonSize = "xs" | "sm" | "md" | "lg";
 
 const base =
@@ -10,6 +10,7 @@ const base =
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-brand-deep text-white shadow-sm hover:bg-brand-ink",
+  sale: "bg-sale text-white shadow-sm hover:bg-sale-dark",
   outline: "border-2 border-ink text-ink hover:bg-ink hover:text-white",
   dark: "bg-charcoal text-white hover:bg-charcoal-2",
   ghost: "text-brand-deep hover:text-brand-ink",

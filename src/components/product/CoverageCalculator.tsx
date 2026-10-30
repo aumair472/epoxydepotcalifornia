@@ -91,7 +91,7 @@ export function CoverageCalculator({ product, application }: { product: Product;
               {result.units} × <span className="text-lg">{product.packSize}</span>
             </p>
             <p className="text-xs text-subtle">
-              ≈ {formatPrice(result.units * product.price)} · ~{Math.round(result.sqftPerUnit).toLocaleString("en-US")} sq ft per unit
+              {!product.callForPrice && `≈ ${formatPrice(result.units * product.price)} · `}~{Math.round(result.sqftPerUnit).toLocaleString("en-US")} sq ft per unit
               {mils ? ` at ${mils} mils` : ""}
             </p>
           </div>
@@ -100,7 +100,7 @@ export function CoverageCalculator({ product, application }: { product: Product;
           )}
         </div>
         <p className="text-[11px] leading-relaxed text-subtle">
-          Estimate based on {coverage.basis}. Porous or rough slabs use more — add 10% for waste.
+          Estimate assumes {coverage.sqftPerUnit} sq ft {coverage.basis}. Porous or rough slabs use more — add 10% for waste.
         </p>
       </div>
     </div>
